@@ -85,6 +85,7 @@ const products = [
 
 export function ProductPortfolio() {
   const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const toggleFlip = (index: number) => {
     setFlippedCards((prev) => ({
@@ -138,7 +139,13 @@ export function ProductPortfolio() {
                   
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Product Image Container */}
-                    <div className="relative w-full aspect-[4/3] bg-white p-6 overflow-hidden">
+                    <div 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImage(product.imageSrc);
+                      }}
+                      className="relative w-full aspect-[4/3] bg-white p-6 overflow-hidden cursor-zoom-in"
+                    >
                       <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent mix-blend-multiply z-10 pointer-events-none"></div>
                       <div className="relative w-full h-full transform transition-transform duration-700 group-hover:scale-105">
                         <Image 
@@ -254,7 +261,42 @@ export function ProductPortfolio() {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
         }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.25s ease-out forwards;
+        }
       `}} />
+
+      {/* Product Image Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 cursor-zoom-out animate-fade-in"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div 
+            className="relative max-w-4xl max-h-[85vh] aspect-[4/3] w-full bg-white p-4 rounded-3xl shadow-2xl flex items-center justify-center cursor-default animate-fade-in" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center focus:outline-none transition-colors z-20 cursor-pointer text-lg font-bold"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✕
+            </button>
+            <div className="relative w-full h-full">
+              <Image 
+                src={selectedImage} 
+                alt="Product Detail" 
+                fill 
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
