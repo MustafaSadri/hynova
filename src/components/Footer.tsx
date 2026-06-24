@@ -12,7 +12,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center mb-6">
-              <span className="flex h-3 w-3 rounded-full bg-primary mr-3 shadow-[0_0_10px_rgba(0,240,255,0.8)]"></span>
+              <span className="flex h-3 w-3 rounded-full bg-primary mr-3 shadow-[0_0_10px_rgba(8,145,178,0.5)]"></span>
               <span className="text-xl font-bold tracking-widest text-foreground">CYNOVA.LIFE</span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6">

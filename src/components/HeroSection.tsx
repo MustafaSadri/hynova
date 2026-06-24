@@ -36,7 +36,7 @@ function ParticleBackground(props: any) {
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
         <PointMaterial
           transparent
-          color="#00f0ff"
+          color="#0d9488"
           size={0.005}
           sizeAttenuation={true}
           depthWrite={false}
@@ -85,7 +85,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50 mb-6"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 mb-6"
         >
           Advancing the Future <br className="hidden md:block" /> of Metabolic Health
         </motion.h1>
@@ -109,7 +109,7 @@ export function HeroSection() {
             render={<Link href="#portfolio" onClick={(e) => handleScroll(e, "portfolio")} />} 
             nativeButton={false} 
             size="lg" 
-            className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base shadow-[0_0_20px_rgba(0,240,255,0.3)] pointer-events-auto"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base shadow-[0_4px_12px_rgba(13,148,136,0.15)] pointer-events-auto"
           >
             Explore Portfolio
           </Button>

@@ -83,9 +83,9 @@ export function FeaturesSection() {
               className={`group relative p-8 rounded-3xl bg-card border border-border/50 transition-all duration-500 hover:-translate-y-2 ${feature.border} overflow-hidden`}
             >
               {/* Glowing hover effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <div className={`w-16 h-16 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 border border-white/5`}>
+              <div className={`w-16 h-16 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 border border-primary/10`}>
                 <div className={feature.color}>{feature.icon}</div>
               </div>
               
