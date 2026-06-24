@@ -133,7 +133,7 @@ export function ProductPortfolio() {
               <div className={`flip-card-inner ${flippedCards[index] ? 'flipped' : ''}`}>
                 
                 {/* Front Side */}
-                <div className={`card-front flex flex-col rounded-3xl border border-border/50 bg-card overflow-hidden ${product.border} backface-hidden`}>
+                <div className={`card-front flex flex-col rounded-3xl border border-border/50 bg-card overflow-hidden ${product.border} backface-hidden rotate-y-0`}>
                   {/* Card Header Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                   
@@ -240,11 +240,16 @@ export function ProductPortfolio() {
           transform-style: preserve-3d;
         }
         .backface-hidden {
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden !important;
+          -webkit-backface-visibility: hidden !important;
         }
         .rotate-y-180 {
-          transform: rotateY(180deg);
+          transform: rotateY(180deg) translateZ(0);
+          -webkit-transform: rotateY(180deg) translateZ(0);
+        }
+        .rotate-y-0 {
+          transform: rotateY(0deg) translateZ(0);
+          -webkit-transform: rotateY(0deg) translateZ(0);
         }
         .flip-card-inner {
           display: grid;
@@ -252,14 +257,20 @@ export function ProductPortfolio() {
           grid-template-rows: 100%;
           transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
           transform-style: preserve-3d;
+          -webkit-transform-style: preserve-3d;
         }
         .flip-card-inner.flipped {
           transform: rotateY(180deg);
+          -webkit-transform: rotateY(180deg);
         }
         .card-front, .card-back {
           grid-area: 1 / 1 / 2 / 2;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden !important;
+          -webkit-backface-visibility: hidden !important;
+          transform-style: preserve-3d;
+          -webkit-transform-style: preserve-3d;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
         }
         @keyframes fadeIn {
           from { opacity: 0; }
