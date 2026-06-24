@@ -240,39 +240,32 @@ export function ProductPortfolio() {
           transform-style: preserve-3d;
         }
         .backface-hidden {
-          backface-visibility: hidden !important;
-          -webkit-backface-visibility: hidden !important;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
         .rotate-y-180 {
-          transform: rotateY(180deg) translate3d(0, 0, 0);
-          -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
+          -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
         }
         .flip-card-inner {
           display: grid;
           grid-template-columns: 100%;
           grid-template-rows: 100%;
+          -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
           transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-          transform-style: preserve-3d;
           -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
         }
         .flip-card-inner.flipped {
-          transform: rotateY(180deg);
           -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
         }
         .card-front, .card-back {
           grid-area: 1 / 1 / 2 / 2;
-          backface-visibility: hidden !important;
-          -webkit-backface-visibility: hidden !important;
-          transform-style: preserve-3d;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
           -webkit-transform-style: preserve-3d;
-        }
-        .card-front {
-          transform: rotateY(0deg) translate3d(0, 0, 0);
-          -webkit-transform: rotateY(0deg) translate3d(0, 0, 0);
-        }
-        .card-back {
-          transform: rotateY(180deg) translate3d(0, 0, 0);
-          -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
+          transform-style: preserve-3d;
         }
         @keyframes fadeIn {
           from { opacity: 0; }
