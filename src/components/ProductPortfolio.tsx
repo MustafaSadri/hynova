@@ -144,7 +144,7 @@ export function ProductPortfolio() {
                         e.stopPropagation();
                         setSelectedImage(product.imageSrc);
                       }}
-                      className="relative w-full aspect-[4/3] bg-white p-6 overflow-hidden cursor-zoom-in"
+                      className="relative mx-4 mt-4 aspect-[4/3] bg-white p-6 overflow-hidden cursor-zoom-in rounded-2xl border border-border/30"
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent mix-blend-multiply z-10 pointer-events-none"></div>
                       <div className="relative w-full h-full transform transition-transform duration-700 group-hover:scale-105">
