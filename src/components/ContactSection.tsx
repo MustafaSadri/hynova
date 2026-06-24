@@ -36,8 +36,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-1">Email Us</h4>
-                  <p className="text-muted-foreground">inquiries@cynova.life</p>
-                  <p className="text-muted-foreground">support@cynova.life</p>
+                  <p className="text-muted-foreground">mustafassadriwala548@gmail.com</p>
                 </div>
               </div>
               
@@ -58,8 +57,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-foreground mb-1">Headquarters</h4>
-                  <p className="text-muted-foreground">Innovation Park, Suite 400</p>
-                  <p className="text-muted-foreground">Cambridge, MA 02142, USA</p>
+                  <p className="text-muted-foreground">Moscow, Russia</p>
                 </div>
               </div>
             </div>
