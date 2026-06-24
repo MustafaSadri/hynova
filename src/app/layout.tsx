@@ -24,6 +24,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (window.location.hash) {
+                window.history.replaceState(null, "", window.location.pathname);
+              }
+              if ('scrollRestoration' in window.history) {
+                window.history.scrollRestoration = 'manual';
+              }
+              window.scrollTo(0, 0);
+            `
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen selection:bg-primary/30`}
       >

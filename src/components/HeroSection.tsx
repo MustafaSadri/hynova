@@ -55,6 +55,18 @@ export function HeroSection() {
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname);
     }
+
+    // Force scroll repeatedly on mount to ensure layout shifts (e.g. 3D canvas/images loading) don't shift scroll position
+    const scrollTimes = [50, 100, 200, 300, 500, 1000];
+    const timers = scrollTimes.map(delay => 
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, delay)
+    );
+
+    return () => {
+      timers.forEach(clearTimeout);
+    };
   }, []);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
