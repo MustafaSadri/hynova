@@ -133,7 +133,7 @@ export function ProductPortfolio() {
               <div className={`flip-card-inner ${flippedCards[index] ? 'flipped' : ''}`}>
                 
                 {/* Front Side */}
-                <div className={`card-front flex flex-col rounded-3xl border border-border/50 bg-card overflow-hidden ${product.border} backface-hidden rotate-y-0`}>
+                <div className={`card-front flex flex-col rounded-3xl border border-border/50 bg-card overflow-hidden ${product.border} backface-hidden`}>
                   {/* Card Header Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
                   
@@ -244,12 +244,8 @@ export function ProductPortfolio() {
           -webkit-backface-visibility: hidden !important;
         }
         .rotate-y-180 {
-          transform: rotateY(180deg) translateZ(0);
-          -webkit-transform: rotateY(180deg) translateZ(0);
-        }
-        .rotate-y-0 {
-          transform: rotateY(0deg) translateZ(0);
-          -webkit-transform: rotateY(0deg) translateZ(0);
+          transform: rotateY(180deg) translate3d(0, 0, 0);
+          -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
         }
         .flip-card-inner {
           display: grid;
@@ -269,8 +265,14 @@ export function ProductPortfolio() {
           -webkit-backface-visibility: hidden !important;
           transform-style: preserve-3d;
           -webkit-transform-style: preserve-3d;
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
+        }
+        .card-front {
+          transform: rotateY(0deg) translate3d(0, 0, 0);
+          -webkit-transform: rotateY(0deg) translate3d(0, 0, 0);
+        }
+        .card-back {
+          transform: rotateY(180deg) translate3d(0, 0, 0);
+          -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
         }
         @keyframes fadeIn {
           from { opacity: 0; }
