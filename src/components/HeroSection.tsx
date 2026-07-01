@@ -7,10 +7,11 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 function ParticleBackground(props: any) {
   const ref = useRef<any>(null);
-  
+
   const sphere = useMemo(() => {
     const positions = new Float32Array(5000 * 3);
     for (let i = 0; i < 5000; i++) {
@@ -34,19 +35,15 @@ function ParticleBackground(props: any) {
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
-        <PointMaterial
-          transparent
-          color="#0d9488"
-          size={0.005}
-          sizeAttenuation={true}
-          depthWrite={false}
-        />
+        <PointMaterial transparent color="#0d9488" size={0.005} sizeAttenuation={true} depthWrite={false} />
       </Points>
     </group>
   );
 }
 
 export function HeroSection() {
+  const { t } = useLanguage();
+
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
@@ -55,18 +52,9 @@ export function HeroSection() {
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname);
     }
-
-    // Force scroll repeatedly on mount to ensure layout shifts (e.g. 3D canvas/images loading) don't shift scroll position
     const scrollTimes = [50, 100, 200, 300, 500, 1000];
-    const timers = scrollTimes.map(delay => 
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, delay)
-    );
-
-    return () => {
-      timers.forEach(clearTimeout);
-    };
+    const timers = scrollTimes.map(delay => setTimeout(() => window.scrollTo(0, 0), delay));
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -80,18 +68,14 @@ export function HeroSection() {
 
   return (
     <section className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-background">
-      {/* 3D Background */}
       <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <ParticleBackground />
         </Canvas>
       </div>
-
-      {/* Gradient Overlays */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/10 via-background/50 to-background pointer-events-none"></div>
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-background/0 to-background/0 pointer-events-none"></div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -100,54 +84,53 @@ export function HeroSection() {
           className="mb-6 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm"
         >
           <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-          CYNOVA.LIFE
+          {t.hero.badge}
         </motion.div>
-        
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 mb-6"
         >
-          Advancing the Future <br className="hidden md:block" /> of Metabolic Health
+          {t.hero.title}
         </motion.h1>
-        
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 font-light"
         >
-          Premium peptide and metabolic health solutions for the next generation.
+          {t.hero.subtitle}
         </motion.p>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-4"
         >
-          <Button 
-            render={<Link href="#portfolio" onClick={(e) => handleScroll(e, "portfolio")} />} 
-            nativeButton={false} 
-            size="lg" 
+          <Button
+            render={<Link href="#portfolio" onClick={(e) => handleScroll(e, "portfolio")} />}
+            nativeButton={false}
+            size="lg"
             className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base shadow-[0_4px_12px_rgba(13,148,136,0.15)] pointer-events-auto"
           >
-            Explore Portfolio
+            {t.hero.exploreBtn}
           </Button>
-          <Button 
-            render={<Link href="#contact" onClick={(e) => handleScroll(e, "contact")} />} 
-            nativeButton={false} 
-            size="lg" 
-            variant="outline" 
+          <Button
+            render={<Link href="#contact" onClick={(e) => handleScroll(e, "contact")} />}
+            nativeButton={false}
+            size="lg"
+            variant="outline"
             className="h-12 px-8 text-base border-primary/20 hover:bg-primary/10 backdrop-blur-sm pointer-events-auto"
           >
-            Contact Us
+            {t.hero.contactBtn}
           </Button>
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
