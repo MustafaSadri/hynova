@@ -14,37 +14,39 @@ type VerifyResult =
   | { status: "valid"; product: string; category: string; batch: string; manufactured: string; expiry: string }
   | { status: "invalid" };
 
+// Prototype hardcoded codes — replace with database lookup when scaling up
+const VALID_CODES: Record<string, { product: string; category: string; batch: string; manufactured: string; expiry: string }> = {
+  "CYNOVA-RET-INJ-A1B2C3": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
+  "CYNOVA-RET-INJ-P7Q8R9": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNOVA-RET-POW-D4E5F6": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
+  "CYNOVA-RET-POW-X2Y3Z4": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNOVA-TIR-INJ-G7H8I9": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
+  "CYNOVA-TIR-INJ-S1T2U3": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNOVA-TIR-POW-J1K2L3": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
+  "CYNOVA-TIR-POW-W5X6Y7": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNOVA-ORF-TAB-M4N5O6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-001", manufactured: "March 2025", expiry: "March 2027" },
+  "CYNOVA-ORF-TAB-V4W5X6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-002", manufactured: "May 2025", expiry: "May 2027" },
+};
+
 function VerifyContent() {
   const searchParams = useSearchParams();
   const [code, setCode] = useState("");
   const [result, setResult] = useState<VerifyResult>({ status: "idle" });
 
-  const verify = async (codeToCheck: string) => {
-    const trimmed = codeToCheck.trim();
+  const verify = (codeToCheck: string) => {
+    const trimmed = codeToCheck.trim().toUpperCase();
     if (!trimmed) return;
 
     setResult({ status: "loading" });
 
-    const res = await fetch("/api/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: trimmed }),
-    });
-
-    const data = await res.json();
-
-    if (data.valid) {
-      setResult({
-        status: "valid",
-        product: data.product,
-        category: data.category,
-        batch: data.batch,
-        manufactured: data.manufactured,
-        expiry: data.expiry,
-      });
-    } else {
-      setResult({ status: "invalid" });
-    }
+    setTimeout(() => {
+      const info = VALID_CODES[trimmed];
+      if (info) {
+        setResult({ status: "valid", ...info });
+      } else {
+        setResult({ status: "invalid" });
+      }
+    }, 600);
   };
 
   // Auto-verify if code comes from QR scan (URL param)
