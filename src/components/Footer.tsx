@@ -40,6 +40,12 @@ export function Footer() {
               <li><a href="#" className="text-muted-foreground text-sm hover:text-primary transition-colors">Quality Assurance</a></li>
               <li><a href="#" className="text-muted-foreground text-sm hover:text-primary transition-colors">Global Presence</a></li>
               <li><a href="#" className="text-muted-foreground text-sm hover:text-primary transition-colors">Careers</a></li>
+              <li>
+                <Link href="/verify" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse inline-block"></span>
+                  Verify Product
+                </Link>
+              </li>
             </ul>
           </div>
 
