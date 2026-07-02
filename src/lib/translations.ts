@@ -205,6 +205,10 @@ const translations = {
       companyPlaceholder: "Your Company",
       messagePlaceholder: "How can we help you?",
       submitBtn: "Send Message",
+      validationError: "Please fill in all required fields with a valid email address.",
+      submitSuccess: "Thank you! Your message has been sent. We will get back to you shortly.",
+      submitError: "Failed to send message. Please try again or contact us directly.",
+      submitting: "Sending...",
     },
 
     // ── Footer ─────────────────────────────────────────────────────────────────
@@ -525,6 +529,10 @@ const translations = {
       companyPlaceholder: "Ваша компания",
       messagePlaceholder: "Чем мы можем вам помочь?",
       submitBtn: "Отправить сообщение",
+      validationError: "Пожалуйста, заполните все обязательные поля корректным адресом электронной почты.",
+      submitSuccess: "Спасибо! Ваше сообщение успешно отправлено. Мы ответим вам в ближайшее время.",
+      submitError: "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз или свяжитесь с нами напрямую.",
+      submitting: "Отправка...",
     },
 
     // ── Footer ─────────────────────────────────────────────────────────────────

@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MessageCircle, MapPin, Send } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Send, Loader2 } from "lucide-react";
 
 function InstagramIcon({ className = "w-4.5 h-4.5" }: { className?: string }) {
   return (
@@ -19,6 +20,64 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export function ContactSection() {
   const { t } = useLanguage();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    company: "",
+    message: "",
+  });
+
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "validation-error">("idle");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.firstName || !formData.email || !formData.message) {
+      setStatus("validation-error");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setStatus("validation-error");
+      return;
+    }
+
+    setStatus("submitting");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          company: "",
+          message: "",
+        });
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      console.error("Contact form error:", err);
+      setStatus("error");
+    }
+  };
 
   return (
     <section id="contact" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
@@ -108,20 +167,29 @@ export function ContactSection() {
             className="relative"
           >
             <div className="bg-card border border-border/60 shadow-xl shadow-primary/5 p-8 md:p-10 rounded-2xl">
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground">{t.contact.firstName}</label>
                     <Input
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
                       placeholder={t.contact.firstNamePlaceholder}
                       className="bg-background border-border focus-visible:ring-primary h-11"
+                      disabled={status === "submitting"}
+                      required
                     />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground">{t.contact.lastName}</label>
                     <Input
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
                       placeholder={t.contact.lastNamePlaceholder}
                       className="bg-background border-border focus-visible:ring-primary h-11"
+                      disabled={status === "submitting"}
                     />
                   </div>
                 </div>
@@ -130,33 +198,75 @@ export function ContactSection() {
                   <label className="text-sm font-medium text-foreground">{t.contact.email}</label>
                   <Input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder={t.contact.emailPlaceholder}
                     className="bg-background border-border focus-visible:ring-primary h-11"
+                    disabled={status === "submitting"}
+                    required
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-foreground">{t.contact.company}</label>
                   <Input
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
                     placeholder={t.contact.companyPlaceholder}
                     className="bg-background border-border focus-visible:ring-primary h-11"
+                    disabled={status === "submitting"}
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-foreground">{t.contact.message}</label>
                   <Textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder={t.contact.messagePlaceholder}
                     className="bg-background border-border focus-visible:ring-primary min-h-[110px] resize-none"
+                    disabled={status === "submitting"}
+                    required
                   />
                 </div>
 
+                {status === "validation-error" && (
+                  <div className="p-3 text-xs bg-amber-500/10 border border-amber-500/20 text-amber-600 rounded-xl font-medium">
+                    {t.contact.validationError}
+                  </div>
+                )}
+
+                {status === "success" && (
+                  <div className="p-3 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl font-medium">
+                    {t.contact.submitSuccess}
+                  </div>
+                )}
+
+                {status === "error" && (
+                  <div className="p-3 text-xs bg-rose-500/10 border border-rose-500/20 text-rose-600 rounded-xl font-medium">
+                    {t.contact.submitError}
+                  </div>
+                )}
+
                 <Button
                   type="submit"
-                  className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-semibold shadow-[0_4px_16px_oklch(0.50_0.16_192/25%)]"
+                  disabled={status === "submitting"}
+                  className="w-full h-11 bg-primary text-primary-foreground hover:bg-primary/90 text-sm font-semibold shadow-[0_4px_16px_oklch(0.50_0.16_192/25%)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
-                  {t.contact.submitBtn}
-                  <Send className="w-4 h-4 ml-2" />
+                  {status === "submitting" ? (
+                    <>
+                      {t.contact.submitting}
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      {t.contact.submitBtn}
+                      <Send className="w-4 h-4" />
+                    </>
+                  )}
                 </Button>
               </form>
             </div>
