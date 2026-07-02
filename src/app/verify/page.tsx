@@ -96,16 +96,28 @@ function VerifyContent() {
     setResult({ status: "idle" });
   };
 
-  // QR Parsing helper
-  const extractCodeFromUrl = (str: string) => {
+  // QR Parsing helper.
+  // Product stickers encode a shortened redirect link (e.g. qrco.de/xxxx),
+  // not the final /verify?code=... URL. A phone's native camera scanner
+  // works because opening the link lets the browser follow the redirect
+  // before landing on the real destination. Our own decoder only sees the
+  // raw, un-resolved QR string, so if it's a URL with no `code` param we
+  // must navigate to it (letting the browser follow the redirect) instead
+  // of guessing — a client-side fetch can't read the redirect target
+  // cross-origin, and this site is statically exported so there's no
+  // server available to resolve it for us either.
+  type ScanOutcome = { type: "code"; value: string } | { type: "navigate"; url: string };
+
+  const resolveScan = (str: string): ScanOutcome => {
+    const trimmed = str.trim();
     try {
-      const url = new URL(str);
+      const url = new URL(trimmed);
       const paramCode = url.searchParams.get("code");
-      if (paramCode) return paramCode;
+      if (paramCode) return { type: "code", value: paramCode };
+      return { type: "navigate", url: trimmed };
     } catch {
-      // not a URL, use raw string
+      return { type: "code", value: trimmed };
     }
-    return str.trim();
   };
 
   // Camera implementation
@@ -162,9 +174,13 @@ function VerifyContent() {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
         if (qrCode) {
-          const codeFound = extractCodeFromUrl(qrCode.data);
-          setCode(codeFound);
-          verify(codeFound);
+          const outcome = resolveScan(qrCode.data);
+          if (outcome.type === "navigate") {
+            window.location.href = outcome.url;
+            return;
+          }
+          setCode(outcome.value);
+          verify(outcome.value);
           closeScanner();
           return;
         }
@@ -194,10 +210,14 @@ function VerifyContent() {
           const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
           if (qrCode) {
             setUploadStatus("success");
-            const parsedCode = extractCodeFromUrl(qrCode.data);
+            const outcome = resolveScan(qrCode.data);
             setTimeout(() => {
-              setCode(parsedCode);
-              verify(parsedCode);
+              if (outcome.type === "navigate") {
+                window.location.href = outcome.url;
+                return;
+              }
+              setCode(outcome.value);
+              verify(outcome.value);
               closeScanner();
             }, 600);
           } else {
