@@ -8,16 +8,29 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
+import { MoleculeBackground } from "@/components/MoleculeBackground";
 
+function lcgRandom(seed: number) {
+  let state = seed;
+  return function () {
+    state = (state * 1103515245 + 12345) % 2147483648;
+    return state / 2147483648;
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ParticleBackground(props: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>(null);
 
   const sphere = useMemo(() => {
+    const nextRand = lcgRandom(42);
     const positions = new Float32Array(5000 * 3);
     for (let i = 0; i < 5000; i++) {
-      const r = 1.5 * Math.cbrt(Math.random());
-      const theta = Math.random() * 2 * Math.PI;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 1.5 * Math.cbrt(nextRand());
+      const theta = nextRand() * 2 * Math.PI;
+      const phi = Math.acos(2 * nextRand() - 1);
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
@@ -35,7 +48,7 @@ function ParticleBackground(props: any) {
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
-        <PointMaterial transparent color="#0d9488" size={0.005} sizeAttenuation={true} depthWrite={false} />
+        <PointMaterial transparent color="#0e7490" size={0.005} sizeAttenuation={true} depthWrite={false} />
       </Points>
     </group>
   );
@@ -48,7 +61,7 @@ export function HeroSection() {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    window.scrollTo({ top: 0, behavior: 'instant' as any });
+    window.scrollTo({ top: 0, behavior: 'auto' });
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname);
     }
@@ -66,41 +79,75 @@ export function HeroSection() {
     }
   };
 
+  const titleLines = t.hero.title.split("\n");
+
   return (
     <section className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden bg-background">
-      <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
+      {/* Particle sphere */}
+      <div className="absolute inset-0 z-0 opacity-50 pointer-events-none">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <ParticleBackground />
         </Canvas>
       </div>
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/10 via-background/50 to-background pointer-events-none"></div>
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-background/0 to-background/0 pointer-events-none"></div>
 
+      {/* Peptide molecule network */}
+      <div className="absolute inset-0 z-0 text-primary molecule-bg-slow pointer-events-none">
+        <MoleculeBackground />
+      </div>
+
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/20 via-background/50 to-background pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,oklch(0.50_0.16_192/8%),transparent)] pointer-events-none" />
+
+      {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
+
+        {/* Logo + badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-6 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm"
+          className="mb-6 flex flex-col items-center gap-4"
         >
-          <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-          {t.hero.badge}
+          <div className="relative w-16 h-16 transition-transform duration-300 hover:scale-105">
+            <Image
+              src="/cynova-logo.png"
+              alt="CYNOVA"
+              fill
+              className="object-contain mix-blend-multiply"
+              sizes="64px"
+              priority
+            />
+          </div>
+          <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-sm tracking-widest uppercase">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-primary mr-2 animate-pulse" />
+            {t.hero.badge}
+          </div>
         </motion.div>
 
+        {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 mb-6"
+          transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 leading-tight"
         >
-          {t.hero.title}
+          {titleLines.map((line, i) => (
+            <span key={i} className="block">
+              {i === 0 ? (
+                <span className="text-foreground">{line}</span>
+              ) : (
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-600 to-blue-600">{line}</span>
+              )}
+            </span>
+          ))}
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 font-light"
+          className="text-base md:text-lg text-muted-foreground max-w-xl mb-10 font-light leading-relaxed"
         >
           {t.hero.subtitle}
         </motion.p>
@@ -115,7 +162,7 @@ export function HeroSection() {
             render={<Link href="#portfolio" onClick={(e) => handleScroll(e, "portfolio")} />}
             nativeButton={false}
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base shadow-[0_4px_12px_rgba(13,148,136,0.15)] pointer-events-auto"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base shadow-[0_4px_20px_oklch(0.50_0.16_192/30%)] pointer-events-auto"
           >
             {t.hero.exploreBtn}
           </Button>
@@ -124,20 +171,21 @@ export function HeroSection() {
             nativeButton={false}
             size="lg"
             variant="outline"
-            className="h-12 px-8 text-base border-primary/20 hover:bg-primary/10 backdrop-blur-sm pointer-events-auto"
+            className="h-12 px-8 text-base border-primary/30 hover:bg-primary/10 hover:border-primary/60 backdrop-blur-sm pointer-events-auto text-foreground"
           >
             {t.hero.contactBtn}
           </Button>
         </motion.div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce"
       >
-        <ChevronDown className="h-6 w-6 text-muted-foreground opacity-50" />
+        <ChevronDown className="h-6 w-6 text-primary/40" />
       </motion.div>
     </section>
   );

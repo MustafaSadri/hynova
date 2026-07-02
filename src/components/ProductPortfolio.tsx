@@ -26,7 +26,7 @@ export function ProductPortfolio() {
   const products = t.portfolio.products;
 
   return (
-    <section id="portfolio" className="py-24 relative overflow-hidden bg-background">
+    <section id="portfolio" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
 
       <div className="max-w-7xl mx-auto px-4">
@@ -119,6 +119,116 @@ export function ProductPortfolio() {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Comparison Table */}
+        <div className="mt-28 max-w-5xl mx-auto">
+          <div className="mb-12 text-center">
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-2xl md:text-4xl font-bold mb-4"
+            >
+              {t.comparisonTable.title}
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-muted-foreground text-sm max-w-2xl mx-auto"
+            >
+              {t.comparisonTable.subtitle}
+            </motion.p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="overflow-x-auto rounded-3xl border border-border/50 bg-card shadow-sm"
+          >
+            <table className="w-full text-left border-collapse min-w-[700px]">
+              <thead>
+                <tr className="border-b border-border/50 bg-secondary/50">
+                  <th className="p-5 text-sm font-bold text-foreground">
+                    {t.comparisonTable.headers.feature}
+                  </th>
+                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                    {t.comparisonTable.rows[0].name}
+                  </th>
+                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                    {t.comparisonTable.rows[1].name}
+                  </th>
+                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                    {t.comparisonTable.rows[2].name}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/40">
+                {/* Mechanism */}
+                <tr>
+                  <td className="p-5 text-sm font-semibold text-foreground">
+                    {t.comparisonTable.headers.mechanism}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                    {t.comparisonTable.rows[0].mechanism}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                    {t.comparisonTable.rows[1].mechanism}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                    {t.comparisonTable.rows[2].mechanism}
+                  </td>
+                </tr>
+                {/* Administration */}
+                <tr>
+                  <td className="p-5 text-sm font-semibold text-foreground">
+                    {t.comparisonTable.headers.administration}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                    {t.comparisonTable.rows[0].administration}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                    {t.comparisonTable.rows[1].administration}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                    {t.comparisonTable.rows[2].administration}
+                  </td>
+                </tr>
+                {/* Primary Target */}
+                <tr>
+                  <td className="p-5 text-sm font-semibold text-foreground">
+                    {t.comparisonTable.headers.target}
+                  </td>
+                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-purple-500/5">
+                    {t.comparisonTable.rows[0].target}
+                  </td>
+                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-teal-500/5">
+                    {t.comparisonTable.rows[1].target}
+                  </td>
+                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-orange-500/5">
+                    {t.comparisonTable.rows[2].target}
+                  </td>
+                </tr>
+                {/* Patient Profile */}
+                <tr>
+                  <td className="p-5 text-sm font-semibold text-foreground">
+                    {t.comparisonTable.headers.profile}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                    {t.comparisonTable.rows[0].profile}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                    {t.comparisonTable.rows[1].profile}
+                  </td>
+                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                    {t.comparisonTable.rows[2].profile}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </motion.div>
         </div>
       </div>
 

@@ -12,9 +12,9 @@ const translations = {
 
     // ── Hero ───────────────────────────────────────────────────────────────────
     hero: {
-      badge: "CYNOVA.LIFE",
-      title: "Advancing the Future of Metabolic Health",
-      subtitle: "Premium peptide and metabolic health solutions for the next generation.",
+      badge: "Next-Gen Metabolic Health",
+      title: "The Science of\nA New You",
+      subtitle: "UAE precision. Swiss expertise. American technology. Redefining global standards in metabolic health.",
       exploreBtn: "Explore Portfolio",
       contactBtn: "Contact Us",
     },
@@ -22,120 +22,161 @@ const translations = {
     // ── About ──────────────────────────────────────────────────────────────────
     about: {
       sectionLabel: "Who We Are",
-      title: "Pioneering the Next Era of",
-      titleHighlight: "Metabolic Innovation",
-      p1: "At CYNOVA.LIFE, we are dedicated to pushing the boundaries of scientific discovery. Our state-of-the-art facilities and world-class researchers focus exclusively on creating premium weight-management and metabolic health solutions.",
-      p2: "We believe that quality is not an option, but a necessity. By leveraging advanced biosynthesis and meticulous purification processes, we deliver products that set the global standard for efficacy and safety.",
+      title: "UAE-Based Pharmaceutical Innovator",
+      titleHighlight: "Redefining Global Standards",
+      p1: "CYNOVA.LIFE is a UAE-based pharmaceutical leader that unites Swiss precision engineering with cutting-edge American technology to deliver next-generation metabolic health solutions.",
+      p2: "Our objective is clear: to become one of the world's most trusted innovators in obesity medicine — setting the benchmark for efficacy, safety, and patient outcomes across the globe.",
       stats: [
-        { value: "10+", label: "Years of Research" },
-        { value: "50+", label: "Countries Reached" },
-        { value: "99.9%", label: "Purity Guarantee" },
-        { value: "3x", label: "Faster Absorption" },
+        { value: "UAE", label: "Headquarters & Strategic Hub" },
+        { value: "3+", label: "Premium Products Available" },
+        { value: "99.9%", label: "Purity Guarantee Per Batch" },
+        { value: "GMP", label: "Certified Manufacturing" },
       ],
     },
 
     // ── Portfolio ──────────────────────────────────────────────────────────────
     portfolio: {
-      sectionTitle: "Our Portfolio",
-      subtitle: "A curated selection of the world's most advanced metabolic and weight-management solutions, engineered for uncompromising excellence.",
+      sectionTitle: "Our Product Portfolio",
+      subtitle: "Next-generation metabolic health therapies — precision-engineered for maximum efficacy, safety, and patient compliance.",
       viewSpecs: "View Specifications",
       backToOverview: "Back to Overview",
       specsLabel: "Specifications",
       products: [
         {
           name: "Retatrutide Injection",
-          category: "Injectable Peptide",
-          description: "Advanced triple-agonist therapy for optimal metabolic regulation and sustained weight management.",
+          category: "Triple Receptor Agonist · Injectable",
+          description: "The world's most powerful triple-agonist peptide targeting GLP-1, GIP, and Glucagon receptors simultaneously for superior metabolic regulation.",
           specs: [
-            "Mimics GLP-1, GIP, and Glucagon to speed up metabolism.",
-            "Proven in trials to support up to 24% weight reduction.",
-            "Pre-filled injection pen for simple and precise dosing.",
-            "Strongest efficacy in its class with direct fat-burning pathways.",
-            "Designed for long-term health and metabolic balance.",
+            "Mechanism: Triple Receptor Agonist (GLP-1 / GIP / GCG)",
+            "Available strengths: 8 mg, 16 mg, 24 mg, 40 mg",
+            "Format: Pre-filled injection pen — once weekly subcutaneous",
+            "Proven up to 24% body weight reduction in clinical trials",
+            "Strongest efficacy in class with direct fat-burning pathways",
+            "GMP-certified, cold-chain maintained, batch-tested ≥ 99.9% purity",
           ],
         },
         {
           name: "Retatrutide Powder",
-          category: "Lyophilized Peptide",
-          description: "High-purity lyophilized formulation designed for extended stability and research applications.",
+          category: "Triple Receptor Agonist · Lyophilized",
+          description: "High-purity lyophilized Retatrutide formulation for extended stability — ideal for research facilities and clinical applications.",
           specs: [
-            "Verified at ≥ 99.9% purity via laboratory HPLC analysis.",
-            "Lyophilized (freeze-dried) to maintain peak stability.",
-            "Ideal for scientific research, assays, and stability studies.",
-            "Reconstitutes quickly and cleanly with bacteriostatic water.",
-            "Contains zero additives, stabilizers, or bulk fillers.",
+            "Mechanism: Triple Receptor Agonist (GLP-1 / GIP / GCG)",
+            "Available strengths: 8 mg, 16 mg, 24 mg, 40 mg",
+            "Format: Lyophilized powder — reconstituted before use",
+            "Verified ≥ 99.9% purity via HPLC certificate of analysis",
+            "Freeze-dried to maintain peak stability and long shelf life",
+            "Zero additives, stabilizers, or fillers — pharmaceutical grade",
           ],
         },
         {
           name: "Tirzepatide Injection",
-          category: "Injectable Peptide",
-          description: "Dual-targeted GIP and GLP-1 receptor agonist revolutionizing glycemic control.",
+          category: "Dual Receptor Agonist · Injectable",
+          description: "Dual-targeted GLP-1 and GIP receptor agonist delivering clinically validated glycemic control and significant weight reduction.",
           specs: [
-            "Mimics GIP and GLP-1 hormones to signal natural fullness.",
-            "Slows digestion to prolong satiety and control appetite.",
-            "Supports robust glycemic control and metabolic regulation.",
-            "Delivered via a convenient once-weekly subcutaneous injection.",
-            "Highly documented safety profile in global clinical research.",
+            "Mechanism: Dual Receptor Agonist (GLP-1 / GIP)",
+            "Available strengths: 2.5, 5, 7.5, 10, 12.5, 15 mg",
+            "Format: Pre-filled injection pen — once weekly subcutaneous",
+            "Slows gastric emptying for prolonged satiety and appetite control",
+            "Robust glycemic control and metabolic regulation in T2DM",
+            "Highly documented safety profile across global clinical studies",
           ],
         },
         {
           name: "Tirzepatide Powder",
-          category: "Lyophilized Peptide",
-          description: "Premium grade lyophilized dual-agonist with guaranteed 99.9% purity standards.",
+          category: "Dual Receptor Agonist · Lyophilized",
+          description: "Premium-grade lyophilized Tirzepatide with guaranteed 99.9% purity — the clinical research standard.",
           specs: [
-            "Guaranteed ≥ 99.9% purity with detailed HPLC certificate.",
-            "Freeze-dried format optimized for maximum long-term shelf life.",
-            "Perfect for clinical labs requiring exact compound concentration.",
-            "Highly soluble in standard laboratory reconstitution media.",
-            "Synthesized under strict quality-controlled conditions.",
+            "Mechanism: Dual Receptor Agonist (GLP-1 / GIP)",
+            "Available strengths: 2.5, 5, 7.5, 10, 12.5, 15 mg",
+            "Format: Lyophilized powder — reconstituted before use",
+            "Guaranteed ≥ 99.9% purity with detailed HPLC certificate",
+            "Freeze-dried format for maximum long-term shelf life",
+            "Ideal for clinical labs requiring exact compound concentrations",
           ],
         },
         {
           name: "Orforglipron Tablets",
-          category: "Oral Non-peptide",
-          description: "Next-generation oral GLP-1 receptor agonist for convenient, daily metabolic support.",
+          category: "Oral GLP-1 Receptor Agonist · Non-peptide",
+          description: "Next-generation oral non-peptide GLP-1 receptor agonist — effective metabolic therapy without injections.",
           specs: [
-            "Simple, daily oral tablet format (no needles required).",
-            "Directly stimulates GLP-1 receptors to regulate appetite.",
-            "Provides premium metabolic support with tablet convenience.",
-            "Easy to store and travel with at standard room temperature.",
-            "Excellent alternative for needle-sensitive weight management.",
+            "Mechanism: Oral GLP-1 Receptor Agonist (non-peptide)",
+            "Available strengths: 0.8, 2.5, 5.5, 9, 14.5, 17.2 mg",
+            "Format: Daily oral tablet — 30 pills per bottle",
+            "No needles — simple once-daily tablet administration",
+            "Directly stimulates GLP-1 receptors for appetite regulation",
+            "Room-temperature stable — easy to store and travel with",
           ],
         },
       ],
     },
 
-    // ── Innovation ─────────────────────────────────────────────────────────────
+    // ── Innovation / Manufacturing Excellence ───────────────────────────────────
     innovation: {
-      sectionLabel: "Innovation & Science",
-      title: "Molecular Precision for",
-      titleHighlight: "Transformative Health",
+      sectionLabel: "Manufacturing Excellence",
+      title: "Built on Precision,",
+      titleHighlight: "Delivered with Integrity",
       steps: [
         {
-          title: "Receptor Agonism",
-          desc: "Our peptides are engineered to precisely target GLP-1, GIP, and Glucagon receptors, unlocking synergistic pathways for metabolic regulation.",
+          title: "GMP-Certified Manufacturing",
+          desc: "Every CYNOVA product is manufactured in GMP-certified facilities, adhering to the strictest international pharmaceutical standards across all production stages.",
         },
         {
-          title: "Advanced Delivery Systems",
-          desc: "From highly stable lyophilized powders to next-generation oral formulations, we ensure maximum bioavailability and patient compliance.",
+          title: "Cold Chain Integrity",
+          desc: "Our dedicated cold-chain logistics ensure temperature-sensitive peptides maintain full potency and stability from production through final delivery.",
         },
         {
-          title: "Uncompromising Synthesis",
-          desc: "Utilizing solid-phase peptide synthesis (SPPS) and rigorous HPLC purification, we guarantee >99.9% purity in every batch.",
+          title: "Multi-Stage Quality Assurance",
+          desc: "Each batch undergoes comprehensive HPLC analysis, sterility testing, and independent third-party verification to guarantee ≥ 99.9% purity.",
+        },
+        {
+          title: "Scalable Production Capacity",
+          desc: "Our infrastructure is engineered for global-scale output, ensuring consistent availability and rapid response to growing international demand.",
         },
       ],
     },
 
-    // ── Features ───────────────────────────────────────────────────────────────
+    // ── Why CYNOVA ─────────────────────────────────────────────────────────────
     features: {
-      sectionLabel: "Why Choose Us",
+      sectionLabel: "Why Choose CYNOVA",
       sectionTitle: "The CYNOVA Advantage",
       items: [
-        { title: "Premium Quality", description: "Rigorous multi-stage quality control ensuring absolute purity and consistency." },
-        { title: "Scientific Innovation", description: "Relentless R&D driving the next generation of metabolic therapies." },
-        { title: "Reliable Supply", description: "Robust global supply chain engineered for uninterrupted availability." },
-        { title: "Global Vision", description: "Expanding our reach to deliver metabolic health solutions worldwide." },
-        { title: "Professional Partnerships", description: "Collaborating with leading researchers and institutions globally." },
+        { title: "UAE Strategic Hub", description: "Headquartered in the UAE — at the crossroads of global trade routes, providing unparalleled access to international markets." },
+        { title: "Swiss Expertise", description: "Precision engineering and pharmaceutical heritage from Swiss manufacturing standards applied to every product we produce." },
+        { title: "American Technology", description: "Cutting-edge US biotechnology integration — from advanced synthesis to state-of-the-art quality control systems." },
+        { title: "GMP Quality Standards", description: "Full adherence to international Good Manufacturing Practice standards, ensuring product safety and regulatory compliance." },
+        { title: "Premium Patient Experience", description: "Modern pharmaceutical design focused on patient convenience, compliance, and optimal therapeutic outcomes." },
+        { title: "Global Partnerships", description: "An expansive and growing network of international medical partners, distributors, and research institutions." },
+      ],
+    },
+
+    // ── Global Footprint ───────────────────────────────────────────────────────
+    globalFootprint: {
+      sectionLabel: "Global Expansion",
+      title: "A Vision Without",
+      titleHighlight: "Borders",
+      subtitle: "CYNOVA is executing a structured three-phase global expansion strategy, delivering trusted metabolic health solutions to patients worldwide.",
+      phases: [
+        {
+          phase: "Phase 1",
+          status: "Active Now",
+          title: "Middle East & CIS",
+          description: "Establishing our presence in the UAE and expanding across the Middle East, Russia, and the CIS region with premium metabolic therapies.",
+          regions: ["United Arab Emirates", "Saudi Arabia", "Russia", "Kazakhstan", "Azerbaijan"],
+        },
+        {
+          phase: "Phase 2",
+          status: "Coming Soon",
+          title: "Europe & Asia",
+          description: "Strategic market entry into European and Asian markets, partnering with established medical distributors and clinical networks.",
+          regions: ["Germany", "France", "Turkey", "India", "Singapore"],
+        },
+        {
+          phase: "Phase 3",
+          status: "2026+",
+          title: "Global Network",
+          description: "Comprehensive worldwide distribution infrastructure — delivering CYNOVA solutions to patients across every inhabited continent.",
+          regions: ["Americas", "Africa", "Oceania", "Southeast Asia", "Rest of World"],
+        },
       ],
     },
 
@@ -144,13 +185,15 @@ const translations = {
       sectionLabel: "Get In Touch",
       title: "Let's Advance Health",
       titleHighlight: "Together",
-      subtitle: "Whether you are a researcher, distributor, or seeking professional partnership, our dedicated team is ready to assist you with premium support.",
-      emailLabel: "Email Us",
-      phoneLabel: "Call Us",
-      phoneValue: "Global: +1 (800) 123-4567",
-      phoneHours: "Mon-Fri, 9am - 6pm EST",
+      subtitle: "Whether you are a medical professional, distributor, or institutional partner — our team is ready to support you with dedicated expertise.",
+      emailLabel: "Email",
+      phoneLabel: "WhatsApp / Telegram",
+      phoneValue: "+971 503702435",
+      phoneHours: "Dubai, UAE — Global reach",
       addressLabel: "Headquarters",
-      addressValue: "Moscow, Russia",
+      addressValue: "Dubai, United Arab Emirates",
+      instagramLabel: "Instagram",
+      instagramValue: "@Cynova.life",
       firstName: "First Name",
       lastName: "Last Name",
       email: "Email Address",
@@ -166,13 +209,13 @@ const translations = {
 
     // ── Footer ─────────────────────────────────────────────────────────────────
     footer: {
-      tagline: "Advancing the future of metabolic health through uncompromising scientific innovation and premium quality peptides.",
+      tagline: "UAE precision. Swiss expertise. American technology. Redefining the future of metabolic health.",
       quickLinks: "Quick Links",
       portfolioLabel: "Portfolio",
       legal: "Legal",
-      links: ["About Us", "Innovation & Science", "Quality Assurance", "Global Presence", "Careers"],
+      links: ["About Us", "Manufacturing", "Quality Assurance", "Global Presence", "Careers"],
       legalLinks: ["Terms & Conditions", "Privacy Policy", "Cookie Policy", "Compliance"],
-      disclaimer: "Information provided is for educational purposes. Products are intended for qualified professionals.",
+      disclaimer: "Information provided is for educational and professional purposes. Products are intended for qualified healthcare professionals.",
       disclaimerLabel: "Disclaimer:",
       allRights: "All rights reserved.",
       systemsOk: "All systems operational",
@@ -183,7 +226,7 @@ const translations = {
     verify: {
       backLink: "Back to CYNOVA.LIFE",
       title: "Product Verification",
-      subtitle: "Enter the code from your product sticker or scan the QR code to confirm authenticity.",
+      subtitle: "Enter the authentication code from your product sticker or scan the QR code to confirm authenticity.",
       placeholder: "e.g. CYNOVA-RET-INJ-A1B2C3",
       validTitle: "Authentic Product ✓",
       validSubtitle: "This product is genuine and verified by CYNOVA.LIFE.",
@@ -197,6 +240,84 @@ const translations = {
       manufacturedLabel: "Manufactured",
       expiryLabel: "Expiry",
       poweredBy: "Powered by CYNOVA.LIFE Authentication System — For support contact",
+      scanQrBtn: "Scan QR Code",
+      scanCameraTab: "Scan with Camera",
+      scanUploadTab: "Upload Image",
+      cameraStarting: "Starting camera feed...",
+      cameraError: "Camera access failed. Please ensure permissions are granted.",
+      cameraClose: "Close Scanner",
+      uploadPlaceholder: "Drag & drop QR code image, or click to upload",
+      uploadScanning: "Scanning uploaded file...",
+      uploadSuccess: "QR code detected successfully!",
+      uploadFailed: "No valid QR code found. Please ensure the code is clear.",
+    },
+    // New PDF translations
+    visionMission: {
+      visionTitle: "Our Vision",
+      visionText: "To become one of the world's most trusted pharmaceutical innovators in metabolic health, setting the benchmark for efficacy and safety.",
+      missionTitle: "Our Mission",
+      missionItems: [
+        { title: "Scientific Innovation", desc: "Pushing the boundaries of metabolic medicine with cutting-edge research." },
+        { title: "Premium Quality Standards", desc: "Rigorous quality controls and GMP certified production." },
+        { title: "Global Manufacturing Excellence", desc: "Advanced facilities designed for scale and temperature-sensitive integrity." },
+        { title: "Patient-Centric Approach", desc: "Delivering therapies optimized for compliance and premium patient experiences." }
+      ]
+    },
+    therapeuticFocus: {
+      sectionLabel: "Therapeutic Focus",
+      title: "Targeting Core Metabolic Diseases",
+      subtitle: "Our scientific research and product formulations address the most pressing global health challenges of our time.",
+      items: [
+        { title: "Metabolic Health", desc: "Supporting overall physiological pathways and cellular health." },
+        { title: "Weight Management", desc: "Precision therapeutic intervention for sustained weight regulation." },
+        { title: "Obesity", desc: "Setting new standards in obesity medicine through advanced triple receptor agonists." },
+        { title: "Type 2 Diabetes", desc: "Validated glycemic control therapies optimizing pancreatic function." },
+        { title: "Cardiometabolic", desc: "Addressing complex heart and metabolic syndromes collectively." }
+      ]
+    },
+    comparisonTable: {
+      title: "Product Comparison",
+      subtitle: "Evaluate mechanisms, administration methods, and patient profile targets across our formulations.",
+      headers: {
+        feature: "Feature",
+        mechanism: "Mechanism",
+        administration: "Administration",
+        target: "Primary Target",
+        profile: "Patient Profile"
+      },
+      rows: [
+        {
+          name: "Retatrutide",
+          mechanism: "Triple Agonist (GLP-1 / GIP / GCG)",
+          administration: "Weekly Injection",
+          target: "Maximum Weight Reduction",
+          profile: "Treatment Resistant Cases"
+        },
+        {
+          name: "Tirzepatide",
+          mechanism: "Dual Agonist (GLP-1 / GIP)",
+          administration: "Weekly Injection",
+          target: "Obesity & T2D Control",
+          profile: "Mainline Clinical Patients"
+        },
+        {
+          name: "Orforglipron",
+          mechanism: "Oral Agonist (GLP-1)",
+          administration: "Daily Tablet",
+          target: "Convenient Weight Mgmt",
+          profile: "Preference for Oral Therapy"
+        }
+      ]
+    },
+    roadmap: {
+      title: "Product Pipeline & Roadmap",
+      subtitle: "Our development roadmap outlines our transition from flagship metabolic therapies to cardiovascular development.",
+      steps: [
+        { num: "01", name: "Retatrutide", status: "Current Flagship", desc: "Triple-receptor agonist actively leading weight-regulation outcomes." },
+        { num: "02", name: "Tirzepatide", status: "In Market", desc: "Dual GLP-1/GIP agonist with extensive clinical validation and distribution." },
+        { num: "03", name: "Orforglipron", status: "Rollout Phase", desc: "High-compliance daily tablet making obesity treatment injection-free." },
+        { num: "04", name: "Cardio Portfolio", status: "2026 Development", desc: "Broadening therapeutic reach into cardiovascular and lipid health." }
+      ]
     },
   },
 
@@ -211,9 +332,9 @@ const translations = {
 
     // ── Hero ───────────────────────────────────────────────────────────────────
     hero: {
-      badge: "CYNOVA.LIFE",
-      title: "Развивая будущее метаболического здоровья",
-      subtitle: "Премиальные пептидные и метаболические решения для нового поколения.",
+      badge: "Метаболическое здоровье нового поколения",
+      title: "Наука о\nНовом Тебе",
+      subtitle: "Точность ОАЭ. Швейцарская экспертиза. Американские технологии. Переопределяем мировые стандарты здоровья.",
       exploreBtn: "Изучить портфолио",
       contactBtn: "Связаться",
     },
@@ -221,120 +342,161 @@ const translations = {
     // ── About ──────────────────────────────────────────────────────────────────
     about: {
       sectionLabel: "Кто мы",
-      title: "Прокладывая путь к новой эре",
-      titleHighlight: "Метаболических инноваций",
-      p1: "В CYNOVA.LIFE мы стремимся раздвигать границы научных открытий. Наши передовые объекты и исследователи мирового класса сосредоточены исключительно на создании премиальных решений для управления весом и метаболического здоровья.",
-      p2: "Мы считаем, что качество — это не опция, а необходимость. Используя передовой биосинтез и тщательные процессы очистки, мы поставляем продукты, устанавливающие мировой стандарт эффективности и безопасности.",
+      title: "Фармацевтический инноватор из ОАЭ",
+      titleHighlight: "Переопределяем мировые стандарты",
+      p1: "CYNOVA.LIFE — фармацевтический лидер из ОАЭ, объединяющий швейцарскую точность и передовые американские технологии для создания метаболических решений нового поколения.",
+      p2: "Наша цель ясна: стать одним из самых надёжных фармацевтических инноваторов в области ожирения в мире — устанавливая эталон эффективности, безопасности и результатов для пациентов.",
       stats: [
-        { value: "10+", label: "Лет исследований" },
-        { value: "50+", label: "Охваченных стран" },
-        { value: "99.9%", label: "Гарантия чистоты" },
-        { value: "3x", label: "Быстрее усвоение" },
+        { value: "ОАЭ", label: "Штаб-квартира и стратегический хаб" },
+        { value: "3+", label: "Премиальных продукта доступно" },
+        { value: "99.9%", label: "Гарантия чистоты каждой партии" },
+        { value: "GMP", label: "Сертифицированное производство" },
       ],
     },
 
     // ── Portfolio ──────────────────────────────────────────────────────────────
     portfolio: {
-      sectionTitle: "Наш портфолио",
-      subtitle: "Тщательно отобранные передовые решения для метаболического здоровья и управления весом, созданные для бескомпромиссного совершенства.",
+      sectionTitle: "Наш продуктовый портфолио",
+      subtitle: "Терапии метаболического здоровья нового поколения — точно разработанные для максимальной эффективности, безопасности и удобства пациентов.",
       viewSpecs: "Характеристики",
       backToOverview: "Назад",
       specsLabel: "Характеристики",
       products: [
         {
           name: "Retatrutide Injection",
-          category: "Инъекционный пептид",
-          description: "Передовая тройная агонистическая терапия для оптимальной метаболической регуляции и устойчивого управления весом.",
+          category: "Тройной агонист рецепторов · Инъекционный",
+          description: "Самый мощный в мире тройной агонистический пептид, одновременно воздействующий на рецепторы GLP-1, GIP и глюкагона.",
           specs: [
-            "Имитирует GLP-1, GIP и глюкагон для ускорения метаболизма.",
-            "Доказано в испытаниях: поддерживает снижение веса до 24%.",
-            "Предзаполненная инъекционная ручка для простой и точной дозировки.",
-            "Наивысшая эффективность в своём классе с прямыми путями сжигания жира.",
-            "Разработан для долгосрочного здоровья и метаболического баланса.",
+            "Механизм: Тройной агонист (GLP-1 / GIP / GCG)",
+            "Доступные дозировки: 8 мг, 16 мг, 24 мг, 40 мг",
+            "Форма: Предзаполненная ручка — подкожно раз в неделю",
+            "Доказано снижение веса до 24% в клинических исследованиях",
+            "Наивысшая эффективность в классе с прямыми путями жиросжигания",
+            "GMP-сертифицирован, чистота ≥ 99,9% в каждой партии",
           ],
         },
         {
           name: "Retatrutide Powder",
-          category: "Лиофилизированный пептид",
-          description: "Высокочистый лиофилизированный препарат для расширенной стабильности и исследовательских применений.",
+          category: "Тройной агонист рецепторов · Лиофилизированный",
+          description: "Высокочистый лиофилизированный ретатрутид для клинических применений и исследовательских объектов.",
           specs: [
-            "Проверено: ≥ 99,9% чистоты методом лабораторного ВЭЖХ-анализа.",
-            "Лиофилизирован для сохранения максимальной стабильности.",
-            "Идеален для научных исследований, анализов и испытаний стабильности.",
-            "Быстро и чисто восстанавливается бактериостатической водой.",
-            "Не содержит добавок, стабилизаторов или наполнителей.",
+            "Механизм: Тройной агонист (GLP-1 / GIP / GCG)",
+            "Доступные дозировки: 8 мг, 16 мг, 24 мг, 40 мг",
+            "Форма: Лиофилизированный порошок — разводится перед использованием",
+            "Подтверждённая чистота ≥ 99,9% по ВЭЖХ-сертификату",
+            "Сублимационная сушка для максимальной стабильности и срока хранения",
+            "Без добавок, стабилизаторов и наполнителей — фармацевтическое качество",
           ],
         },
         {
           name: "Tirzepatide Injection",
-          category: "Инъекционный пептид",
-          description: "Двойной агонист рецепторов GIP и GLP-1, революционизирующий гликемический контроль.",
+          category: "Двойной агонист рецепторов · Инъекционный",
+          description: "Двойной агонист рецепторов GLP-1 и GIP, обеспечивающий клинически подтверждённый гликемический контроль и снижение веса.",
           specs: [
-            "Имитирует гормоны GIP и GLP-1 для сигнализации естественного насыщения.",
-            "Замедляет пищеварение для продления сытости и контроля аппетита.",
-            "Поддерживает надёжный гликемический контроль и метаболическую регуляцию.",
-            "Вводится удобной подкожной инъекцией раз в неделю.",
-            "Хорошо задокументированный профиль безопасности в мировых клинических исследованиях.",
+            "Механизм: Двойной агонист (GLP-1 / GIP)",
+            "Доступные дозировки: 2,5; 5; 7,5; 10; 12,5; 15 мг",
+            "Форма: Предзаполненная ручка — подкожно раз в неделю",
+            "Замедляет опорожнение желудка для продлённого насыщения",
+            "Надёжный гликемический контроль при сахарном диабете 2 типа",
+            "Хорошо задокументированный профиль безопасности в мировых исследованиях",
           ],
         },
         {
           name: "Tirzepatide Powder",
-          category: "Лиофилизированный пептид",
-          description: "Премиальный лиофилизированный двойной агонист с гарантированной чистотой 99,9%.",
+          category: "Двойной агонист рецепторов · Лиофилизированный",
+          description: "Тирзепатид премиального качества с гарантированной чистотой 99,9% — стандарт клинических исследований.",
           specs: [
-            "Гарантированная ≥ 99,9% чистота с подробным ВЭЖХ-сертификатом.",
-            "Формат сублимационной сушки для максимального срока хранения.",
-            "Идеален для клинических лабораторий, требующих точной концентрации соединения.",
-            "Высокорастворим в стандартных лабораторных средах для восстановления.",
-            "Синтезирован в строго контролируемых условиях качества.",
+            "Механизм: Двойной агонист (GLP-1 / GIP)",
+            "Доступные дозировки: 2,5; 5; 7,5; 10; 12,5; 15 мг",
+            "Форма: Лиофилизированный порошок — разводится перед использованием",
+            "Гарантированная чистота ≥ 99,9% с подробным ВЭЖХ-сертификатом",
+            "Формат сублимационной сушки для максимального срока хранения",
+            "Идеален для клинических лабораторий с точными требованиями к концентрации",
           ],
         },
         {
           name: "Orforglipron Tablets",
-          category: "Пероральный непептид",
-          description: "Пероральный агонист рецепторов GLP-1 нового поколения для удобной ежедневной метаболической поддержки.",
+          category: "Пероральный агонист GLP-1 · Непептид",
+          description: "Пероральный непептидный агонист рецепторов GLP-1 нового поколения — эффективная метаболическая терапия без инъекций.",
           specs: [
-            "Простой формат ежедневной пероральной таблетки (без иглы).",
-            "Непосредственно стимулирует рецепторы GLP-1 для регуляции аппетита.",
-            "Обеспечивает премиальную метаболическую поддержку в форме таблетки.",
-            "Легко хранить и брать в путешествие при комнатной температуре.",
-            "Отличная альтернатива для людей, чувствительных к иглам.",
+            "Механизм: Пероральный агонист рецепторов GLP-1 (непептид)",
+            "Доступные дозировки: 0,8; 2,5; 5,5; 9; 14,5; 17,2 мг",
+            "Форма: Ежедневная пероральная таблетка — 30 таблеток в упаковке",
+            "Без иглы — простое ежедневное применение в таблетированной форме",
+            "Непосредственно стимулирует рецепторы GLP-1 для регуляции аппетита",
+            "Стабилен при комнатной температуре — удобно хранить и брать с собой",
           ],
         },
       ],
     },
 
-    // ── Innovation ─────────────────────────────────────────────────────────────
+    // ── Innovation / Manufacturing Excellence ───────────────────────────────────
     innovation: {
-      sectionLabel: "Инновации и наука",
-      title: "Молекулярная точность для",
-      titleHighlight: "Трансформирующего здоровья",
+      sectionLabel: "Производственное превосходство",
+      title: "Построено на точности,",
+      titleHighlight: "Доставляется с целостностью",
       steps: [
         {
-          title: "Рецепторный агонизм",
-          desc: "Наши пептиды разработаны для точного воздействия на рецепторы GLP-1, GIP и глюкагона, открывая синергетические пути метаболической регуляции.",
+          title: "GMP-сертифицированное производство",
+          desc: "Каждый продукт CYNOVA производится на GMP-сертифицированных предприятиях, соответствующих строжайшим международным фармацевтическим стандартам.",
         },
         {
-          title: "Передовые системы доставки",
-          desc: "От высокостабильных лиофилизированных порошков до пероральных препаратов нового поколения — мы обеспечиваем максимальную биодоступность и комплаентность пациентов.",
+          title: "Целостность холодовой цепи",
+          desc: "Наша специализированная логистика холодовой цепи обеспечивает сохранение полной активности и стабильности термочувствительных пептидов до конечной доставки.",
         },
         {
-          title: "Бескомпромиссный синтез",
-          desc: "Используя твердофазный пептидный синтез (SPPS) и строгую ВЭЖХ-очистку, мы гарантируем чистоту >99,9% в каждой партии.",
+          title: "Многоэтапный контроль качества",
+          desc: "Каждая партия проходит комплексный ВЭЖХ-анализ, испытания на стерильность и независимую стороннюю верификацию для гарантии чистоты ≥ 99,9%.",
+        },
+        {
+          title: "Масштабируемые производственные мощности",
+          desc: "Наша инфраструктура спроектирована для выпуска продукции в мировом масштабе, обеспечивая стабильную доступность и быстрое реагирование на растущий международный спрос.",
         },
       ],
     },
 
-    // ── Features ───────────────────────────────────────────────────────────────
+    // ── Why CYNOVA ─────────────────────────────────────────────────────────────
     features: {
-      sectionLabel: "Почему выбирают нас",
+      sectionLabel: "Почему выбирают CYNOVA",
       sectionTitle: "Преимущества CYNOVA",
       items: [
-        { title: "Премиальное качество", description: "Строгий многоэтапный контроль качества, обеспечивающий абсолютную чистоту и консистентность." },
-        { title: "Научные инновации", description: "Неустанные исследования и разработки, движущие следующее поколение метаболических терапий." },
-        { title: "Надёжные поставки", description: "Надёжная глобальная цепочка поставок, обеспечивающая бесперебойную доступность." },
-        { title: "Глобальное видение", description: "Расширяем охват для доставки решений метаболического здоровья по всему миру." },
-        { title: "Профессиональные партнёрства", description: "Сотрудничаем с ведущими исследователями и учреждениями по всему миру." },
+        { title: "Стратегический хаб в ОАЭ", description: "Штаб-квартира в ОАЭ — на перекрёстке мировых торговых путей, обеспечивающих непревзойдённый доступ к международным рынкам." },
+        { title: "Швейцарская экспертиза", description: "Точная инженерия и фармацевтическое наследие швейцарских стандартов производства, применяемые в каждом нашем продукте." },
+        { title: "Американские технологии", description: "Передовая интеграция американских биотехнологий — от передового синтеза до современных систем контроля качества." },
+        { title: "Стандарты качества GMP", description: "Полное соответствие международным стандартам надлежащей производственной практики, обеспечивающее безопасность продукции и соответствие требованиям." },
+        { title: "Первоклассный опыт для пациентов", description: "Современный фармацевтический дизайн, ориентированный на удобство пациентов, соблюдение режима лечения и оптимальные терапевтические результаты." },
+        { title: "Глобальные партнёрства", description: "Обширная и растущая сеть международных медицинских партнёров, дистрибьюторов и исследовательских учреждений." },
+      ],
+    },
+
+    // ── Global Footprint ───────────────────────────────────────────────────────
+    globalFootprint: {
+      sectionLabel: "Глобальная экспансия",
+      title: "Видение без",
+      titleHighlight: "Границ",
+      subtitle: "CYNOVA реализует структурированную трёхэтапную стратегию глобального расширения, доставляя проверенные решения для метаболического здоровья пациентам по всему миру.",
+      phases: [
+        {
+          phase: "Этап 1",
+          status: "Активно сейчас",
+          title: "Ближний Восток и СНГ",
+          description: "Укрепление присутствия в ОАЭ и расширение на Ближнем Востоке, в России и странах СНГ с премиальными метаболическими терапиями.",
+          regions: ["Объединённые Арабские Эмираты", "Саудовская Аравия", "Россия", "Казахстан", "Азербайджан"],
+        },
+        {
+          phase: "Этап 2",
+          status: "Скоро",
+          title: "Европа и Азия",
+          description: "Стратегический выход на европейские и азиатские рынки в партнёрстве с established медицинскими дистрибьюторами и клиническими сетями.",
+          regions: ["Германия", "Франция", "Турция", "Индия", "Сингапур"],
+        },
+        {
+          phase: "Этап 3",
+          status: "2026+",
+          title: "Глобальная сеть",
+          description: "Комплексная всемирная дистрибьюторская инфраструктура — доставка решений CYNOVA пациентам на каждом обитаемом континенте.",
+          regions: ["Америка", "Африка", "Океания", "Юго-Восточная Азия", "Остальной мир"],
+        },
       ],
     },
 
@@ -343,13 +505,15 @@ const translations = {
       sectionLabel: "Связаться",
       title: "Давайте развивать здоровье",
       titleHighlight: "вместе",
-      subtitle: "Независимо от того, являетесь ли вы исследователем, дистрибьютором или ищете профессиональное партнёрство, наша команда готова помочь вам.",
-      emailLabel: "Напишите нам",
-      phoneLabel: "Позвоните нам",
-      phoneValue: "Глобально: +1 (800) 123-4567",
-      phoneHours: "Пн-Пт, 9:00 - 18:00 EST",
+      subtitle: "Независимо от того, являетесь ли вы медицинским специалистом, дистрибьютором или институциональным партнёром — наша команда готова помочь вам.",
+      emailLabel: "Email",
+      phoneLabel: "WhatsApp / Telegram",
+      phoneValue: "+971 503702435",
+      phoneHours: "Дубай, ОАЭ — Глобальное присутствие",
       addressLabel: "Штаб-квартира",
-      addressValue: "Москва, Россия",
+      addressValue: "Дубай, Объединённые Арабские Эмираты",
+      instagramLabel: "Instagram",
+      instagramValue: "@Cynova.life",
       firstName: "Имя",
       lastName: "Фамилия",
       email: "Электронная почта",
@@ -365,13 +529,13 @@ const translations = {
 
     // ── Footer ─────────────────────────────────────────────────────────────────
     footer: {
-      tagline: "Развиваем будущее метаболического здоровья посредством бескомпромиссных научных инноваций и премиальных пептидов.",
+      tagline: "Точность ОАЭ. Швейцарская экспертиза. Американские технологии. Переопределяем будущее метаболического здоровья.",
       quickLinks: "Быстрые ссылки",
       portfolioLabel: "Портфолио",
       legal: "Правовая информация",
-      links: ["О нас", "Инновации и наука", "Контроль качества", "Глобальное присутствие", "Карьера"],
+      links: ["О нас", "Производство", "Контроль качества", "Глобальное присутствие", "Карьера"],
       legalLinks: ["Условия использования", "Политика конфиденциальности", "Политика cookies", "Соответствие требованиям"],
-      disclaimer: "Информация предоставлена в образовательных целях. Продукты предназначены для квалифицированных специалистов.",
+      disclaimer: "Информация предоставлена в образовательных и профессиональных целях. Продукты предназначены для квалифицированных медицинских специалистов.",
       disclaimerLabel: "Отказ от ответственности:",
       allRights: "Все права защищены.",
       systemsOk: "Все системы работают",
@@ -381,8 +545,8 @@ const translations = {
     // ── Verify Page ────────────────────────────────────────────────────────────
     verify: {
       backLink: "Назад на CYNOVA.LIFE",
-      title: "Проверка продукта",
-      subtitle: "Введите код с наклейки на продукте или отсканируйте QR-код для подтверждения подлинности.",
+      title: "Проверка подлинности",
+      subtitle: "Введите код аутентификации с наклейки на продукте или отсканируйте QR-код для подтверждения подлинности.",
       placeholder: "напр. CYNOVA-RET-INJ-A1B2C3",
       validTitle: "Подлинный продукт ✓",
       validSubtitle: "Этот продукт является подлинным и проверен CYNOVA.LIFE.",
@@ -396,6 +560,84 @@ const translations = {
       manufacturedLabel: "Дата производства",
       expiryLabel: "Срок годности",
       poweredBy: "Система аутентификации CYNOVA.LIFE — Для поддержки свяжитесь",
+      scanQrBtn: "Сканировать QR-код",
+      scanCameraTab: "Сканировать камерой",
+      scanUploadTab: "Загрузить изображение",
+      cameraStarting: "Запуск камеры...",
+      cameraError: "Ошибка доступа к камере. Убедитесь, что разрешения предоставлены.",
+      cameraClose: "Закрыть сканер",
+      uploadPlaceholder: "Перетащите изображение QR-кода сюда или нажмите для выбора",
+      uploadScanning: "Сканирование файла...",
+      uploadSuccess: "QR-код успешно распознан!",
+      uploadFailed: "Действительный QR-код не найден. Убедитесь, что изображение четкое.",
+    },
+    // New PDF translations in Russian
+    visionMission: {
+      visionTitle: "Наше видение",
+      visionText: "Стать одним из самых надежных фармацевтических новаторов в мире в области метаболического здоровья, устанавливая стандарты эффективности и безопасности.",
+      missionTitle: "Наша миссия",
+      missionItems: [
+        { title: "Научные инновации", desc: "Расширение границ метаболической медицины с помощью передовых исследований." },
+        { title: "Премиальные стандарты качества", desc: "Строгий контроль качества и GMP-сертифицированное производство." },
+        { title: "Мировое производственное превосходство", desc: "Передовые комплексы, спроектированные для масштабирования и поддержания температурной цепочки." },
+        { title: "Ориентация на пациента", desc: "Предоставление терапии, оптимизированной для удобства пациентов и премиального опыта лечения." }
+      ]
+    },
+    therapeuticFocus: {
+      sectionLabel: "Терапевтический фокус",
+      title: "Борьба с основными метаболическими заболеваниями",
+      subtitle: "Наши научные исследования и рецептуры продуктов направлены на решение наиболее острых проблем глобального здравоохранения современности.",
+      items: [
+        { title: "Метаболическое здоровье", desc: "Поддержка общих физиологических процессов и клеточного здоровья." },
+        { title: "Контроль веса", desc: "Точное терапевтическое вмешательство для долгосрочной регуляции массы тела." },
+        { title: "Ожирение", desc: "Установление новых стандартов лечения ожирения с помощью передовых тройных агонистов." },
+        { title: "Диабет 2 типа", desc: "Подтвержденная терапия гликемического контроля, оптимизирующая функцию поджелудочной железы." },
+        { title: "Кардиометаболическое здоровье", desc: "Совместное решение сложных сердечных и метаболических синдромов." }
+      ]
+    },
+    comparisonTable: {
+      title: "Сравнение продуктов",
+      subtitle: "Оцените механизмы действия, способы введения и целевые группы пациентов для наших препаратов.",
+      headers: {
+        feature: "Характеристика",
+        mechanism: "Механизм действия",
+        administration: "Способ введения",
+        target: "Основная цель",
+        profile: "Профиль пациента"
+      },
+      rows: [
+        {
+          name: "Retatrutide",
+          mechanism: "Тройной агонист (GLP-1 / GIP / GCG)",
+          administration: "Еженедельная инъекция",
+          target: "Максимальное снижение веса",
+          profile: "Случаи, устойчивые к лечению"
+        },
+        {
+          name: "Tirzepatide",
+          mechanism: "Двойной агонист (GLP-1 / GIP)",
+          administration: "Еженедельная инъекция",
+          target: "Контроль ожирения и СД2",
+          profile: "Основные клинические пациенты"
+        },
+        {
+          name: "Orforglipron",
+          mechanism: "Пероральный агонист (GLP-1)",
+          administration: "Ежедневная таблетка",
+          target: "Удобный контроль веса",
+          profile: "Предпочтение пероральной терапии"
+        }
+      ]
+    },
+    roadmap: {
+      title: "Продуктовый пайплайн и дорожная карта",
+      subtitle: "Наша дорожная карта описывает переход от флагманских метаболических терапий к разработкам в кардиологии.",
+      steps: [
+        { num: "01", name: "Retatrutide", status: "Текущий флагман", desc: "Тройной агонист рецепторов, активно лидирующий в результатах регуляции веса." },
+        { num: "02", name: "Tirzepatide", status: "На рынке", desc: "Двойной агонист GLP-1/GIP с обширной клинической валидацией и дистрибуцией." },
+        { num: "03", name: "Orforglipron", status: "Этап запуска", desc: "Пероральная таблетка для ежедневного приема, освобождающая от уколов при лечении ожирения." },
+        { num: "04", name: "Кардио-портфолио", status: "Разработка 2026", desc: "Расширение терапевтического охвата в области здоровья сердечно-сосудистой системы и липидов." }
+      ]
     },
   },
 } as const;

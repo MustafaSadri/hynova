@@ -20,12 +20,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = localStorage.getItem("cynova-lang") as Language | null;
-    if (stored === "en" || stored === "ru") {
-      setLanguageState(stored);
-      setHasChosen(true);
-    } else {
-      setHasChosen(false);
-    }
+    setTimeout(() => {
+      if (stored === "en" || stored === "ru") {
+        setLanguageState(stored);
+        setHasChosen(true);
+      } else {
+        setHasChosen(false);
+      }
+    }, 0);
   }, []);
 
   const setLanguage = (lang: Language) => {

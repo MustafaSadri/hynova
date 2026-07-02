@@ -1,13 +1,26 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, XCircle, Shield, Search, Loader2, ArrowLeft } from "lucide-react";
+import {
+  CheckCircle2,
+  XCircle,
+  Search,
+  Loader2,
+  ArrowLeft,
+  QrCode,
+  Camera,
+  Upload,
+  X,
+  AlertCircle
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import jsQR from "jsqr";
 
 type VerifyResult =
   | { status: "idle" }
@@ -35,6 +48,19 @@ function VerifyContent() {
   const [code, setCode] = useState("");
   const [result, setResult] = useState<VerifyResult>({ status: "idle" });
 
+  // QR Code Scanner state
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [scanTab, setScanTab] = useState<"camera" | "upload">("camera");
+  const [streamActive, setStreamActive] = useState(false);
+  const [cameraError, setCameraError] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<"idle" | "scanning" | "success" | "error">("idle");
+  const [uploadError, setUploadError] = useState("");
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
   const verify = (codeToCheck: string) => {
     const trimmed = codeToCheck.trim().toUpperCase();
     if (!trimmed) return;
@@ -52,10 +78,12 @@ function VerifyContent() {
   useEffect(() => {
     const urlCode = searchParams.get("code");
     if (urlCode) {
-      setCode(urlCode);
-      verify(urlCode);
+      setTimeout(() => {
+        setCode(urlCode);
+        verify(urlCode);
+      }, 0);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -66,6 +94,159 @@ function VerifyContent() {
   const handleReset = () => {
     setCode("");
     setResult({ status: "idle" });
+  };
+
+  // QR Parsing helper
+  const extractCodeFromUrl = (str: string) => {
+    try {
+      const url = new URL(str);
+      const paramCode = url.searchParams.get("code");
+      if (paramCode) return paramCode;
+    } catch {
+      // not a URL, use raw string
+    }
+    return str.trim();
+  };
+
+  // Camera implementation
+  const startCamera = async () => {
+    setCameraError(false);
+    setStreamActive(false);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute("playsinline", "true");
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Ignore interruption error when component unmounts
+          });
+        }
+        setStreamActive(true);
+        animationFrameRef.current = requestAnimationFrame(scanFrame);
+      }
+    } catch (err) {
+      console.error("Camera error:", err);
+      setCameraError(true);
+    }
+  };
+
+  const stopCamera = () => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    setStreamActive(false);
+  };
+
+  const scanFrame = () => {
+    if (videoRef.current && videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA) {
+      if (!canvasRef.current) {
+        canvasRef.current = document.createElement("canvas");
+      }
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+        if (qrCode) {
+          const codeFound = extractCodeFromUrl(qrCode.data);
+          setCode(codeFound);
+          verify(codeFound);
+          closeScanner();
+          return;
+        }
+      }
+    }
+    animationFrameRef.current = requestAnimationFrame(scanFrame);
+  };
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadStatus("scanning");
+    setUploadError("");
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = document.createElement("img");
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+          if (qrCode) {
+            setUploadStatus("success");
+            const parsedCode = extractCodeFromUrl(qrCode.data);
+            setTimeout(() => {
+              setCode(parsedCode);
+              verify(parsedCode);
+              closeScanner();
+            }, 600);
+          } else {
+            setUploadStatus("error");
+            setUploadError("Could not find a QR code in the selected photo.");
+          }
+        } else {
+          setUploadStatus("error");
+          setUploadError("Canvas drawing context error.");
+        }
+      };
+      img.onerror = () => {
+        setUploadStatus("error");
+        setUploadError("Failed to load selected image file.");
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = () => {
+      setUploadStatus("error");
+      setUploadError("Failed to read selected image file.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isScannerOpen && scanTab === "camera") {
+      timer = setTimeout(() => {
+        startCamera();
+      }, 0);
+    } else {
+      setTimeout(() => {
+        stopCamera();
+      }, 0);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+      setTimeout(() => {
+        stopCamera();
+      }, 0);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isScannerOpen, scanTab]);
+
+  const closeScanner = () => {
+    setIsScannerOpen(false);
+    stopCamera();
+    setUploadStatus("idle");
+    setUploadError("");
   };
 
   return (
@@ -88,12 +269,173 @@ function VerifyContent() {
             <span className="flex h-3 w-3 rounded-full bg-primary mr-3 shadow-[0_0_10px_rgba(8,145,178,0.5)]" />
             <span className="text-xl font-bold tracking-widest text-foreground">CYNOVA.LIFE</span>
           </Link>
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <Shield className="w-8 h-8 text-primary" />
+          <div className="relative w-16 h-16 mb-4 mx-auto transition-transform duration-300 hover:scale-105">
+            <Image
+              src="/cynova-logo.png"
+              alt="CYNOVA"
+              fill
+              className="object-contain mix-blend-multiply"
+              sizes="64px"
+              priority
+            />
           </div>
           <h1 className="text-3xl font-bold text-foreground mb-2">{t.verify.title}</h1>
           <p className="text-muted-foreground text-sm leading-relaxed">{t.verify.subtitle}</p>
         </div>
+
+        {/* Scan QR Button */}
+        {!isScannerOpen && (
+          <div className="flex gap-2 mb-4">
+            <Button
+              type="button"
+              onClick={() => setIsScannerOpen(true)}
+              className="w-full h-12 bg-primary/10 border border-primary/20 hover:bg-primary/20 text-primary rounded-xl font-semibold flex items-center justify-center gap-2 cursor-pointer transition-colors"
+            >
+              <QrCode className="w-4.5 h-4.5" />
+              {t.verify.scanQrBtn}
+            </Button>
+          </div>
+        )}
+
+        {/* QR Code Scanner component */}
+        <AnimatePresence>
+          {isScannerOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              className="bg-card border border-border/50 shadow-xl rounded-2xl p-6 mb-6 overflow-hidden relative"
+            >
+              {/* Close button */}
+              <button
+                onClick={closeScanner}
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                aria-label="Close Scanner"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Tabs */}
+              <div className="flex border-b border-border/50 mb-6">
+                <button
+                  onClick={() => setScanTab("camera")}
+                  className={`flex-1 pb-3 text-sm font-semibold transition-colors flex items-center justify-center gap-2 border-b-2 cursor-pointer ${
+                    scanTab === "camera"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Camera className="w-4 h-4" />
+                  {t.verify.scanCameraTab}
+                </button>
+                <button
+                  onClick={() => setScanTab("upload")}
+                  className={`flex-1 pb-3 text-sm font-semibold transition-colors flex items-center justify-center gap-2 border-b-2 cursor-pointer ${
+                    scanTab === "upload"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Upload className="w-4 h-4" />
+                  {t.verify.scanUploadTab}
+                </button>
+              </div>
+
+              {/* Camera Scanner View */}
+              {scanTab === "camera" && (
+                <div className="flex flex-col items-center">
+                  <div className="relative w-full max-w-[260px] aspect-square rounded-2xl overflow-hidden bg-slate-950 border border-border flex items-center justify-center mb-4">
+                    <video
+                      ref={videoRef}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      playsInline
+                      muted
+                    />
+                    
+                    {/* Scanning overlay guidelines */}
+                    <div className="absolute inset-0 border-[20px] border-slate-950/40 pointer-events-none" />
+                    
+                    {/* Target box frame corners */}
+                    <div className="absolute top-6 left-6 w-5 h-5 border-t-2 border-l-2 border-primary pointer-events-none" />
+                    <div className="absolute top-6 right-6 w-5 h-5 border-t-2 border-r-2 border-primary pointer-events-none" />
+                    <div className="absolute bottom-6 left-6 w-5 h-5 border-b-2 border-l-2 border-primary pointer-events-none" />
+                    <div className="absolute bottom-6 right-6 w-5 h-5 border-b-2 border-r-2 border-primary pointer-events-none" />
+
+                    {/* Sweeping Laser Line Animation */}
+                    <div className="absolute top-6 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent animate-pulse pointer-events-none shadow-[0_0_8px_rgba(8,145,178,0.8)] scan-line-animation" />
+
+                    {cameraError && (
+                      <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center text-red-400 z-20">
+                        <AlertCircle className="w-8 h-8 mb-2" />
+                        <p className="text-xs leading-relaxed">{t.verify.cameraError}</p>
+                      </div>
+                    )}
+
+                    {!cameraError && !streamActive && (
+                      <div className="absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center text-slate-300 z-20">
+                        <Loader2 className="w-6 h-6 animate-spin text-primary mb-2" />
+                        <p className="text-xs">{t.verify.cameraStarting}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <Button
+                    onClick={closeScanner}
+                    variant="outline"
+                    className="h-10 text-xs px-4"
+                  >
+                    {t.verify.cameraClose}
+                  </Button>
+                </div>
+              )}
+
+              {/* Photo Upload Scanner View */}
+              {scanTab === "upload" && (
+                <div className="flex flex-col items-center">
+                  <label className="w-full max-w-[260px] aspect-square rounded-2xl border-2 border-dashed border-border hover:border-primary bg-card flex flex-col items-center justify-center p-6 text-center cursor-pointer transition-colors relative overflow-hidden group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoUpload}
+                      className="hidden"
+                    />
+                    
+                    {uploadStatus === "idle" && (
+                      <>
+                        <Upload className="w-10 h-10 text-muted-foreground group-hover:text-primary transition-colors mb-3" />
+                        <p className="text-xs text-muted-foreground font-medium px-4 leading-relaxed">
+                          {t.verify.uploadPlaceholder}
+                        </p>
+                      </>
+                    )}
+
+                    {uploadStatus === "scanning" && (
+                      <div className="flex flex-col items-center text-primary">
+                        <Loader2 className="w-8 h-8 animate-spin mb-3" />
+                        <p className="text-xs font-semibold">{t.verify.uploadScanning}</p>
+                      </div>
+                    )}
+
+                    {uploadStatus === "success" && (
+                      <div className="flex flex-col items-center text-emerald-600">
+                        <CheckCircle2 className="w-10 h-10 mb-3 animate-bounce" />
+                        <p className="text-xs font-bold">{t.verify.uploadSuccess}</p>
+                      </div>
+                    )}
+
+                    {uploadStatus === "error" && (
+                      <div className="flex flex-col items-center text-red-500">
+                        <AlertCircle className="w-10 h-10 mb-3" />
+                        <p className="text-xs font-bold">{t.verify.uploadFailed}</p>
+                        <p className="text-[10px] text-muted-foreground mt-1 px-4 leading-normal">{uploadError}</p>
+                      </div>
+                    )}
+                  </label>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
           <Input
@@ -166,7 +508,7 @@ function VerifyContent() {
                 </div>
               </div>
               <p className="text-red-600 text-sm">
-                <a href="mailto:mustafassadriwala548@gmail.com" className="font-semibold underline underline-offset-2">mustafassadriwala548@gmail.com</a>
+                <a href="mailto:Enquiries@cynova.life" className="font-semibold underline underline-offset-2 hover:text-red-800 transition-colors">Enquiries@cynova.life</a>
               </p>
               <button onClick={handleReset} className="mt-4 text-xs text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none p-0">
                 {t.verify.tryAgain}
@@ -177,9 +519,30 @@ function VerifyContent() {
 
         <p className="text-center text-xs text-muted-foreground mt-8">
           {t.verify.poweredBy}{" "}
-          <a href="mailto:mustafassadriwala548@gmail.com" className="text-primary hover:underline">mustafassadriwala548@gmail.com</a>
+          <a href="mailto:Enquiries@cynova.life" className="text-primary hover:underline">Enquiries@cynova.life</a>
         </p>
       </motion.div>
+
+      {/* Laser line css animation */}
+      <style jsx global>{`
+        @keyframes scan-line {
+          0% {
+            top: 24px;
+            opacity: 0.8;
+          }
+          50% {
+            top: calc(100% - 26px);
+            opacity: 0.8;
+          }
+          100% {
+            top: 24px;
+            opacity: 0.8;
+          }
+        }
+        .scan-line-animation {
+          animation: scan-line 2.2s ease-in-out infinite;
+        }
+      `}</style>
     </main>
   );
 }
