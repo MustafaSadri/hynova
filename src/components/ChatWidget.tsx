@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Stethoscope, X, Send } from "lucide-react";
+import { Stethoscope, X, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+const GLOW_STYLE = `
+@keyframes cynova-chat-glow {
+  0%, 100% { box-shadow: 0 0 14px 2px oklch(0.50 0.16 192 / 45%), 0 6px 18px rgba(0,0,0,0.18); }
+  50% { box-shadow: 0 0 28px 8px oklch(0.50 0.16 192 / 75%), 0 6px 18px rgba(0,0,0,0.18); }
+}
+.cynova-chat-glow { animation: cynova-chat-glow 2.6s ease-in-out infinite; }
+`;
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -76,23 +84,38 @@ export function ChatWidget() {
 
   return (
     <>
-      <Button
-        onClick={() => setOpen((v) => !v)}
-        size="icon-lg"
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg"
-        aria-label={open ? "Close chat" : "Open chat"}
-      >
-        {open ? <X className="size-6" /> : <Stethoscope className="size-6" />}
-      </Button>
+      <style dangerouslySetInnerHTML={{ __html: GLOW_STYLE }} />
+
+      <div className="group fixed bottom-6 right-6 z-50">
+        <span className="pointer-events-none absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-lg bg-foreground px-2.5 py-1 text-xs font-medium text-background opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
+          {open ? "Close chat" : "Chat with us"}
+        </span>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close chat" : "Open chat"}
+          className="cynova-chat-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
+        >
+          {open ? <X className="size-6" /> : <Stethoscope className="size-6" />}
+          {!open && (
+            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-card bg-emerald-400" />
+            </span>
+          )}
+        </button>
+      </div>
 
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl">
-          <div className="flex items-center gap-3 border-b border-border/50 bg-secondary/50 p-4">
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+        <div className="fixed bottom-24 right-6 z-50 flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-primary/15 bg-card/95 shadow-2xl shadow-primary/20 backdrop-blur-xl">
+          <div className="flex items-center gap-3 border-b border-border/50 bg-gradient-to-r from-primary/15 via-secondary/40 to-transparent p-4">
+            <div className="cynova-chat-glow flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground">
               <Stethoscope className="size-5" />
             </div>
             <div>
-              <h3 className="font-bold text-foreground">Cynova Assistant</h3>
+              <h3 className="flex items-center gap-1.5 font-bold text-foreground">
+                Cynova Assistant
+                <Sparkles className="size-3.5 text-primary" />
+              </h3>
               <p className="text-xs text-muted-foreground">Product Q&A · not a substitute for medical advice</p>
             </div>
           </div>

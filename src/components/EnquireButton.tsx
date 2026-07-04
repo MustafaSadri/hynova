@@ -6,6 +6,14 @@ import { MessageCircle, Send } from "lucide-react";
 const PREFILLED_MESSAGE =
   "Hi! I'm interested in CYNOVA's metabolic health products and have a few questions.";
 
+const GLOW_STYLE = `
+@keyframes cynova-enquire-glow {
+  0%, 100% { box-shadow: 0 0 14px 2px rgba(34,158,217,0.45), 0 6px 18px rgba(0,0,0,0.18); }
+  50% { box-shadow: 0 0 28px 8px rgba(34,158,217,0.8), 0 6px 18px rgba(0,0,0,0.18); }
+}
+.cynova-enquire-glow { animation: cynova-enquire-glow 2.6s ease-in-out infinite; }
+`;
+
 type Channel = {
   label: string;
   href: string;
@@ -40,39 +48,51 @@ export function EnquireButton() {
 
   if (channels.length === 0) return null;
 
-  // Single channel: one direct, inviting pill button — no extra click needed.
+  // Single channel: a small glowing indicator icon — one tap, straight to Telegram.
   if (channels.length === 1) {
     const channel = channels[0];
     return (
-      <div className="fixed bottom-6 right-24 z-50">
-        <span className="absolute inset-0 rounded-full bg-primary/35 animate-ping [animation-duration:2.5s]" />
+      <div className="group fixed bottom-6 right-24 z-50">
+        <style dangerouslySetInnerHTML={{ __html: GLOW_STYLE }} />
+        <span className="pointer-events-none absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-lg bg-foreground px-2.5 py-1 text-xs font-medium text-background opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
+          Message us on {channel.label}
+        </span>
         <a
           href={channel.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="relative flex items-center gap-2 rounded-full bg-primary py-3.5 pl-4 pr-5 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
+          aria-label={`Message us on ${channel.label}`}
+          className="cynova-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
         >
           {channel.icon}
-          <span className="text-sm font-semibold whitespace-nowrap">Enquire Now</span>
+          <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white/70" />
+            <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-card bg-white" />
+          </span>
         </a>
       </div>
     );
   }
 
-  // Multiple channels: trigger + choice popover.
+  // Multiple channels: compact trigger + choice popover.
   return (
     <>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close enquiry options" : "Enquire Now"}
-        className="fixed bottom-6 right-24 z-50 flex items-center gap-2 rounded-full bg-primary py-3.5 pl-4 pr-5 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
-      >
-        <MessageCircle className="size-5 shrink-0" />
-        <span className="text-sm font-semibold whitespace-nowrap">Enquire Now</span>
-      </button>
+      <style dangerouslySetInnerHTML={{ __html: GLOW_STYLE }} />
+      <div className="group fixed bottom-6 right-24 z-50">
+        <span className="pointer-events-none absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-lg bg-foreground px-2.5 py-1 text-xs font-medium text-background opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
+          {open ? "Close" : "Enquire Now"}
+        </span>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close enquiry options" : "Enquire Now"}
+          className="cynova-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
+        >
+          <MessageCircle className="size-6" />
+        </button>
+      </div>
 
       {open && (
-        <div className="fixed bottom-24 right-24 z-50 flex w-56 flex-col gap-2 rounded-2xl border border-border/50 bg-card p-3 shadow-2xl">
+        <div className="fixed bottom-24 right-24 z-50 flex w-56 flex-col gap-2 rounded-2xl border border-primary/15 bg-card/95 p-3 shadow-2xl shadow-primary/20 backdrop-blur-xl">
           <p className="px-1 pb-1 text-xs font-semibold text-muted-foreground">
             Enquire Now via
           </p>
