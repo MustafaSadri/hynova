@@ -3,7 +3,7 @@
 import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -56,6 +56,12 @@ function ParticleBackground(props: any) {
 
 export function HeroSection() {
   const { t } = useLanguage();
+  const { scrollY } = useScroll();
+
+  const scale = useTransform(scrollY, [0, 200], [1, 0.85]);
+  const scrollOpacity = useTransform(scrollY, [0, 180], [1, 0]);
+  const translateY = useTransform(scrollY, [0, 200], [0, -30]);
+  const glowOpacity = useTransform(scrollY, [0, 100], [1, 0]);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -102,23 +108,47 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
 
-        {/* Logo + badge */}
+        {/* Standalone Brand Symbol */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-6 flex flex-col items-center gap-4"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8 relative flex items-center justify-center pointer-events-none"
         >
-          <div className="relative w-16 h-16 transition-transform duration-300 hover:scale-105">
-            <Image
-              src="/cynova-logo.png"
-              alt="CYNOVA"
-              fill
-              className="object-contain mix-blend-multiply"
-              sizes="64px"
-              priority
+          <motion.div
+            style={{ scale, opacity: scrollOpacity, y: translateY }}
+            className="relative flex items-center justify-center pointer-events-none"
+          >
+            {/* Elegant soft glowing halo behind the symbol */}
+            <motion.div 
+              style={{ opacity: glowOpacity }}
+              className="absolute w-48 h-48 md:w-64 md:h-64 bg-[radial-gradient(circle,oklch(0.50_0.16_192/12%)_0%,transparent_70%)] rounded-full blur-xl -translate-y-2 pointer-events-none" 
             />
-          </div>
+            
+            {/* Glassmorphic backplate for the symbol to integrate it naturally */}
+            <div className="absolute w-36 h-36 md:w-48 md:h-48 rounded-full bg-white/5 border border-white/10 backdrop-blur-[2px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_10px_30px_rgba(0,0,0,0.02)] pointer-events-none" />
+
+            {/* C Symbol Wrapper */}
+            <div className="relative w-28 md:w-36 aspect-[435/342] transition-transform duration-500 hover:scale-105 pointer-events-auto cursor-pointer filter drop-shadow-[0_12px_24px_oklch(0.50_0.16_192/16%)]">
+              <Image
+                src="/cynova-c-symbol.png"
+                alt="CYNOVA Brand Symbol"
+                fill
+                className="object-contain"
+                sizes="(max-w-768px) 112px, 144px"
+                priority
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="mb-8"
+        >
           <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-sm tracking-widest uppercase">
             <span className="flex h-1.5 w-1.5 rounded-full bg-primary mr-2 animate-pulse" />
             {t.hero.badge}

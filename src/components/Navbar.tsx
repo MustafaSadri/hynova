@@ -37,22 +37,24 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${
+      className={`fixed inset-x-0 z-40 transition-all duration-500 ease-out ${
         scrolled
-          ? "bg-white/90 backdrop-blur-xl border-b border-border shadow-sm"
-          : "bg-transparent"
+          ? "top-3 mx-4 md:mx-auto max-w-5xl rounded-full border border-border/30 bg-background/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(14,116,144,0.06),0_1px_2px_rgba(14,116,144,0.02)]"
+          : "top-0 bg-transparent border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <div className={`mx-auto px-6 flex items-center justify-between gap-4 transition-all duration-500 ${
+        scrolled ? "h-14" : "h-16"
+      }`}>
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group/logo">
-          <div className="w-9 h-9 relative transition-transform duration-300 group-hover/logo:scale-105">
+          <div className="relative w-9 aspect-[435/342] transition-transform duration-300 group-hover/logo:scale-105">
             <Image
-              src="/cynova-logo.png"
+              src="/cynova-c-symbol.png"
               alt="CYNOVA"
               fill
-              className="object-contain mix-blend-multiply"
+              className="object-contain"
               sizes="36px"
               priority
             />
