@@ -38,7 +38,7 @@ const phaseColors = [
 ];
 
 export function GlobalFootprint() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const gf = t.globalFootprint;
 
   return (
@@ -130,7 +130,7 @@ export function GlobalFootprint() {
 
                   <div className="relative z-10">
                     <p className={`text-xs uppercase tracking-widest font-semibold ${c.accent} mb-2`}>{phase.phase}</p>
-                    <h4 className="text-xl font-bold text-foreground mb-3">{phase.title}</h4>
+                    <h4 className={language === "ru" ? "text-base font-bold text-foreground mb-3" : "text-xl font-bold text-foreground mb-3"}>{phase.title}</h4>
                     <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{phase.description}</p>
 
                     {/* Region tags */}

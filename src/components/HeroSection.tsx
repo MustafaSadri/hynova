@@ -55,7 +55,7 @@ function ParticleBackground(props: any) {
 }
 
 export function HeroSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { scrollY } = useScroll();
 
   const scale = useTransform(scrollY, [0, 200], [1, 0.85]);
@@ -160,7 +160,9 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 leading-tight"
+          className={language === "ru"
+            ? "text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 leading-tight flex flex-col items-center justify-center min-h-[130px] md:min-h-[195px] lg:min-h-[260px]"
+            : "text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 leading-tight flex flex-col items-center justify-center min-h-[130px] md:min-h-[195px] lg:min-h-[260px]"}
         >
           {titleLines.map((line, i) => (
             <span key={i} className="block">

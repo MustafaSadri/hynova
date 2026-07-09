@@ -20,7 +20,7 @@ const stepColors = [
 ];
 
 export function InnovationScience() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="manufacturing" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
@@ -102,10 +102,14 @@ export function InnovationScience() {
             className="order-1 lg:order-2"
           >
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-4">{t.innovation.sectionLabel}</p>
-            <h3 className="text-4xl md:text-5xl font-bold mb-2 text-foreground leading-tight">
+            <h3 className={language === "ru"
+              ? "text-3xl md:text-4xl font-bold mb-2 text-foreground leading-tight"
+              : "text-4xl md:text-5xl font-bold mb-2 text-foreground leading-tight"}>
               {t.innovation.title}
             </h3>
-            <h4 className="text-3xl md:text-4xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-tight">
+            <h4 className={language === "ru"
+              ? "text-2xl md:text-3xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-tight"
+              : "text-3xl md:text-4xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 leading-tight"}>
               {t.innovation.titleHighlight}
             </h4>
 
@@ -123,7 +127,7 @@ export function InnovationScience() {
                     {stepIcons[i]}
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-foreground mb-1.5">{step.title}</h4>
+                    <h4 className={language === "ru" ? "text-sm font-bold text-foreground mb-1.5" : "text-base font-bold text-foreground mb-1.5"}>{step.title}</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
                   </div>
                 </motion.div>
@@ -143,7 +147,7 @@ export function InnovationScience() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-2xl md:text-4xl font-bold mb-4"
+              className={language === "ru" ? "text-lg md:text-3xl font-bold mb-4" : "text-2xl md:text-4xl font-bold mb-4"}
             >
               {t.roadmap.title}
             </motion.h3>

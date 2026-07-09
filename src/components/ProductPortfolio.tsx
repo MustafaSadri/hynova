@@ -15,7 +15,7 @@ const productMeta = [
 ];
 
 export function ProductPortfolio() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -35,7 +35,7 @@ export function ProductPortfolio() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold mb-6"
+            className={language === "ru" ? "text-2xl md:text-4xl font-bold mb-6" : "text-3xl md:text-5xl font-bold mb-6"}
           >
             {t.portfolio.sectionTitle}
           </motion.h2>
@@ -128,7 +128,7 @@ export function ProductPortfolio() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-2xl md:text-4xl font-bold mb-4"
+              className={language === "ru" ? "text-lg md:text-2xl font-bold mb-4" : "text-2xl md:text-4xl font-bold mb-4"}
             >
               {t.comparisonTable.title}
             </motion.h3>

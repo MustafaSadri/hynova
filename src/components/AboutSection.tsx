@@ -20,7 +20,7 @@ const statColors = [
 ];
 
 export function AboutSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="about" className="py-28 px-4 relative overflow-hidden bg-background scroll-mt-20">
@@ -42,10 +42,14 @@ export function AboutSection() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-4">{t.about.sectionLabel}</p>
-            <h3 className="text-4xl md:text-5xl font-bold mb-4 text-foreground leading-tight">
+            <h3 className={language === "ru"
+              ? "text-3xl md:text-4xl font-bold mb-4 text-foreground leading-tight"
+              : "text-4xl md:text-5xl font-bold mb-4 text-foreground leading-tight"}>
               {t.about.title}
             </h3>
-            <h4 className="text-2xl md:text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">
+            <h4 className={language === "ru"
+              ? "text-xl md:text-2xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400"
+              : "text-2xl md:text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400"}>
               {t.about.titleHighlight}
             </h4>
             <p className="text-muted-foreground text-lg mb-5 leading-relaxed">{t.about.p1}</p>
@@ -127,7 +131,7 @@ export function AboutSection() {
                     </svg>
                   </div>
                   <div>
-                    <h5 className="font-semibold text-foreground text-sm leading-tight mb-1">{item.title}</h5>
+                    <h5 className={language === "ru" ? "font-semibold text-foreground text-xs leading-tight mb-1" : "font-semibold text-foreground text-sm leading-tight mb-1"}>{item.title}</h5>
                     <p className="text-[11px] text-muted-foreground leading-tight">{item.desc}</p>
                   </div>
                 </div>

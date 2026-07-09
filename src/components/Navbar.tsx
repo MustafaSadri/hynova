@@ -20,7 +20,15 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
+    const handler = () => {
+      setScrolled((prev) => {
+        const y = window.scrollY;
+        if (!prev && y > 100) return true;
+        if (prev && y < 80) return false;
+        return prev;
+      });
+    };
+    handler();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -37,15 +45,15 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 z-40 transition-all duration-500 ease-out ${
+      aria-hidden={!scrolled}
+      inert={!scrolled}
+      className={`fixed inset-x-0 top-3 z-40 mx-4 md:mx-auto max-w-5xl rounded-full border border-border/30 bg-background/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(14,116,144,0.06),0_1px_2px_rgba(14,116,144,0.02)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         scrolled
-          ? "top-3 mx-4 md:mx-auto max-w-5xl rounded-full border border-border/30 bg-background/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(14,116,144,0.06),0_1px_2px_rgba(14,116,144,0.02)]"
-          : "top-0 bg-transparent border-transparent"
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
     >
-      <div className={`mx-auto px-6 flex items-center justify-between gap-4 transition-all duration-500 ${
-        scrolled ? "h-14" : "h-16"
-      }`}>
+      <div className="mx-auto px-6 flex items-center justify-between gap-4 h-14">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group/logo">

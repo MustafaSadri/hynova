@@ -22,7 +22,7 @@ const colors = [
 ];
 
 export function TherapeuticFocus() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const tf = t.therapeuticFocus;
 
   return (
@@ -48,7 +48,7 @@ export function TherapeuticFocus() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-bold text-foreground mb-6"
+            className={language === "ru" ? "text-lg md:text-2xl font-bold text-foreground mb-6" : "text-3xl md:text-5xl font-bold text-foreground mb-6"}
           >
             {tf.title}
           </motion.h3>
@@ -79,7 +79,7 @@ export function TherapeuticFocus() {
               <div className={`w-12 h-12 rounded-xl ${colors[index].bg} border ${colors[index].border} flex items-center justify-center mb-5 relative z-10 ${colors[index].text} transition-transform duration-300 group-hover:scale-110`}>
                 {icons[index]}
               </div>
-              <h4 className="text-base font-bold text-foreground mb-2.5 relative z-10">{item.title}</h4>
+              <h4 className={language === "ru" ? "text-sm font-bold text-foreground mb-2.5 relative z-10" : "text-base font-bold text-foreground mb-2.5 relative z-10"}>{item.title}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed relative z-10">{item.desc}</p>
             </motion.div>
           ))}

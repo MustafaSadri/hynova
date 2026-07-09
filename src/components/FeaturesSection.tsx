@@ -24,7 +24,7 @@ const colors = [
 ];
 
 export function FeaturesSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="why-cynova" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
@@ -50,7 +50,7 @@ export function FeaturesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold text-foreground"
+            className={language === "ru" ? "text-3xl md:text-4xl font-bold text-foreground" : "text-4xl md:text-5xl font-bold text-foreground"}
           >
             {t.features.sectionTitle}
           </motion.h3>
