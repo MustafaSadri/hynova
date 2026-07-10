@@ -24,7 +24,7 @@ const colors = [
 ];
 
 export function FeaturesSection() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <section id="why-cynova" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
@@ -50,7 +50,7 @@ export function FeaturesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className={language === "ru" ? "text-3xl md:text-4xl font-bold text-foreground" : "text-4xl md:text-5xl font-bold text-foreground"}
+            className="text-4xl md:text-5xl font-bold text-foreground"
           >
             {t.features.sectionTitle}
           </motion.h3>
@@ -73,7 +73,7 @@ export function FeaturesSection() {
                 {icons[index]}
               </div>
               <h4 className="text-lg font-bold text-foreground mb-3 relative z-10">{feature.title}</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
+              <p className="text-base text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
 
               {/* Corner accent */}
               <div className={`absolute top-0 right-0 w-16 h-16 ${colors[index].bg} rounded-bl-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-500`} />

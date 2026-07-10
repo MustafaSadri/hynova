@@ -142,9 +142,9 @@ const translations = {
       items: [
         { title: "UAE Strategic Hub", description: "Headquartered in the UAE — at the crossroads of global trade routes, providing unparalleled access to international markets." },
         { title: "Swiss Expertise", description: "Precision engineering and pharmaceutical heritage from Swiss manufacturing standards applied to every product we produce." },
-        { title: "American Technology", description: "Cutting-edge US biotechnology integration — from advanced synthesis to state-of-the-art quality control systems." },
+        { title: "American Technology", description: "Cutting-edge US research and development — from advanced synthesis to state-of-the-art quality control systems." },
         { title: "GMP Quality Standards", description: "Full adherence to international Good Manufacturing Practice standards, ensuring product safety and regulatory compliance." },
-        { title: "Premium Patient Experience", description: "Modern pharmaceutical design focused on patient convenience, compliance, and optimal therapeutic outcomes." },
+        { title: "Premium Approach", description: "Modern pharmaceutical design focused on patient convenience, compliance, and optimal therapeutic outcomes." },
         { title: "Global Partnerships", description: "An expansive and growing network of international medical partners, distributors, and research institutions." },
       ],
     },
@@ -322,7 +322,7 @@ const translations = {
     // ── Hero ───────────────────────────────────────────────────────────────────
     hero: {
       badge: "Метаболическое здоровье нового поколения",
-      title: "CYNOVA\nПознай нового себя",
+      title: "CYNOVA\nОткрой себя нового",
       subtitle: "Точность ОАЭ. Швейцарская экспертиза. Американские технологии. Переопределяем мировые стандарты здоровья.",
       exploreBtn: "Изучить портфолио",
       contactBtn: "Связаться",
@@ -354,7 +354,7 @@ const translations = {
         {
           name: "Retatrutide Injection",
           category: "Тройной агонист рецепторов · Инъекционный",
-          description: "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения тройным агонистом для максимальной эффективности.",
+          description: "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения, представляющая собой тройной агонист для максимальной эффективности.",
           specs: [
             "Механизм: Тройной агонист (GLP-1 / GIP / GCG)",
             "Доступные дозировки: 8 мг, 16 мг, 24 мг, 40 мг",
@@ -367,7 +367,7 @@ const translations = {
         {
           name: "Retatrutide Powder",
           category: "Тройной агонист рецепторов · Лиофилизированный",
-          description: "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения тройным агонистом для максимальной эффективности.",
+          description: "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения, представляющая собой тройной агонист для максимальной эффективности.",
           specs: [
             "Механизм: Тройной агонист (GLP-1 / GIP / GCG)",
             "Доступные дозировки: 8 мг, 16 мг, 24 мг, 40 мг",
@@ -439,7 +439,7 @@ const translations = {
         },
         {
           title: "Масштабируемое производство",
-          desc: "готовность удовлетворять глобальный всплеск спроса.",
+          desc: "удовлетворять глобально растущий спрос.",
         },
       ],
     },
@@ -451,9 +451,9 @@ const translations = {
       items: [
         { title: "Штаб-квартира в ОАЭ", description: "стратегическое расположение в центре глобальной торговли и инноваций." },
         { title: "Швейцарский опыт", description: "точное инженерное решение и фармацевтическое наследие." },
-        { title: "Американские технологии", description: "передовые технологические разработки." },
+        { title: "Американские технологии", description: "передовые научно-исследовательские разработки." },
         { title: "Качество", description: "соблюдение высочайших международных стандартов GMP." },
-        { title: "Премиальность", description: "современный фармацевтический дизайн и ориентация на пациента." },
+        { title: "Премиальный подход", description: "современный фармацевтический дизайн и ориентация на пациента." },
         { title: "Партнерство", description: "широкая сеть медицинских партнеров по всему миру." },
       ],
     },

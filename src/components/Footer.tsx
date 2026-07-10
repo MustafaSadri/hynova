@@ -71,7 +71,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-foreground font-semibold mb-5 text-sm tracking-wide">{t.footer.quickLinks}</h4>
+            <h4 className="text-foreground font-semibold mb-5 text-base tracking-wide">{t.footer.quickLinks}</h4>
             <ul className="space-y-3">
               {t.footer.links.map((link, i) => (
                 <li key={i}>
@@ -92,7 +92,7 @@ export function Footer() {
 
           {/* Portfolio */}
           <div>
-            <h4 className="text-foreground font-semibold mb-5 text-sm tracking-wide">{t.footer.portfolioLabel}</h4>
+            <h4 className="text-foreground font-semibold mb-5 text-base tracking-wide">{t.footer.portfolioLabel}</h4>
             <ul className="space-y-3">
               {["Retatrutide Injection", "Retatrutide Powder", "Tirzepatide Injection", "Tirzepatide Powder", "Orforglipron Tablets"].map((name) => (
                 <li key={name}>
@@ -104,7 +104,7 @@ export function Footer() {
 
           {/* Legal + Disclaimer */}
           <div>
-            <h4 className="text-foreground font-semibold mb-5 text-sm tracking-wide">{t.footer.legal}</h4>
+            <h4 className="text-foreground font-semibold mb-5 text-base tracking-wide">{t.footer.legal}</h4>
             <ul className="space-y-3 mb-6">
               {t.footer.legalLinks.map((link, i) => (
                 <li key={i}>

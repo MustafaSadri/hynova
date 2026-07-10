@@ -300,7 +300,7 @@ function VerifyContent() {
             />
           </div>
           <h1 className="text-3xl font-bold text-foreground mb-2">{t.verify.title}</h1>
-          <p className="text-muted-foreground text-sm leading-relaxed">{t.verify.subtitle}</p>
+          <p className="text-muted-foreground text-base leading-relaxed">{t.verify.subtitle}</p>
         </div>
 
         {/* Scan QR Button */}

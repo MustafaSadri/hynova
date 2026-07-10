@@ -16,7 +16,7 @@ function InstagramIcon({ className = "w-5 h-5" }: { className?: string }) {
 import { useLanguage } from "@/context/LanguageContext";
 
 export function ContactSection() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const contactItems = [
     {
@@ -75,9 +75,7 @@ export function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className={language === "ru"
-              ? "text-3xl md:text-4xl font-bold mb-3 text-foreground leading-tight"
-              : "text-4xl md:text-5xl font-bold mb-3 text-foreground leading-tight"}
+            className="text-4xl md:text-5xl font-bold mb-3 text-foreground leading-tight"
           >
             {t.contact.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">{t.contact.titleHighlight}</span>
           </motion.h3>

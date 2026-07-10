@@ -35,7 +35,7 @@ export function ProductPortfolio() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={language === "ru" ? "text-2xl md:text-4xl font-bold mb-6" : "text-3xl md:text-5xl font-bold mb-6"}
+            className="text-3xl md:text-5xl font-bold mb-6"
           >
             {t.portfolio.sectionTitle}
           </motion.h2>
@@ -80,7 +80,7 @@ export function ProductPortfolio() {
                       <div className="p-8 flex flex-col flex-grow">
                         <h3 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase mb-2">{product.category}</h3>
                         <h4 className="text-2xl font-bold text-foreground mb-4">{product.name}</h4>
-                        <p className="text-muted-foreground mb-8 flex-grow text-sm leading-relaxed">{product.description}</p>
+                        <p className="text-muted-foreground mb-8 flex-grow text-[17px] leading-relaxed">{product.description}</p>
                         <button
                           onClick={(e) => { e.stopPropagation(); toggleFlip(index); }}
                           className="flex items-center text-sm font-medium text-foreground mt-auto opacity-70 group-hover:opacity-100 transition-opacity cursor-pointer text-left bg-transparent border-none p-0 focus:outline-none"
@@ -99,7 +99,7 @@ export function ProductPortfolio() {
                       <h4 className="text-2xl font-bold text-foreground mb-6">{product.name}</h4>
                       <ul className="space-y-4 mb-8 flex-grow">
                         {product.specs.map((spec, sIdx) => (
-                          <li key={sIdx} className="flex items-start text-sm text-muted-foreground leading-relaxed text-left">
+                          <li key={sIdx} className="flex items-start text-[15px] text-muted-foreground leading-relaxed text-left">
                             <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-3 flex-shrink-0 mt-2"></span>
                             <span>{spec}</span>
                           </li>
@@ -128,7 +128,7 @@ export function ProductPortfolio() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={language === "ru" ? "text-lg md:text-2xl font-bold mb-4" : "text-2xl md:text-4xl font-bold mb-4"}
+              className={language === "ru" ? "text-xl md:text-3xl font-bold mb-4" : "text-2xl md:text-4xl font-bold mb-4"}
             >
               {t.comparisonTable.title}
             </motion.h3>
@@ -136,7 +136,7 @@ export function ProductPortfolio() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-muted-foreground text-sm max-w-2xl mx-auto"
+              className="text-muted-foreground text-base max-w-2xl mx-auto"
             >
               {t.comparisonTable.subtitle}
             </motion.p>
@@ -151,16 +151,16 @@ export function ProductPortfolio() {
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-border/50 bg-secondary/50">
-                  <th className="p-5 text-sm font-bold text-foreground">
+                  <th className="p-5 text-base font-bold text-foreground">
                     {t.comparisonTable.headers.feature}
                   </th>
-                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                  <th className="p-5 text-base font-bold text-foreground text-center">
                     {t.comparisonTable.rows[0].name}
                   </th>
-                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                  <th className="p-5 text-base font-bold text-foreground text-center">
                     {t.comparisonTable.rows[1].name}
                   </th>
-                  <th className="p-5 text-sm font-bold text-foreground text-center">
+                  <th className="p-5 text-base font-bold text-foreground text-center">
                     {t.comparisonTable.rows[2].name}
                   </th>
                 </tr>
@@ -168,61 +168,61 @@ export function ProductPortfolio() {
               <tbody className="divide-y divide-border/40">
                 {/* Mechanism */}
                 <tr>
-                  <td className="p-5 text-sm font-semibold text-foreground">
+                  <td className="p-5 text-base font-semibold text-foreground">
                     {t.comparisonTable.headers.mechanism}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-purple-500/5">
                     {t.comparisonTable.rows[0].mechanism}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-teal-500/5">
                     {t.comparisonTable.rows[1].mechanism}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-orange-500/5">
                     {t.comparisonTable.rows[2].mechanism}
                   </td>
                 </tr>
                 {/* Administration */}
                 <tr>
-                  <td className="p-5 text-sm font-semibold text-foreground">
+                  <td className="p-5 text-base font-semibold text-foreground">
                     {t.comparisonTable.headers.administration}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-purple-500/5">
                     {t.comparisonTable.rows[0].administration}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-teal-500/5">
                     {t.comparisonTable.rows[1].administration}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-orange-500/5">
                     {t.comparisonTable.rows[2].administration}
                   </td>
                 </tr>
                 {/* Primary Target */}
                 <tr>
-                  <td className="p-5 text-sm font-semibold text-foreground">
+                  <td className="p-5 text-base font-semibold text-foreground">
                     {t.comparisonTable.headers.target}
                   </td>
-                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-purple-500/5">
+                  <td className="p-5 text-base text-foreground font-semibold text-center bg-purple-500/5">
                     {t.comparisonTable.rows[0].target}
                   </td>
-                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-teal-500/5">
+                  <td className="p-5 text-base text-foreground font-semibold text-center bg-teal-500/5">
                     {t.comparisonTable.rows[1].target}
                   </td>
-                  <td className="p-5 text-sm text-foreground font-semibold text-center bg-orange-500/5">
+                  <td className="p-5 text-base text-foreground font-semibold text-center bg-orange-500/5">
                     {t.comparisonTable.rows[2].target}
                   </td>
                 </tr>
                 {/* Patient Profile */}
                 <tr>
-                  <td className="p-5 text-sm font-semibold text-foreground">
+                  <td className="p-5 text-base font-semibold text-foreground">
                     {t.comparisonTable.headers.profile}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-purple-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-purple-500/5">
                     {t.comparisonTable.rows[0].profile}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-teal-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-teal-500/5">
                     {t.comparisonTable.rows[1].profile}
                   </td>
-                  <td className="p-5 text-sm text-muted-foreground text-center bg-orange-500/5">
+                  <td className="p-5 text-base text-muted-foreground text-center bg-orange-500/5">
                     {t.comparisonTable.rows[2].profile}
                   </td>
                 </tr>

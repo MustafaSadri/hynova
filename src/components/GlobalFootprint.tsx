@@ -130,8 +130,8 @@ export function GlobalFootprint() {
 
                   <div className="relative z-10">
                     <p className={`text-xs uppercase tracking-widest font-semibold ${c.accent} mb-2`}>{phase.phase}</p>
-                    <h4 className={language === "ru" ? "text-base font-bold text-foreground mb-3" : "text-xl font-bold text-foreground mb-3"}>{phase.title}</h4>
-                    <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{phase.description}</p>
+                    <h4 className={language === "ru" ? "text-lg font-bold text-foreground mb-3" : "text-xl font-bold text-foreground mb-3"}>{phase.title}</h4>
+                    <p className="text-base text-muted-foreground mb-5 leading-relaxed">{phase.description}</p>
 
                     {/* Region tags */}
                     <div className="flex flex-wrap gap-2">
