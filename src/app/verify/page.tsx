@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { MoleculeBackground } from "@/components/MoleculeBackground";
 import jsQR from "jsqr";
 
 type VerifyResult =
@@ -270,10 +271,21 @@ function VerifyContent() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-16 relative overflow-hidden">
+    <main className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-24 md:py-16 relative overflow-hidden">
+      {/* Peptide molecule network — same decorative layer as the homepage hero */}
+      <div className="absolute inset-0 z-0 text-primary molecule-bg-slow pointer-events-none opacity-60">
+        <MoleculeBackground />
+      </div>
+
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/20 via-background/60 to-background pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_35%,oklch(0.50_0.16_192/8%),transparent)] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-      <Link href="/" className="absolute top-6 left-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+      <Link
+        href="/"
+        className="absolute top-4 left-4 md:top-6 md:left-6 z-20 inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-primary rounded-full border border-border/30 bg-background/60 backdrop-blur-xl shadow-[0_12px_40px_rgba(14,116,144,0.06),0_1px_2px_rgba(14,116,144,0.02)] transition-colors"
+      >
         <ArrowLeft className="w-4 h-4" />
         {t.verify.backLink}
       </Link>
@@ -285,23 +297,41 @@ function VerifyContent() {
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center justify-center mb-6">
-            <span className="flex h-3 w-3 rounded-full bg-primary mr-3 shadow-[0_0_10px_rgba(8,145,178,0.5)]" />
-            <span className="text-xl font-bold tracking-widest text-foreground">CYNOVA.LIFE</span>
+          <Link href="/" className="inline-flex flex-col items-center group/logo mb-5">
+            <div className="relative flex items-center justify-center mb-4 pointer-events-none">
+              {/* Elegant soft glowing halo behind the symbol */}
+              <div className="absolute w-28 h-28 md:w-32 md:h-32 bg-[radial-gradient(circle,oklch(0.50_0.16_192/12%)_0%,transparent_70%)] rounded-full blur-xl pointer-events-none" />
+              {/* Glassmorphic backplate for the symbol */}
+              <div className="absolute w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/5 border border-white/10 backdrop-blur-[2px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_10px_30px_rgba(0,0,0,0.02)] pointer-events-none" />
+              <div className="relative w-14 md:w-16 aspect-[435/342] transition-transform duration-500 group-hover/logo:scale-105 pointer-events-auto filter drop-shadow-[0_12px_24px_oklch(0.50_0.16_192/16%)]">
+                <Image
+                  src="/cynova-c-symbol.png"
+                  alt="CYNOVA"
+                  fill
+                  className="object-contain"
+                  sizes="64px"
+                  priority
+                />
+              </div>
+            </div>
+            <span className="text-lg font-bold tracking-widest text-foreground transition-colors group-hover/logo:text-primary">
+              CYNOVA<span className="text-primary">.</span>LIFE
+            </span>
           </Link>
-          <div className="relative w-16 h-16 mb-4 mx-auto transition-transform duration-300 hover:scale-105">
-            <Image
-              src="/cynova-logo.png"
-              alt="CYNOVA"
-              fill
-              className="object-contain mix-blend-multiply"
-              sizes="64px"
-              priority
-            />
+
+          <div className="mb-6 flex justify-center">
+            <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-sm tracking-widest uppercase">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-primary mr-2 animate-pulse" />
+              {t.hero.badge}
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t.verify.title}</h1>
+
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">{t.verify.title}</h1>
           <p className="text-muted-foreground text-base leading-relaxed">{t.verify.subtitle}</p>
         </div>
+
+        {/* Verification card */}
+        <div className="bg-card/80 backdrop-blur-xl border border-border/50 rounded-3xl shadow-[0_20px_60px_-15px_rgba(14,116,144,0.15)] p-5 md:p-6 mb-6">
 
         {/* Scan QR Button */}
         {!isScannerOpen && (
@@ -324,7 +354,7 @@ function VerifyContent() {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.97 }}
-              className="bg-card border border-border/50 shadow-xl rounded-2xl p-6 mb-6 overflow-hidden relative"
+              className="bg-background/60 border border-border/50 rounded-2xl p-6 mb-2 overflow-hidden relative"
             >
               {/* Close button */}
               <button
@@ -457,22 +487,23 @@ function VerifyContent() {
           )}
         </AnimatePresence>
 
-        <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+        <form onSubmit={handleSubmit} className="flex gap-2">
           <Input
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder={t.verify.placeholder}
-            className="h-12 bg-card border-border/50 focus-visible:ring-primary font-mono text-sm"
+            className="h-12 bg-background/60 border-border/50 rounded-xl focus-visible:ring-primary font-mono text-sm"
             disabled={result.status === "loading"}
           />
           <Button
             type="submit"
-            className="h-12 px-4 bg-primary text-primary-foreground hover:bg-primary/90 flex-shrink-0"
+            className="h-12 px-4 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_4px_20px_oklch(0.50_0.16_192/30%)] flex-shrink-0"
             disabled={result.status === "loading" || !code.trim()}
           >
             {result.status === "loading" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
           </Button>
         </form>
+        </div>
 
         <AnimatePresence mode="wait">
           {result.status === "valid" && (
@@ -482,7 +513,7 @@ function VerifyContent() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.35 }}
-              className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6"
+              className="bg-emerald-50/90 backdrop-blur-xl border border-emerald-200 rounded-3xl shadow-[0_20px_60px_-15px_rgba(16,185,129,0.2)] p-6"
             >
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle2 className="w-9 h-9 text-emerald-600 flex-shrink-0" />
@@ -518,7 +549,7 @@ function VerifyContent() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.35 }}
-              className="bg-red-50 border border-red-200 rounded-2xl p-6"
+              className="bg-red-50/90 backdrop-blur-xl border border-red-200 rounded-3xl shadow-[0_20px_60px_-15px_rgba(239,68,68,0.2)] p-6"
             >
               <div className="flex items-center gap-3 mb-4">
                 <XCircle className="w-9 h-9 text-red-500 flex-shrink-0" />
