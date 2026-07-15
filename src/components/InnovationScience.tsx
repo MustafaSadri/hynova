@@ -123,8 +123,8 @@ export function InnovationScience() {
                     {stepIcons[i]}
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-foreground mb-1.5">{step.title}</h4>
-                    <p className="text-base text-muted-foreground leading-relaxed">{step.desc}</p>
+                    <h4 className="text-lg md:text-xl font-bold text-foreground mb-1.5 leading-snug">{step.title}</h4>
+                    <p className="text-lg md:text-[19px] text-muted-foreground leading-relaxed">{step.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -190,8 +190,8 @@ export function InnovationScience() {
                     <span className="inline-block text-xs font-bold px-2 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary uppercase tracking-wider mb-2">
                       {step.status}
                     </span>
-                    <h4 className="text-lg font-bold text-foreground mb-2">{step.name}</h4>
-                    <p className="text-[15px] text-muted-foreground leading-relaxed max-w-[220px] lg:mx-auto">
+                    <h4 className="text-lg md:text-xl font-bold text-foreground mb-2 leading-snug">{step.name}</h4>
+                    <p className="text-[17px] md:text-lg text-muted-foreground leading-relaxed max-w-[260px] lg:mx-auto">
                       {step.desc}
                     </p>
                   </div>

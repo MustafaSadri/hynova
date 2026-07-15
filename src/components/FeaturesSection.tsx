@@ -72,8 +72,8 @@ export function FeaturesSection() {
               <div className={`w-14 h-14 rounded-2xl ${colors[index].bg} border ${colors[index].border} flex items-center justify-center mb-5 relative z-10 ${colors[index].text} transition-transform duration-300 group-hover:scale-110`}>
                 {icons[index]}
               </div>
-              <h4 className="text-lg font-bold text-foreground mb-3 relative z-10">{feature.title}</h4>
-              <p className="text-base text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
+              <h4 className="text-lg md:text-xl font-bold text-foreground mb-3 relative z-10 leading-snug">{feature.title}</h4>
+              <p className="text-lg md:text-[19px] text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
 
               {/* Corner accent */}
               <div className={`absolute top-0 right-0 w-16 h-16 ${colors[index].bg} rounded-bl-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-500`} />

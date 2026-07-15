@@ -79,8 +79,8 @@ export function TherapeuticFocus() {
               <div className={`w-12 h-12 rounded-xl ${colors[index].bg} border ${colors[index].border} flex items-center justify-center mb-5 relative z-10 ${colors[index].text} transition-transform duration-300 group-hover:scale-110`}>
                 {icons[index]}
               </div>
-              <h4 className="text-base font-bold text-foreground mb-2.5 relative z-10">{item.title}</h4>
-              <p className="text-[15px] text-muted-foreground leading-relaxed relative z-10">{item.desc}</p>
+              <h4 className="text-lg font-bold text-foreground mb-2.5 relative z-10 leading-snug">{item.title}</h4>
+              <p className="text-[17px] md:text-lg text-muted-foreground leading-relaxed relative z-10">{item.desc}</p>
             </motion.div>
           ))}
         </div>

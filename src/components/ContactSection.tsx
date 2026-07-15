@@ -105,7 +105,7 @@ export function ContactSection() {
                 {item.icon}
               </div>
               <div className="flex flex-col justify-center">
-                <h4 className="font-semibold text-foreground text-xs uppercase tracking-wider text-muted-foreground/80 mb-1">{item.title}</h4>
+                <h4 className="font-semibold text-foreground text-[15px] uppercase tracking-wider text-muted-foreground/80 mb-1">{item.title}</h4>
                 {item.href ? (
                   <a
                     href={item.href}
@@ -119,7 +119,7 @@ export function ContactSection() {
                   <p className="text-lg font-bold text-foreground leading-tight">{item.value}</p>
                 )}
                 {item.subtitle && (
-                  <p className="text-xs text-muted-foreground mt-1">{item.subtitle}</p>
+                  <p className="text-base text-muted-foreground mt-1">{item.subtitle}</p>
                 )}
               </div>
             </motion.div>

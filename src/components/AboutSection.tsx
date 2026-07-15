@@ -80,8 +80,8 @@ export function AboutSection() {
                 <div className={`w-11 h-11 rounded-xl ${statColors[index].bg} border ${statColors[index].border} flex items-center justify-center ${statColors[index].text} mb-4 relative z-10`}>
                   {icons[index]}
                 </div>
-                <div className={`text-3xl font-bold mb-1 ${statColors[index].text} relative z-10`}>{stat.value}</div>
-                <div className="text-sm text-muted-foreground font-medium leading-snug relative z-10">{stat.label}</div>
+                <div className={`text-3xl md:text-4xl font-bold mb-1.5 ${statColors[index].text} relative z-10`}>{stat.value}</div>
+                <div className="text-[17px] md:text-lg text-muted-foreground font-medium leading-normal relative z-10">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -102,8 +102,8 @@ export function AboutSection() {
             className="bg-card border border-border/50 p-8 rounded-2xl relative overflow-hidden group shadow-sm hover:shadow-md transition-all duration-300"
           >
             <div className="absolute top-0 left-0 w-1.5 h-full bg-primary" />
-            <h4 className="text-xl font-bold text-foreground mb-4">{t.visionMission.visionTitle}</h4>
-            <p className="text-muted-foreground leading-relaxed italic text-base">
+            <h4 className="text-xl md:text-2xl font-bold text-foreground mb-4">{t.visionMission.visionTitle}</h4>
+            <p className="text-muted-foreground leading-relaxed italic text-lg md:text-xl">
               &ldquo;{t.visionMission.visionText}&rdquo;
             </p>
           </motion.div>
@@ -117,8 +117,8 @@ export function AboutSection() {
             className="bg-card border border-border/50 p-8 rounded-2xl relative overflow-hidden group shadow-sm hover:shadow-md transition-all duration-300"
           >
             <div className="absolute top-0 left-0 w-1.5 h-full bg-primary" />
-            <h4 className="text-xl font-bold text-foreground mb-6">{t.visionMission.missionTitle}</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <h4 className="text-xl md:text-2xl font-bold text-foreground mb-6">{t.visionMission.missionTitle}</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {t.visionMission.missionItems.map((item, idx) => (
                 <div key={idx} className="flex gap-2">
                   <div className="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
@@ -127,8 +127,8 @@ export function AboutSection() {
                     </svg>
                   </div>
                   <div>
-                    <h5 className="font-semibold text-foreground text-sm leading-tight mb-1">{item.title}</h5>
-                    <p className="text-[13px] text-muted-foreground leading-relaxed">{item.desc}</p>
+                    <h5 className="font-semibold text-foreground text-[17px] md:text-lg leading-snug mb-1">{item.title}</h5>
+                    <p className="text-base md:text-[17px] text-muted-foreground leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}

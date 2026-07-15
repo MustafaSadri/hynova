@@ -518,8 +518,8 @@ function VerifyContent() {
               <div className="flex items-center gap-3 mb-5">
                 <CheckCircle2 className="w-9 h-9 text-emerald-600 flex-shrink-0" />
                 <div>
-                  <p className="font-bold text-emerald-800 text-lg leading-tight">{t.verify.validTitle}</p>
-                  <p className="text-emerald-600 text-sm">{t.verify.validSubtitle}</p>
+                  <p className="font-bold text-emerald-800 text-lg md:text-xl leading-tight">{t.verify.validTitle}</p>
+                  <p className="text-emerald-600 text-[17px]">{t.verify.validSubtitle}</p>
                 </div>
               </div>
               <div className="border-t border-emerald-200 pt-4 space-y-3">
@@ -530,13 +530,13 @@ function VerifyContent() {
                   [t.verify.manufacturedLabel, result.manufactured],
                   [t.verify.expiryLabel, result.expiry],
                 ] as [string, string][]).map(([label, value]) => (
-                  <div key={label} className="flex justify-between text-sm">
+                  <div key={label} className="flex justify-between text-[17px]">
                     <span className="text-emerald-700 font-medium">{label}</span>
                     <span className="text-emerald-900 font-semibold text-right ml-4">{value}</span>
                   </div>
                 ))}
               </div>
-              <button onClick={handleReset} className="mt-5 text-xs text-emerald-600 hover:text-emerald-800 underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none p-0">
+              <button onClick={handleReset} className="mt-5 text-sm text-emerald-600 hover:text-emerald-800 underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none p-0">
                 {t.verify.verifyAnother}
               </button>
             </motion.div>
@@ -554,21 +554,21 @@ function VerifyContent() {
               <div className="flex items-center gap-3 mb-4">
                 <XCircle className="w-9 h-9 text-red-500 flex-shrink-0" />
                 <div>
-                  <p className="font-bold text-red-800 text-lg leading-tight">{t.verify.invalidTitle}</p>
-                  <p className="text-red-600 text-sm">{t.verify.invalidSubtitle}</p>
+                  <p className="font-bold text-red-800 text-lg md:text-xl leading-tight">{t.verify.invalidTitle}</p>
+                  <p className="text-red-600 text-[17px]">{t.verify.invalidSubtitle}</p>
                 </div>
               </div>
               <p className="text-red-600 text-sm">
                 <a href="mailto:Enquiries@cynova.life" className="font-semibold underline underline-offset-2 hover:text-red-800 transition-colors">Enquiries@cynova.life</a>
               </p>
-              <button onClick={handleReset} className="mt-4 text-xs text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none p-0">
+              <button onClick={handleReset} className="mt-4 text-sm text-red-500 hover:text-red-700 underline underline-offset-2 transition-colors cursor-pointer bg-transparent border-none p-0">
                 {t.verify.tryAgain}
               </button>
             </motion.div>
           )}
         </AnimatePresence>
 
-        <p className="text-center text-xs text-muted-foreground mt-8">
+        <p className="text-center text-sm text-muted-foreground mt-8">
           {t.verify.poweredBy}{" "}
           <a href="mailto:Enquiries@cynova.life" className="text-primary hover:underline">Enquiries@cynova.life</a>
         </p>

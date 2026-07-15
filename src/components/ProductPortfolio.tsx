@@ -197,11 +197,11 @@ export function ProductPortfolio() {
 
                   {/* Product details */}
                   <div className="flex flex-grow flex-col p-7 md:p-8">
-                    <p className={`mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] ${meta.accentText}`}>
+                    <p className={`mb-2.5 text-xs font-semibold uppercase tracking-[0.14em] ${meta.accentText}`}>
                       {product.category}
                     </p>
-                    <h3 className="mb-3 text-xl md:text-2xl font-bold text-foreground">{product.name}</h3>
-                    <p className="mb-8 flex-grow text-[15px] leading-relaxed text-muted-foreground line-clamp-3">
+                    <h3 className="mb-3 text-xl md:text-2xl font-bold text-foreground leading-snug">{product.name}</h3>
+                    <p className="mb-8 flex-grow text-[17px] md:text-lg leading-relaxed text-muted-foreground line-clamp-3">
                       {product.description}
                     </p>
                     <button
@@ -373,18 +373,18 @@ export function ProductPortfolio() {
               </div>
 
               <div className="flex flex-col p-8 md:max-h-[88vh] md:overflow-y-auto md:p-10">
-                <p className={`mb-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] ${quickViewMeta.accentText}`}>
+                <p className={`mb-2.5 text-xs font-semibold uppercase tracking-[0.14em] ${quickViewMeta.accentText}`}>
                   {quickView.category}
                 </p>
-                <h3 className="mb-4 text-2xl md:text-3xl font-bold text-foreground">{quickView.name}</h3>
-                <p className="mb-8 text-[15px] leading-relaxed text-muted-foreground">{quickView.description}</p>
+                <h3 className="mb-4 text-2xl md:text-3xl font-bold text-foreground leading-snug">{quickView.name}</h3>
+                <p className="mb-8 text-lg leading-relaxed text-muted-foreground">{quickView.description}</p>
 
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   {t.portfolio.specsLabel}
                 </p>
                 <ul className="space-y-3.5 border-t border-border/40 pt-6">
                   {quickView.specs.map((spec, sIdx) => (
-                    <li key={sIdx} className="flex items-start text-[15px] leading-relaxed text-muted-foreground">
+                    <li key={sIdx} className="flex items-start text-lg leading-relaxed text-muted-foreground">
                       <span className={`mr-3 mt-2 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full ${quickViewMeta.accentDot}`}></span>
                       <span>{spec}</span>
                     </li>

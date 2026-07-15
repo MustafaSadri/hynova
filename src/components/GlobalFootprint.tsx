@@ -130,15 +130,15 @@ export function GlobalFootprint() {
 
                   <div className="relative z-10">
                     <p className={`text-xs uppercase tracking-widest font-semibold ${c.accent} mb-2`}>{phase.phase}</p>
-                    <h4 className={language === "ru" ? "text-lg font-bold text-foreground mb-3" : "text-xl font-bold text-foreground mb-3"}>{phase.title}</h4>
-                    <p className="text-base text-muted-foreground mb-5 leading-relaxed">{phase.description}</p>
+                    <h4 className={language === "ru" ? "text-lg md:text-xl font-bold text-foreground mb-3 leading-snug" : "text-xl md:text-2xl font-bold text-foreground mb-3 leading-snug"}>{phase.title}</h4>
+                    <p className="text-lg md:text-[19px] text-muted-foreground mb-5 leading-relaxed">{phase.description}</p>
 
                     {/* Region tags */}
                     <div className="flex flex-wrap gap-2">
                       {phase.regions.map((region) => (
                         <span
                           key={region}
-                          className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-secondary border border-border text-muted-foreground"
+                          className="inline-flex items-center gap-1 text-[15px] px-2.5 py-1 rounded-full bg-secondary border border-border text-muted-foreground"
                         >
                           <CheckCircle2 className={`w-2.5 h-2.5 ${c.accent}`} />
                           {region}
