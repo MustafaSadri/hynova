@@ -26,7 +26,7 @@ export function LanguagePopup() {
             {/* Logo */}
             <div className="inline-flex items-center justify-center mb-6">
               <span className="flex h-2.5 w-2.5 rounded-full bg-primary mr-2.5 shadow-[0_0_10px_rgba(8,145,178,0.5)]" />
-              <span className="text-lg font-bold tracking-widest text-foreground">CYNOVA.LIFE</span>
+              <span className="text-lg font-bold tracking-widest text-foreground">CYNAPEPT</span>
             </div>
 
             <h2 className="text-xl font-bold text-foreground mb-1">{t.popup.title}</h2>

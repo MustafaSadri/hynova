@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const GLOW_STYLE = `
-@keyframes cynova-chat-glow {
+@keyframes cynapept-chat-glow {
   0%, 100% { box-shadow: 0 0 14px 2px oklch(0.50 0.16 192 / 45%), 0 6px 18px rgba(0,0,0,0.18); }
   50% { box-shadow: 0 0 28px 8px oklch(0.50 0.16 192 / 75%), 0 6px 18px rgba(0,0,0,0.18); }
 }
-.cynova-chat-glow { animation: cynova-chat-glow 2.6s ease-in-out infinite; }
+.cynapept-chat-glow { animation: cynapept-chat-glow 2.6s ease-in-out infinite; }
 `;
 
 type ChatMessage = {
@@ -21,7 +21,7 @@ type ChatMessage = {
 const GREETING: ChatMessage = {
   role: "assistant",
   content:
-    "Hi! I'm the Cynova Assistant. I can help you understand our metabolic health products — Retatrutide, Tirzepatide, and Orforglipron — and find what fits what you're looking for. What brings you here today?",
+    "Hi! I'm the Cynapept Assistant. I can help you understand our metabolic health products — Retatrutide, Tirzepatide, and Orforglipron — and find what fits what you're looking for. What brings you here today?",
 };
 
 const QUICK_QUESTIONS = [
@@ -93,7 +93,7 @@ export function ChatWidget() {
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close chat" : "Open chat"}
-          className="cynova-chat-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
+          className="cynapept-chat-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
         >
           {open ? <X className="size-6" /> : <Stethoscope className="size-6" />}
           {!open && (
@@ -108,12 +108,12 @@ export function ChatWidget() {
       {open && (
         <div className="fixed bottom-24 right-6 z-50 flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-primary/15 bg-card/95 shadow-2xl shadow-primary/20 backdrop-blur-xl">
           <div className="flex items-center gap-3 border-b border-border/50 bg-gradient-to-r from-primary/15 via-secondary/40 to-transparent p-4">
-            <div className="cynova-chat-glow flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground">
+            <div className="cynapept-chat-glow flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-teal-500 to-cyan-400 text-primary-foreground">
               <Stethoscope className="size-5" />
             </div>
             <div>
               <h3 className="flex items-center gap-1.5 font-bold text-foreground">
-                Cynova Assistant
+                Cynapept Assistant
                 <Sparkles className="size-3.5 text-primary" />
               </h3>
               <p className="text-xs text-muted-foreground">Product Q&A · not a substitute for medical advice</p>

@@ -2,8 +2,8 @@
 // in translations.ts so the assistant never states anything about a product
 // that isn't already published on the site.
 
-export const CYNOVA_KNOWLEDGE_BASE = `
-# CYNOVA.LIFE — Company Overview
+export const CYNAPEPT_KNOWLEDGE_BASE = `
+# CYNAPEPT — Company Overview
 Tagline: "The Science of A New You."
 Positioning: UAE precision, Swiss expertise, American technology — redefining global standards in metabolic health.
 Vision: To become one of the world's most trusted pharmaceutical innovators in metabolic health, setting the benchmark for efficacy and safety.
@@ -73,5 +73,5 @@ Specs:
 - Orforglipron: single-target oral option for those who prefer no needles and daily-tablet convenience.
 
 # Quality & Verification
-Every CYNOVA product ships with a unique QR/product code that customers can verify for authenticity on the site's /verify page (camera scan or manual code entry).
+Every CYNAPEPT product ships with a unique QR/product code that customers can verify for authenticity on the site's /verify page (camera scan or manual code entry).
 `;

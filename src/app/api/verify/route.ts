@@ -12,14 +12,14 @@ const VALID_CODES: Record<string, {
   expiry: string;
 }> = {
   // ── Retatrutide Injection ──────────────────────────────────────────────────
-  "CYNOVA-RET-INJ-A1B2C3": {
+  "CYNAPEPT-RET-INJ-A1B2C3": {
     product: "Retatrutide Injection",
     category: "Injectable Peptide",
     batch: "BATCH-RET-001",
     manufactured: "January 2025",
     expiry: "January 2027",
   },
-  "CYNOVA-RET-INJ-P7Q8R9": {
+  "CYNAPEPT-RET-INJ-P7Q8R9": {
     product: "Retatrutide Injection",
     category: "Injectable Peptide",
     batch: "BATCH-RET-002",
@@ -28,14 +28,14 @@ const VALID_CODES: Record<string, {
   },
 
   // ── Retatrutide Powder ─────────────────────────────────────────────────────
-  "CYNOVA-RET-POW-D4E5F6": {
+  "CYNAPEPT-RET-POW-D4E5F6": {
     product: "Retatrutide Powder",
     category: "Lyophilized Peptide",
     batch: "BATCH-RET-001",
     manufactured: "January 2025",
     expiry: "January 2027",
   },
-  "CYNOVA-RET-POW-X2Y3Z4": {
+  "CYNAPEPT-RET-POW-X2Y3Z4": {
     product: "Retatrutide Powder",
     category: "Lyophilized Peptide",
     batch: "BATCH-RET-002",
@@ -44,14 +44,14 @@ const VALID_CODES: Record<string, {
   },
 
   // ── Tirzepatide Injection ──────────────────────────────────────────────────
-  "CYNOVA-TIR-INJ-G7H8I9": {
+  "CYNAPEPT-TIR-INJ-G7H8I9": {
     product: "Tirzepatide Injection",
     category: "Injectable Peptide",
     batch: "BATCH-TIR-001",
     manufactured: "February 2025",
     expiry: "February 2027",
   },
-  "CYNOVA-TIR-INJ-S1T2U3": {
+  "CYNAPEPT-TIR-INJ-S1T2U3": {
     product: "Tirzepatide Injection",
     category: "Injectable Peptide",
     batch: "BATCH-TIR-002",
@@ -60,14 +60,14 @@ const VALID_CODES: Record<string, {
   },
 
   // ── Tirzepatide Powder ─────────────────────────────────────────────────────
-  "CYNOVA-TIR-POW-J1K2L3": {
+  "CYNAPEPT-TIR-POW-J1K2L3": {
     product: "Tirzepatide Powder",
     category: "Lyophilized Peptide",
     batch: "BATCH-TIR-001",
     manufactured: "February 2025",
     expiry: "February 2027",
   },
-  "CYNOVA-TIR-POW-W5X6Y7": {
+  "CYNAPEPT-TIR-POW-W5X6Y7": {
     product: "Tirzepatide Powder",
     category: "Lyophilized Peptide",
     batch: "BATCH-TIR-002",
@@ -76,14 +76,14 @@ const VALID_CODES: Record<string, {
   },
 
   // ── Orforglipron Tablets ───────────────────────────────────────────────────
-  "CYNOVA-ORF-TAB-M4N5O6": {
+  "CYNAPEPT-ORF-TAB-M4N5O6": {
     product: "Orforglipron Tablets",
     category: "Oral Non-peptide",
     batch: "BATCH-ORF-001",
     manufactured: "March 2025",
     expiry: "March 2027",
   },
-  "CYNOVA-ORF-TAB-V4W5X6": {
+  "CYNAPEPT-ORF-TAB-V4W5X6": {
     product: "Orforglipron Tablets",
     category: "Oral Non-peptide",
     batch: "BATCH-ORF-002",

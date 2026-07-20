@@ -1,0 +1,441 @@
+================================================================================
+CYNAPEPT — WEBSITE CONTENT (ENGLISH VERSION)
+Sections are numbered in the order they appear on the website.
+The Russian file (WEBSITE-CONTENT-RU.txt) uses the same numbering,
+so each item can be compared side by side.
+================================================================================
+
+
+--------------------------------------------------------------------------------
+1. NAVIGATION MENU
+--------------------------------------------------------------------------------
+1.1  About
+1.2  Portfolio
+1.3  Manufacturing
+1.4  Why Us
+1.5  Contact
+1.6  Verify (mobile button)
+1.7  Verify Product (button)
+
+
+--------------------------------------------------------------------------------
+2. HERO (TOP OF HOMEPAGE)
+--------------------------------------------------------------------------------
+2.1  Badge:      Next-Gen Metabolic Health
+2.2  Title:      CYNAPEPT
+                 Discover the New You
+2.3  Subtitle:   UAE precision. Swiss expertise. American technology.
+                 Redefining global standards in metabolic health.
+2.4  Button 1:   Explore Portfolio
+2.5  Button 2:   Contact Us
+
+
+--------------------------------------------------------------------------------
+3. ABOUT SECTION ("WHO WE ARE")
+--------------------------------------------------------------------------------
+3.1  Section label:     Who We Are
+3.2  Title:             UAE-Based Pharmaceutical Innovator
+3.3  Title highlight:   Redefining Global Standards
+
+3.4  Paragraph 1:
+CYNAPEPT is a UAE-based pharmaceutical leader that unites Swiss precision
+engineering with cutting-edge American technology to deliver next-generation
+metabolic health solutions.
+
+3.5  Paragraph 2:
+Our objective is clear: to become one of the world's most trusted innovators
+in obesity medicine — setting the benchmark for efficacy, safety, and patient
+outcomes across the globe.
+
+3.6  Statistics:
+     - UAE    — Headquarters & Strategic Hub
+     - 3+     — Premium Products Available
+     - 99.9%  — Purity Guarantee Per Batch
+     - GMP    — Certified Manufacturing
+
+
+--------------------------------------------------------------------------------
+4. VISION & MISSION (INSIDE ABOUT SECTION)
+--------------------------------------------------------------------------------
+4.1  Vision title:   Our Vision
+4.2  Vision text:
+To become one of the world's most trusted pharmaceutical innovators in
+metabolic health, setting the benchmark for efficacy and safety.
+
+4.3  Mission title:  Our Mission
+4.4  Mission items:
+     1) Scientific Innovation — Pushing the boundaries of metabolic medicine
+        with cutting-edge research.
+     2) Premium Quality Standards — Rigorous quality controls and GMP
+        certified production.
+     3) Global Manufacturing Excellence — Advanced facilities designed for
+        scale and temperature-sensitive integrity.
+     4) Patient-Centric Approach — Delivering therapies optimized for
+        compliance and premium patient experiences.
+
+
+--------------------------------------------------------------------------------
+5. THERAPEUTIC FOCUS
+--------------------------------------------------------------------------------
+5.1  Section label:  Therapeutic Focus
+5.2  Title:          Targeting Core Metabolic Diseases
+5.3  Subtitle:
+Our scientific research and product formulations address the most pressing
+global health challenges of our time.
+
+5.4  Focus areas:
+     1) Metabolic Health — Supporting overall physiological pathways and
+        cellular health.
+     2) Weight Management — Precision therapeutic intervention for sustained
+        weight regulation.
+     3) Obesity — Setting new standards in obesity medicine through advanced
+        triple receptor agonists.
+     4) Type 2 Diabetes — Validated glycemic control therapies optimizing
+        pancreatic function.
+     5) Cardiometabolic — Addressing complex heart and metabolic syndromes
+        collectively.
+
+
+--------------------------------------------------------------------------------
+6. PRODUCT PORTFOLIO
+--------------------------------------------------------------------------------
+6.1  Section title:  Our Product Portfolio
+6.2  Subtitle:
+Next-generation metabolic health therapies — precision-engineered for maximum
+efficacy, safety, and patient compliance.
+
+6.3  Filter buttons:
+     - All Products
+     - Injectable
+     - Lyophilized
+     - Oral Tablets
+
+6.4  Buttons on product cards:
+     - View Specifications
+     - Back to Overview
+     - Specifications (label)
+
+──────────────────────────────
+6.5  PRODUCT 1: Retatrutide Injection
+──────────────────────────────
+Category:     Triple Receptor Agonist · Injectable
+Description:
+The world's most powerful triple-agonist peptide targeting GLP-1, GIP, and
+Glucagon receptors simultaneously for superior metabolic regulation.
+
+Specifications:
+     1) Mechanism: Triple Receptor Agonist (GLP-1 / GIP / GCG)
+     2) Available strengths: 8 mg, 16 mg, 24 mg, 40 mg
+     3) Format: Pre-filled injection pen — once weekly subcutaneous
+     4) Proven up to 24% body weight reduction in clinical trials
+     5) Strongest efficacy in class with direct fat-burning pathways
+     6) GMP-certified, cold-chain maintained, batch-tested ≥ 99.9% purity
+
+──────────────────────────────
+6.6  PRODUCT 2: Retatrutide Powder
+──────────────────────────────
+Category:     Triple Receptor Agonist · Lyophilized
+Description:
+High-purity lyophilized Retatrutide formulation for extended stability —
+ideal for research facilities and clinical applications.
+
+Specifications:
+     1) Mechanism: Triple Receptor Agonist (GLP-1 / GIP / GCG)
+     2) Available strengths: 8 mg, 16 mg, 24 mg, 40 mg
+     3) Format: Lyophilized powder — reconstituted before use
+     4) Verified ≥ 99.9% purity via HPLC certificate of analysis
+     5) Freeze-dried to maintain peak stability and long shelf life
+     6) Zero additives, stabilizers, or fillers — pharmaceutical grade
+
+──────────────────────────────
+6.7  PRODUCT 3: Tirzepatide Injection
+──────────────────────────────
+Category:     Dual Receptor Agonist · Injectable
+Description:
+Dual-targeted GLP-1 and GIP receptor agonist delivering clinically validated
+glycemic control and significant weight reduction.
+
+Specifications:
+     1) Mechanism: Dual Receptor Agonist (GLP-1 / GIP)
+     2) Available strengths: 2.5, 5, 7.5, 10, 12.5, 15 mg
+     3) Format: Pre-filled injection pen — once weekly subcutaneous
+     4) Slows gastric emptying for prolonged satiety and appetite control
+     5) Robust glycemic control and metabolic regulation in T2DM
+     6) Highly documented safety profile across global clinical studies
+
+──────────────────────────────
+6.8  PRODUCT 4: Tirzepatide Powder
+──────────────────────────────
+Category:     Dual Receptor Agonist · Lyophilized
+Description:
+Premium-grade lyophilized Tirzepatide with guaranteed 99.9% purity — the
+clinical research standard.
+
+Specifications:
+     1) Mechanism: Dual Receptor Agonist (GLP-1 / GIP)
+     2) Available strengths: 2.5, 5, 7.5, 10, 12.5, 15 mg
+     3) Format: Lyophilized powder — reconstituted before use
+     4) Guaranteed ≥ 99.9% purity with detailed HPLC certificate
+     5) Freeze-dried format for maximum long-term shelf life
+     6) Ideal for clinical labs requiring exact compound concentrations
+
+──────────────────────────────
+6.9  PRODUCT 5: Orforglipron Tablets
+──────────────────────────────
+Category:     Oral GLP-1 Receptor Agonist · Non-peptide
+Description:
+Next-generation oral non-peptide GLP-1 receptor agonist — effective metabolic
+therapy without injections.
+
+Specifications:
+     1) Mechanism: Oral GLP-1 Receptor Agonist (non-peptide)
+     2) Available strengths: 0.8, 2.5, 5.5, 9, 14.5, 17.2 mg
+     3) Format: Daily oral tablet — 30 pills per bottle
+     4) No needles — simple once-daily tablet administration
+     5) Directly stimulates GLP-1 receptors for appetite regulation
+     6) Room-temperature stable — easy to store and travel with
+
+
+--------------------------------------------------------------------------------
+7. PRODUCT COMPARISON TABLE
+--------------------------------------------------------------------------------
+7.1  Title:     Product Comparison
+7.2  Subtitle:
+Evaluate mechanisms, administration methods, and patient profile targets
+across our formulations.
+
+7.3  Table headers:
+     - Feature
+     - Mechanism
+     - Administration
+     - Primary Target
+     - Patient Profile
+
+7.4  Row 1 — Retatrutide:
+     Mechanism:       Triple Agonist (GLP-1 / GIP / GCG)
+     Administration:  Weekly Injection
+     Primary Target:  Maximum Weight Reduction
+     Patient Profile: Treatment Resistant Cases
+
+7.5  Row 2 — Tirzepatide:
+     Mechanism:       Dual Agonist (GLP-1 / GIP)
+     Administration:  Weekly Injection
+     Primary Target:  Obesity & T2D Control
+     Patient Profile: Mainline Clinical Patients
+
+7.6  Row 3 — Orforglipron:
+     Mechanism:       Oral Agonist (GLP-1)
+     Administration:  Daily Tablet
+     Primary Target:  Convenient Weight Mgmt
+     Patient Profile: Preference for Oral Therapy
+
+
+--------------------------------------------------------------------------------
+8. MANUFACTURING EXCELLENCE
+--------------------------------------------------------------------------------
+8.1  Section label:     Manufacturing Excellence
+8.2  Title:             Built on Precision,
+8.3  Title highlight:   Delivered with Integrity
+
+8.4  Steps:
+     1) GMP-Certified Manufacturing — Every CYNAPEPT product is manufactured
+        in GMP-certified facilities, adhering to the strictest international
+        pharmaceutical standards across all production stages.
+     2) Cold Chain Integrity — Our dedicated cold-chain logistics ensure
+        temperature-sensitive peptides maintain full potency and stability
+        from production through final delivery.
+     3) Multi-Stage Quality Assurance — Each batch undergoes comprehensive
+        HPLC analysis, sterility testing, and independent third-party
+        verification to guarantee ≥ 99.9% purity.
+     4) Scalable Production Capacity — Our infrastructure is engineered for
+        global-scale output, ensuring consistent availability and rapid
+        response to growing international demand.
+
+
+--------------------------------------------------------------------------------
+9. PRODUCT PIPELINE & ROADMAP
+--------------------------------------------------------------------------------
+9.1  Title:     Product Pipeline & Roadmap
+9.2  Subtitle:
+Our development roadmap outlines our transition from flagship metabolic
+therapies to cardiovascular development.
+
+9.3  Steps:
+     01) Retatrutide — Status: Current Flagship
+         Triple-receptor agonist actively leading weight-regulation outcomes.
+     02) Tirzepatide — Status: In Market
+         Dual GLP-1/GIP agonist with extensive clinical validation and
+         distribution.
+     03) Orforglipron — Status: Rollout Phase
+         High-compliance daily tablet making obesity treatment injection-free.
+     04) Cardio Portfolio — Status: 2026 Development
+         Broadening therapeutic reach into cardiovascular and lipid health.
+
+
+--------------------------------------------------------------------------------
+10. WHY CHOOSE CYNAPEPT
+--------------------------------------------------------------------------------
+10.1  Section label:  Why Choose CYNAPEPT
+10.2  Section title:  The CYNAPEPT Advantage
+
+10.3  Advantages:
+     1) UAE Strategic Hub — Headquartered in the UAE — at the crossroads of
+        global trade routes, providing unparalleled access to international
+        markets.
+     2) Swiss Expertise — Precision engineering and pharmaceutical heritage
+        from Swiss manufacturing standards applied to every product we
+        produce.
+     3) American Technology — Cutting-edge US research and development —
+        from advanced synthesis to state-of-the-art quality control systems.
+     4) GMP Quality Standards — Full adherence to international Good
+        Manufacturing Practice standards, ensuring product safety and
+        regulatory compliance.
+     5) Premium Approach — Modern pharmaceutical design focused on patient
+        convenience, compliance, and optimal therapeutic outcomes.
+     6) Global Partnerships — An expansive and growing network of
+        international medical partners, distributors, and research
+        institutions.
+
+
+--------------------------------------------------------------------------------
+11. GLOBAL EXPANSION
+--------------------------------------------------------------------------------
+11.1  Section label:    Global Expansion
+11.2  Title:            A Vision Without
+11.3  Title highlight:  Borders
+11.4  Subtitle:
+CYNAPEPT is executing a structured three-phase global expansion strategy,
+delivering trusted metabolic health solutions to patients worldwide.
+
+11.5  Phase 1 — Status: Active Now
+      Title: Middle East & CIS
+      Description:
+      Establishing our presence in the UAE and expanding across the Middle
+      East, Russia, and the CIS region with premium metabolic therapies.
+      Regions: United Arab Emirates, Saudi Arabia, Russia, Kazakhstan,
+      Azerbaijan
+
+11.6  Phase 2 — Status: Coming Soon
+      Title: Europe & Asia
+      Description:
+      Strategic market entry into European and Asian markets, partnering
+      with established medical distributors and clinical networks.
+      Regions: Germany, France, Turkey, India, Singapore
+
+11.7  Phase 3 — Status: 2026+
+      Title: Global Network
+      Description:
+      Comprehensive worldwide distribution infrastructure — delivering
+      CYNAPEPT solutions to patients across every inhabited continent.
+      Regions: Americas, Africa, Oceania, Southeast Asia, Rest of World
+
+
+--------------------------------------------------------------------------------
+12. CONTACT SECTION
+--------------------------------------------------------------------------------
+12.1  Section label:    Get In Touch
+12.2  Title:            Let's Advance Health
+12.3  Title highlight:  Together
+12.4  Subtitle:
+Whether you are a medical professional, distributor, or institutional
+partner — our team is ready to support you with dedicated expertise.
+
+12.5  Contact details:
+      Email (label):              Email
+      Email (value):              support@cynova.life
+      WhatsApp / Telegram:        +971 503702435
+      Note under phone:           Dubai, UAE — Global reach
+      Headquarters (label):       Headquarters
+      Address:                    Dubai, United Arab Emirates
+      Instagram:                  @Cynova.life
+
+
+--------------------------------------------------------------------------------
+13. FOOTER
+--------------------------------------------------------------------------------
+13.1  Tagline:
+UAE precision. Swiss expertise. American technology. Redefining the future
+of metabolic health.
+
+13.2  Column headings:
+      - Quick Links
+      - Portfolio
+      - Legal
+
+13.3  Quick links:
+      About Us, Manufacturing, Quality Assurance, Global Presence, Careers
+
+13.4  Legal links:
+      Terms & Conditions, Privacy Policy, Cookie Policy, Compliance
+
+13.5  Disclaimer label:  Disclaimer:
+13.6  Disclaimer text:
+Information provided is for educational and professional purposes. Products
+are intended for qualified healthcare professionals.
+
+13.7  Other footer text:
+      - All rights reserved.
+      - All systems operational
+      - Verify Product
+      - Enquiries@cynova.life (contact email in footer)
+
+
+--------------------------------------------------------------------------------
+14. PRODUCT VERIFICATION PAGE
+--------------------------------------------------------------------------------
+14.1  Back link:        Back to CYNAPEPT
+14.2  Title:            Product Verification
+14.3  Subtitle:
+Enter the authentication code from your product sticker or scan the QR code
+to confirm authenticity.
+
+14.4  Input placeholder:   e.g. CYNAPEPT-RET-INJ-A1B2C3
+
+14.5  Valid result:
+      Title:     Authentic Product ✓
+      Subtitle:  This product is genuine and verified by CYNAPEPT.
+
+14.6  Invalid result:
+      Title:     Code Not Found
+      Subtitle:  This code does not match any product in our system. This
+                 product may not be authentic.
+
+14.7  Buttons:
+      - Verify another code
+      - Try again
+      - Scan QR Code
+
+14.8  Product detail labels:
+      - Product
+      - Category
+      - Batch No.
+      - Manufactured
+      - Expiry
+
+14.9  QR scanner:
+      - Scan with Camera (tab)
+      - Upload Image (tab)
+      - Starting camera feed...
+      - Camera access failed. Please ensure permissions are granted.
+      - Close Scanner
+      - Drag & drop QR code image, or click to upload
+      - Scanning uploaded file...
+      - QR code detected successfully!
+      - No valid QR code found. Please ensure the code is clear.
+
+14.10 Footer note:
+Powered by CYNAPEPT Authentication System — For support contact
+Enquiries@cynova.life
+
+
+--------------------------------------------------------------------------------
+15. LANGUAGE SELECTION POPUP
+--------------------------------------------------------------------------------
+15.1  Title:     Choose Your Language
+15.2  Subtitle:  Select your preferred language for the website
+15.3  Options:   English / Русский
+
+
+================================================================================
+END OF ENGLISH CONTENT
+================================================================================

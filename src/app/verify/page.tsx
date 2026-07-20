@@ -31,16 +31,16 @@ type VerifyResult =
 
 // Prototype hardcoded codes — replace with database lookup when scaling up
 const VALID_CODES: Record<string, { product: string; category: string; batch: string; manufactured: string; expiry: string }> = {
-  "CYNOVA-RET-INJ-A1B2C3": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
-  "CYNOVA-RET-INJ-P7Q8R9": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
-  "CYNOVA-RET-POW-D4E5F6": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
-  "CYNOVA-RET-POW-X2Y3Z4": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
-  "CYNOVA-TIR-INJ-G7H8I9": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
-  "CYNOVA-TIR-INJ-S1T2U3": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
-  "CYNOVA-TIR-POW-J1K2L3": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
-  "CYNOVA-TIR-POW-W5X6Y7": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
-  "CYNOVA-ORF-TAB-M4N5O6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-001", manufactured: "March 2025", expiry: "March 2027" },
-  "CYNOVA-ORF-TAB-V4W5X6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-002", manufactured: "May 2025", expiry: "May 2027" },
+  "CYNAPEPT-RET-INJ-A1B2C3": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
+  "CYNAPEPT-RET-INJ-P7Q8R9": { product: "Retatrutide Injection", category: "Injectable Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNAPEPT-RET-POW-D4E5F6": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-001", manufactured: "January 2025", expiry: "January 2027" },
+  "CYNAPEPT-RET-POW-X2Y3Z4": { product: "Retatrutide Powder", category: "Lyophilized Peptide", batch: "BATCH-RET-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNAPEPT-TIR-INJ-G7H8I9": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
+  "CYNAPEPT-TIR-INJ-S1T2U3": { product: "Tirzepatide Injection", category: "Injectable Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNAPEPT-TIR-POW-J1K2L3": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-001", manufactured: "February 2025", expiry: "February 2027" },
+  "CYNAPEPT-TIR-POW-W5X6Y7": { product: "Tirzepatide Powder", category: "Lyophilized Peptide", batch: "BATCH-TIR-002", manufactured: "April 2025", expiry: "April 2027" },
+  "CYNAPEPT-ORF-TAB-M4N5O6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-001", manufactured: "March 2025", expiry: "March 2027" },
+  "CYNAPEPT-ORF-TAB-V4W5X6": { product: "Orforglipron Tablets", category: "Oral Non-peptide", batch: "BATCH-ORF-002", manufactured: "May 2025", expiry: "May 2027" },
 };
 
 function VerifyContent() {
@@ -306,7 +306,7 @@ function VerifyContent() {
               <div className="relative w-14 md:w-16 aspect-[435/342] transition-transform duration-500 group-hover/logo:scale-105 pointer-events-auto filter drop-shadow-[0_12px_24px_oklch(0.50_0.16_192/16%)]">
                 <Image
                   src="/cynova-c-symbol.png"
-                  alt="CYNOVA"
+                  alt="CYNAPEPT"
                   fill
                   className="object-contain"
                   sizes="64px"
@@ -315,7 +315,7 @@ function VerifyContent() {
               </div>
             </div>
             <span className="text-lg font-bold tracking-widest text-foreground transition-colors group-hover/logo:text-primary">
-              CYNOVA<span className="text-primary">.</span>LIFE
+              CYNAPEPT
             </span>
           </Link>
 

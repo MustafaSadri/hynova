@@ -29,13 +29,13 @@ export function Footer() {
               <div className="w-8 h-8 relative">
                 <Image
                   src="/cynova-logo.png"
-                  alt="CYNOVA"
+                  alt="CYNAPEPT"
                   fill
                   className="object-contain mix-blend-multiply"
                   sizes="32px"
                 />
               </div>
-              <span className="text-lg font-bold tracking-widest text-foreground">CYNOVA<span className="text-primary">.</span>LIFE</span>
+              <span className="text-lg font-bold tracking-widest text-foreground">CYNAPEPT</span>
             </Link>
             <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{t.footer.tagline}</p>
 
@@ -125,7 +125,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-border/40 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} CYNOVA.LIFE. {t.footer.allRights}
+            © {new Date().getFullYear()} CYNAPEPT. {t.footer.allRights}
           </p>
           <div className="flex items-center gap-6">
             <span className="text-xs text-muted-foreground flex items-center gap-1.5">

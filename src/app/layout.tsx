@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CYNOVA.LIFE — The Science of A New You",
+  title: "CYNAPEPT — The Science of A New You",
   description: "UAE-based pharmaceutical innovator combining Swiss expertise and American technology to deliver next-generation metabolic health solutions.",
 };
 

@@ -13,7 +13,7 @@ const translations = {
     // ── Hero ───────────────────────────────────────────────────────────────────
     hero: {
       badge: "Next-Gen Metabolic Health",
-      title: "CYNOVA\nDiscover the New You",
+      title: "CYNAPEPT\nDiscover the New You",
       subtitle: "UAE precision. Swiss expertise. American technology. Redefining global standards in metabolic health.",
       exploreBtn: "Explore Portfolio",
       contactBtn: "Contact Us",
@@ -24,7 +24,7 @@ const translations = {
       sectionLabel: "Who We Are",
       title: "UAE-Based Pharmaceutical Innovator",
       titleHighlight: "Redefining Global Standards",
-      p1: "CYNOVA.LIFE is a UAE-based pharmaceutical leader that unites Swiss precision engineering with cutting-edge American technology to deliver next-generation metabolic health solutions.",
+      p1: "CYNAPEPT is a UAE-based pharmaceutical leader that unites Swiss precision engineering with cutting-edge American technology to deliver next-generation metabolic health solutions.",
       p2: "Our objective is clear: to become one of the world's most trusted innovators in obesity medicine — setting the benchmark for efficacy, safety, and patient outcomes across the globe.",
       stats: [
         { value: "UAE", label: "Headquarters & Strategic Hub" },
@@ -118,7 +118,7 @@ const translations = {
       steps: [
         {
           title: "GMP-Certified Manufacturing",
-          desc: "Every CYNOVA product is manufactured in GMP-certified facilities, adhering to the strictest international pharmaceutical standards across all production stages.",
+          desc: "Every CYNAPEPT product is manufactured in GMP-certified facilities, adhering to the strictest international pharmaceutical standards across all production stages.",
         },
         {
           title: "Cold Chain Integrity",
@@ -135,10 +135,10 @@ const translations = {
       ],
     },
 
-    // ── Why CYNOVA ─────────────────────────────────────────────────────────────
+    // ── Why CYNAPEPT ─────────────────────────────────────────────────────────────
     features: {
-      sectionLabel: "Why Choose CYNOVA",
-      sectionTitle: "The CYNOVA Advantage",
+      sectionLabel: "Why Choose CYNAPEPT",
+      sectionTitle: "The CYNAPEPT Advantage",
       items: [
         { title: "UAE Strategic Hub", description: "Headquartered in the UAE — at the crossroads of global trade routes, providing unparalleled access to international markets." },
         { title: "Swiss Expertise", description: "Precision engineering and pharmaceutical heritage from Swiss manufacturing standards applied to every product we produce." },
@@ -154,7 +154,7 @@ const translations = {
       sectionLabel: "Global Expansion",
       title: "A Vision Without",
       titleHighlight: "Borders",
-      subtitle: "CYNOVA is executing a structured three-phase global expansion strategy, delivering trusted metabolic health solutions to patients worldwide.",
+      subtitle: "CYNAPEPT is executing a structured three-phase global expansion strategy, delivering trusted metabolic health solutions to patients worldwide.",
       phases: [
         {
           phase: "Phase 1",
@@ -174,7 +174,7 @@ const translations = {
           phase: "Phase 3",
           status: "2026+",
           title: "Global Network",
-          description: "Comprehensive worldwide distribution infrastructure — delivering CYNOVA solutions to patients across every inhabited continent.",
+          description: "Comprehensive worldwide distribution infrastructure — delivering CYNAPEPT solutions to patients across every inhabited continent.",
           regions: ["Americas", "Africa", "Oceania", "Southeast Asia", "Rest of World"],
         },
       ],
@@ -213,12 +213,12 @@ const translations = {
 
     // ── Verify Page ────────────────────────────────────────────────────────────
     verify: {
-      backLink: "Back to CYNOVA.LIFE",
+      backLink: "Back to CYNAPEPT",
       title: "Product Verification",
       subtitle: "Enter the authentication code from your product sticker or scan the QR code to confirm authenticity.",
-      placeholder: "e.g. CYNOVA-RET-INJ-A1B2C3",
+      placeholder: "e.g. CYNAPEPT-RET-INJ-A1B2C3",
       validTitle: "Authentic Product ✓",
-      validSubtitle: "This product is genuine and verified by CYNOVA.LIFE.",
+      validSubtitle: "This product is genuine and verified by CYNAPEPT.",
       invalidTitle: "Code Not Found",
       invalidSubtitle: "This code does not match any product in our system. This product may not be authentic.",
       verifyAnother: "Verify another code",
@@ -228,7 +228,7 @@ const translations = {
       batchLabel: "Batch No.",
       manufacturedLabel: "Manufactured",
       expiryLabel: "Expiry",
-      poweredBy: "Powered by CYNOVA.LIFE Authentication System — For support contact",
+      poweredBy: "Powered by CYNAPEPT Authentication System — For support contact",
       scanQrBtn: "Scan QR Code",
       scanCameraTab: "Scan with Camera",
       scanUploadTab: "Upload Image",
@@ -322,7 +322,7 @@ const translations = {
     // ── Hero ───────────────────────────────────────────────────────────────────
     hero: {
       badge: "Метаболическое здоровье нового поколения",
-      title: "CYNOVA\nОткрой себя нового",
+      title: "CYNAPEPT\nОткрой себя нового",
       subtitle: "Высокая точность производства в ОАЭ. Швейцарская экспертиза. Американские технологии. Мы переосмысливаем мировые стандарты в сфере метаболического здоровья.",
       exploreBtn: "Изучить портфолио",
       contactBtn: "Связаться",
@@ -333,7 +333,7 @@ const translations = {
       sectionLabel: "Кто мы",
       title: "Фармацевтический инноватор из ОАЭ",
       titleHighlight: "Определяем мировые стандарты",
-      p1: "CYNOVA — фармацевтический лидер с головным офисом в ОАЭ, специализирующийся на инновационных методах лечения метаболических нарушений и терапии контроля веса.",
+      p1: "CYNAPEPT — фармацевтический лидер с головным офисом в ОАЭ, специализирующийся на инновационных методах лечения метаболических нарушений и терапии контроля веса.",
       p2: "Опираясь на швейцарский опыт и американские технологии, мы разрабатываем решения следующего поколения, сочетающие научный подход с высоким уровнем комфорта и удобства для пациента. Наша цель предельно ясна: стать одним из самых надежных мировых новаторов в области лечения ожирения, задавая новые глобальные эталоны эффективности, безопасности и результатов для пациентов.",
       stats: [
         { value: "ОАЭ", label: "Штаб-квартира и стратегический хаб" },
@@ -444,10 +444,10 @@ const translations = {
       ],
     },
 
-    // ── Why CYNOVA ─────────────────────────────────────────────────────────────
+    // ── Why CYNAPEPT ─────────────────────────────────────────────────────────────
     features: {
-      sectionLabel: "Почему CYNOVA",
-      sectionTitle: "Преимущества CYNOVA",
+      sectionLabel: "Почему CYNAPEPT",
+      sectionTitle: "Преимущества CYNAPEPT",
       items: [
         { title: "Штаб-квартира в ОАЭ", description: "стратегическое расположение в центре глобальной торговли и инноваций." },
         { title: "Швейцарский опыт", description: "точное инженерное решение и фармацевтическое наследие." },
@@ -463,7 +463,7 @@ const translations = {
       sectionLabel: "Глобальная экспансия",
       title: "Видение,",
       titleHighlight: "не знающее пределов",
-      subtitle: "CYNOVA реализует структурированную трёхэтапную стратегию глобального расширения, доставляя проверенные решения для метаболического здоровья пациентам по всему миру.",
+      subtitle: "CYNAPEPT реализует структурированную трёхэтапную стратегию глобального расширения, доставляя проверенные решения для метаболического здоровья пациентам по всему миру.",
       phases: [
         {
           phase: "Этап 1",
@@ -483,7 +483,7 @@ const translations = {
           phase: "Этап 3",
           status: "2026+",
           title: "Всеобъемлющая глобальная дистрибьюторская сеть",
-          description: "Комплексная всемирная дистрибьюторская инфраструктура — доставка решений CYNOVA пациентам на всех континентах.",
+          description: "Комплексная всемирная дистрибьюторская инфраструктура — доставка решений CYNAPEPT пациентам на всех континентах.",
           regions: ["Америка", "Африка", "Океания", "Юго-Восточная Азия", "остальные международные рынки"],
         },
       ],
@@ -522,12 +522,12 @@ const translations = {
 
     // ── Verify Page ────────────────────────────────────────────────────────────
     verify: {
-      backLink: "Назад на CYNOVA.LIFE",
+      backLink: "Назад на CYNAPEPT",
       title: "Проверка подлинности",
       subtitle: "Введите код аутентификации с наклейки на продукте или отсканируйте QR-код для подтверждения подлинности.",
-      placeholder: "напр. CYNOVA-RET-INJ-A1B2C3",
+      placeholder: "напр. CYNAPEPT-RET-INJ-A1B2C3",
       validTitle: "Подлинный продукт ✓",
-      validSubtitle: "Этот продукт является подлинным и проверен CYNOVA.LIFE.",
+      validSubtitle: "Этот продукт является подлинным и проверен CYNAPEPT.",
       invalidTitle: "Код не найден",
       invalidSubtitle: "Этот код не совпадает ни с одним продуктом в нашей системе. Продукт может быть неподлинным.",
       verifyAnother: "Проверить другой код",
@@ -537,7 +537,7 @@ const translations = {
       batchLabel: "Номер партии",
       manufacturedLabel: "Дата производства",
       expiryLabel: "Срок годности",
-      poweredBy: "Система аутентификации CYNOVA.LIFE — Для поддержки свяжитесь",
+      poweredBy: "Система аутентификации CYNAPEPT — Для поддержки свяжитесь",
       scanQrBtn: "Сканировать QR-код",
       scanCameraTab: "Сканировать камерой",
       scanUploadTab: "Загрузить изображение",

@@ -10,7 +10,7 @@ const navLinks = [
   { label: { en: "About", ru: "О нас" }, id: "about" },
   { label: { en: "Portfolio", ru: "Портфолио" }, id: "portfolio" },
   { label: { en: "Manufacturing", ru: "Производство" }, id: "manufacturing" },
-  { label: { en: "Why Us", ru: "Почему мы" }, id: "why-cynova" },
+  { label: { en: "Why Us", ru: "Почему мы" }, id: "why-cynapept" },
   { label: { en: "Contact", ru: "Контакт" }, id: "contact" },
 ];
 
@@ -60,14 +60,14 @@ export function Navbar() {
           <div className="relative w-9 aspect-[435/342] transition-transform duration-300 group-hover/logo:scale-105">
             <Image
               src="/cynova-c-symbol.png"
-              alt="CYNOVA"
+              alt="CYNAPEPT"
               fill
               className="object-contain"
               sizes="36px"
               priority
             />
           </div>
-          <span className="text-lg font-bold tracking-widest text-foreground transition-colors group-hover/logo:text-primary">CYNOVA<span className="text-primary">.</span>LIFE</span>
+          <span className="text-lg font-bold tracking-widest text-foreground transition-colors group-hover/logo:text-primary">CYNAPEPT</span>
         </Link>
 
         {/* Desktop nav */}

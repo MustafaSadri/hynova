@@ -132,7 +132,7 @@ export function HeroSection() {
             <div className="relative w-28 md:w-36 aspect-[435/342] transition-transform duration-500 hover:scale-105 pointer-events-auto cursor-pointer filter drop-shadow-[0_12px_24px_oklch(0.50_0.16_192/16%)]">
               <Image
                 src="/cynova-c-symbol.png"
-                alt="CYNOVA Brand Symbol"
+                alt="CYNAPEPT Brand Symbol"
                 fill
                 className="object-contain"
                 sizes="(max-w-768px) 112px, 144px"

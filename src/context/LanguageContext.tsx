@@ -19,7 +19,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [hasChosen, setHasChosen] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("cynova-lang") as Language | null;
+    const stored = localStorage.getItem("cynapept-lang") as Language | null;
     setTimeout(() => {
       if (stored === "en" || stored === "ru") {
         setLanguageState(stored);
@@ -33,7 +33,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     setHasChosen(true);
-    localStorage.setItem("cynova-lang", lang);
+    localStorage.setItem("cynapept-lang", lang);
   };
 
   return (

@@ -27,7 +27,7 @@ export function FeaturesSection() {
   const { t } = useLanguage();
 
   return (
-    <section id="why-cynova" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
+    <section id="why-cynapept" className="py-28 relative overflow-hidden bg-background scroll-mt-20">
       {/* Molecule network background */}
       <div className="absolute inset-0 text-primary molecule-bg pointer-events-none">
         <MoleculeBackground />
