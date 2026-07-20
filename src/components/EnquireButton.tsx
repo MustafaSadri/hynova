@@ -4,14 +4,16 @@ import { useState, type ReactNode } from "react";
 import { MessageCircle, Send } from "lucide-react";
 
 const PREFILLED_MESSAGE =
-  "Hi! I'm interested in CYNOVA's metabolic health products and have a few questions.";
+  "Hi! I'm interested in CYNAPEPT's metabolic health products and have a few questions.";
+
+const TELEGRAM_PHONE = "971503702435"; // +971 50 370 2435
 
 const GLOW_STYLE = `
-@keyframes cynova-enquire-glow {
+@keyframes cynapept-enquire-glow {
   0%, 100% { box-shadow: 0 0 14px 2px rgba(34,158,217,0.45), 0 6px 18px rgba(0,0,0,0.18); }
   50% { box-shadow: 0 0 28px 8px rgba(34,158,217,0.8), 0 6px 18px rgba(0,0,0,0.18); }
 }
-.cynova-enquire-glow { animation: cynova-enquire-glow 2.6s ease-in-out infinite; }
+.cynapept-enquire-glow { animation: cynapept-enquire-glow 2.6s ease-in-out infinite; }
 `;
 
 type Channel = {
@@ -24,19 +26,17 @@ type Channel = {
 export function EnquireButton() {
   const [open, setOpen] = useState(false);
 
-  const telegramUsername = process.env.NEXT_PUBLIC_TELEGRAM_USERNAME;
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const encodedMessage = encodeURIComponent(PREFILLED_MESSAGE);
 
-  const channels: Channel[] = [];
-  if (telegramUsername) {
-    channels.push({
+  const channels: Channel[] = [
+    {
       label: "Telegram",
-      href: `https://t.me/${telegramUsername}?text=${encodedMessage}`,
+      href: `https://t.me/+${TELEGRAM_PHONE}?text=${encodedMessage}`,
       icon: <Send className="size-4" />,
       className: "bg-[#229ED9]/10 text-[#1b8fc4] hover:bg-[#229ED9]/20",
-    });
-  }
+    },
+  ];
   if (whatsappNumber) {
     channels.push({
       label: "WhatsApp",
@@ -62,7 +62,7 @@ export function EnquireButton() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Message us on ${channel.label}`}
-          className="cynova-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
+          className="cynapept-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
         >
           {channel.icon}
           <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
@@ -85,7 +85,7 @@ export function EnquireButton() {
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close enquiry options" : "Enquire Now"}
-          className="cynova-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
+          className="cynapept-enquire-glow relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] text-white transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110"
         >
           <MessageCircle className="size-6" />
         </button>
