@@ -7,6 +7,8 @@
 export const translations = {
   en: {
     nav: {
+      home: "Home",
+      portfolio: "Portfolio",
       about: "About Us",
       quality: "Quality & Compliance",
       contact: "Contact",
@@ -224,6 +226,8 @@ export const translations = {
 
   ru: {
     nav: {
+      home: "Главная",
+      portfolio: "Портфолио",
       about: "О нас",
       quality: "Контроль качества",
       contact: "Контакты",
