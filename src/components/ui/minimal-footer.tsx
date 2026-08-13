@@ -16,25 +16,19 @@ export function MinimalFooter() {
   const year = new Date().getFullYear();
 
   const company = [
-    { title: "About Us", href: "#" },
-    { title: "Careers", href: "#" },
-    { title: "Quality & Compliance", href: "#" },
-    { title: "Privacy Policy", href: "#" },
-    { title: "Terms of Service", href: "#" },
+    { title: "About Us", href: "/about" },
+    { title: "Quality & Compliance", href: "/quality-compliance" },
   ];
 
   const resources = [
-    { title: "Verify Product", href: "#verify" },
-    { title: "Certificates of Analysis", href: "#" },
+    { title: "Verify Product", href: "/verify" },
     { title: "Help Center", href: "#" },
     { title: "Contact Support", href: "#contact" },
-    { title: "Shipping & Storage", href: "#" },
   ];
 
   const contactLinks = [
-    { icon: <MailIcon className="size-4" />, link: "mailto:hello@cynapept.com" },
+    { icon: <MailIcon className="size-4" />, link: "mailto:support@cynapept.com" },
     { icon: <MessageCircleIcon className="size-4" />, link: "#contact" },
-    { icon: <GlobeIcon className="size-4" />, link: "#" },
   ];
 
   return (

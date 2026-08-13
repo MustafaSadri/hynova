@@ -39,8 +39,7 @@ export function Hero() {
             Explore Portfolio
           </Link>
           <Link
-            href="#verify"
-            onClick={scrollToId("verify")}
+            href="/verify"
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
               "h-11 rounded-full border-white/[0.2] bg-transparent px-6 text-white/80 hover:border-white/40 hover:bg-white/[0.05] hover:text-white",

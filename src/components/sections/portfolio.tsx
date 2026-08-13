@@ -1,75 +1,52 @@
 "use client";
 
-import { Carousel, Card } from "@/components/ui/specials-linear-carousel";
+import { CoverflowCarousel } from "@/components/ui/coverflow-carousel";
 
-const products = [
+const TERAZEPTIDE_STRENGTHS = "2.5 · 5 · 7.5 · 10 · 12.5 · 15 mg";
+const RETATRUTIDE_STRENGTHS = "8 · 16 · 24 · 40 mg";
+const ORFORGLIPRON_STRENGTHS = "0.8 · 2.5 · 5.5 · 9 · 14.5 · 17.2 mg";
+
+const slides = [
   {
-    src: "/products/banner-pen.svg",
+    src: "/products/retatrutide-pen.jpg",
+    alt: "Retatrutide injectable pen packaging",
     title: "Retatrutide",
-    category: "Injectable Pen",
-    content: (
-      <p className="text-neutral-500">
-        Targets GLP-1, GIP, and Glucagon receptors simultaneously for
-        superior metabolic regulation.
-      </p>
-    ),
+    subtitle: "Injectable Pen",
+    meta: [{ label: "Strengths", value: RETATRUTIDE_STRENGTHS }],
   },
   {
-    src: "/products/banner-vial.svg",
+    src: "/products/retatrutide-vial.jpg",
+    alt: "Retatrutide lyophilized vial packaging",
     title: "Retatrutide",
-    category: "Lyophilized Vial",
-    content: (
-      <p className="text-neutral-500">
-        High-purity lyophilized formulation for extended stability and
-        research use.
-      </p>
-    ),
+    subtitle: "Lyophilized Vial",
+    meta: [{ label: "Strengths", value: RETATRUTIDE_STRENGTHS }],
   },
   {
-    src: "/products/banner-pen.svg",
+    src: "/products/tirzepatide-pen.jpg",
+    alt: "Tirzepatide injectable pen packaging",
     title: "Tirzepatide",
-    category: "Injectable Pen",
-    content: (
-      <p className="text-neutral-500">
-        Dual-targeted GLP-1 and GIP agonist for clinically validated
-        glycemic control.
-      </p>
-    ),
+    subtitle: "Injectable Pen",
+    meta: [{ label: "Strengths", value: TERAZEPTIDE_STRENGTHS }],
   },
   {
-    src: "/products/banner-vial.svg",
+    src: "/products/tirzepatide-vial.jpg",
+    alt: "Tirzepatide lyophilized vial packaging",
     title: "Tirzepatide",
-    category: "Lyophilized Vial",
-    content: (
-      <p className="text-neutral-500">
-        Premium-grade lyophilized compound at the clinical research
-        standard.
-      </p>
-    ),
+    subtitle: "Lyophilized Vial",
+    meta: [{ label: "Strengths", value: TERAZEPTIDE_STRENGTHS }],
   },
   {
     src: "/products/orforglipron-tablets.png",
+    alt: "Orforglipron oral tablets packaging",
     title: "Orforglipron",
-    category: "Oral Tablet",
-    content: (
-      <p className="text-neutral-500">
-        Next-generation oral therapy — effective metabolic support without
-        injections.
-      </p>
-    ),
+    subtitle: "Oral Tablets",
+    meta: [{ label: "Strengths", value: ORFORGLIPRON_STRENGTHS }],
   },
 ];
 
 export function Portfolio() {
-  const cards = products.map((card, index) => (
-    <Card key={card.src + card.title} card={card} index={index} />
-  ));
-
   return (
-    <section
-      id="portfolio"
-      className="relative bg-white px-6 pt-24 pb-8 md:pt-32 md:pb-12"
-    >
+    <section id="portfolio" className="relative bg-white px-6 pt-24 pb-8 md:pt-32 md:pb-12">
       <div className="mx-auto max-w-6xl">
         <div className="mb-4 max-w-2xl">
           <span className="inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm tracking-wide text-neutral-500">
@@ -87,9 +64,15 @@ export function Portfolio() {
           </p>
         </div>
 
-        <div className="w-full h-full py-4">
-          <Carousel items={cards} />
-        </div>
+        <CoverflowCarousel
+          slides={slides}
+          showCaption
+          showNavigation
+          showPagination
+          label="Cynapept product portfolio"
+          className="mt-8"
+          cardWidth="clamp(222px, 33vw, 390px)"
+        />
       </div>
     </section>
   );
