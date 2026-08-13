@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 import { scrollToId } from "@/lib/utils";
-import { LanguageToggle } from "@/components/ui/language-toggle";
+import { LanguageSelectorDropdown } from "@/components/ui/language-selector-dropdown";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -52,7 +52,7 @@ export function Navbar() {
           )}
         </nav>
 
-        <LanguageToggle />
+        <LanguageSelectorDropdown />
       </div>
     </header>
   );
