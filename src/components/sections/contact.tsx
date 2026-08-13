@@ -2,19 +2,26 @@
 
 import { useState, type FormEvent } from "react";
 import { ChevronDown } from "lucide-react";
-
-const INTERESTS = [
-  "General Updates",
-  "Injectable Pens",
-  "Lyophilized Vials",
-  "Oral Tablets",
-  "Partnership & Distribution",
-];
+import { useLanguage } from "@/lib/language-context";
+import { translations } from "@/lib/translations";
 
 export function Contact() {
+  const { language } = useLanguage();
+  const t = translations[language].contact;
+
   const [email, setEmail] = useState("");
   const [interest, setInterest] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  // Interest options are language-specific strings; drop a stale selection
+  // if the language changes mid-form. Adjusted during render (React's
+  // recommended pattern for this) rather than in an effect, so it takes
+  // effect in the same render instead of causing an extra one.
+  const [interestLanguage, setInterestLanguage] = useState(language);
+  if (language !== interestLanguage) {
+    setInterestLanguage(language);
+    setInterest("");
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -29,20 +36,19 @@ export function Contact() {
     >
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-light tracking-tight text-neutral-900 sm:text-5xl">
-          Get{" "}
+          {t.headingPlain}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-neutral-900 to-cyan-600">
-            Product Updates
+            {t.headingHighlight}
           </span>
         </h2>
         <p className="mt-5 text-base leading-relaxed text-neutral-500">
-          Leave your email and let us know what you&apos;re interested in —
-          we&apos;ll keep you posted on new formulations and availability.
+          {t.subtitle}
         </p>
 
         {submitted ? (
           <div className="mt-10 rounded-2xl border border-teal-200 bg-teal-50 px-6 py-5 text-sm text-teal-800">
-            Thank you — we&apos;ll keep <span className="font-medium">{email}</span>{" "}
-            updated on {interest.toLowerCase()}.
+            {t.confirmationPrefix} <span className="font-medium">{email}</span>{" "}
+            {t.confirmationMiddle} {interest.toLowerCase()}.
           </div>
         ) : (
           <form
@@ -54,8 +60,8 @@ export function Contact() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              aria-label="Email address"
+              placeholder={t.emailPlaceholder}
+              aria-label={t.emailLabel}
               className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
             />
 
@@ -64,13 +70,13 @@ export function Contact() {
                 value={interest}
                 onChange={(e) => setInterest(e.target.value)}
                 required
-                aria-label="I'm interested in"
+                aria-label={t.interestLabel}
                 className="h-12 w-full appearance-none rounded-full border border-neutral-200 bg-white px-5 pr-10 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500 sm:w-56"
               >
                 <option value="" disabled>
-                  I&apos;m interested in…
+                  {t.interestPlaceholder}
                 </option>
-                {INTERESTS.map((item) => (
+                {t.interests.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -83,7 +89,7 @@ export function Contact() {
               type="submit"
               className="h-12 shrink-0 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 px-7 text-sm font-medium text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] transition hover:from-teal-400 hover:to-cyan-400"
             >
-              Notify Me
+              {t.submit}
             </button>
           </form>
         )}

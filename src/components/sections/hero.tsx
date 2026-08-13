@@ -6,8 +6,13 @@ import { ShieldCheck } from "lucide-react";
 import { cn, scrollToId } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Nebula from "@/components/ui/nebula";
+import { useLanguage } from "@/lib/language-context";
+import { translations } from "@/lib/translations";
 
 export function Hero() {
+  const { language } = useLanguage();
+  const t = translations[language].hero;
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-[#0a0f1c]">
       <Nebula speed={1.1} color1="#7dfdf0" color2="#125a5f" color3="#050a14" />
@@ -23,7 +28,7 @@ export function Hero() {
             className="h-12 w-auto md:h-16"
           />
           <p className="text-xs uppercase tracking-[0.3em] text-white/50 sm:text-sm">
-            Pure · Precise · Precision
+            {t.tagline}
           </p>
         </div>
 
@@ -36,7 +41,7 @@ export function Hero() {
               "h-11 rounded-full border-0 bg-gradient-to-r from-teal-500 to-cyan-500 px-6 text-white shadow-[0_0_24px_rgba(45,212,191,0.25)] hover:from-teal-400 hover:to-cyan-400",
             )}
           >
-            Explore Portfolio
+            {t.exploreButton}
           </Link>
           <Link
             href="/verify"
@@ -46,7 +51,7 @@ export function Hero() {
             )}
           >
             <ShieldCheck className="size-4" />
-            Verify Product
+            {t.verifyButton}
           </Link>
         </div>
       </div>

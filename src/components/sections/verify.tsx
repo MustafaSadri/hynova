@@ -13,12 +13,16 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { PageHeader } from "@/components/ui/page-header";
+import { useLanguage } from "@/lib/language-context";
+import { translations } from "@/lib/translations";
 
 type Mode = "code" | "photo";
 type Status = "idle" | "submitting" | "submitted";
 
 export function Verify() {
+  const { language } = useLanguage();
+  const t = translations[language].verify;
+
   const [mode, setMode] = useState<Mode>("code");
   const [code, setCode] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -55,25 +59,20 @@ export function Verify() {
   }
 
   return (
-    <>
-      <PageHeader maxWidth="max-w-xl" />
-
-      <section className="relative bg-white px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+    <section className="relative bg-white px-6 pt-32 pb-24 md:pt-40 md:pb-32">
       <div className="mx-auto max-w-xl">
         <div className="text-center">
           <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-teal-100 bg-teal-50">
             <ShieldCheck className="size-7 text-teal-600" strokeWidth={1.5} />
           </div>
           <h1 className="mt-6 text-4xl font-light tracking-tight text-neutral-900 sm:text-5xl">
-            Verify Your{" "}
+            {t.headingPlain}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-neutral-900 to-cyan-600">
-              Product.
+              {t.headingHighlight}
             </span>
           </h1>
           <p className="mt-5 text-base leading-relaxed text-neutral-500">
-            Enter the batch code printed on your box, or scan / upload a
-            photo of the label to confirm it&apos;s a genuine Cynapept
-            product.
+            {t.subtitle}
           </p>
         </div>
 
@@ -84,18 +83,18 @@ export function Verify() {
                 <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
               </div>
               <h2 className="mt-5 text-xl font-medium text-neutral-900">
-                Request received
+                {t.resultTitle}
               </h2>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
-                We&apos;ve received your verification request
                 {mode === "code" && code ? (
                   <>
-                    {" "}
-                    for code <span className="font-medium text-neutral-700">{code}</span>
+                    {t.resultBodyForCode}{" "}
+                    <span className="font-medium text-neutral-700">{code}</span>
                   </>
-                ) : null}
-                . Automated verification is being finalized — we&apos;ll be
-                in touch if we need anything else.
+                ) : (
+                  t.resultBodyNoCode
+                )}
+                {t.resultBodySuffix}
               </p>
               <button
                 type="button"
@@ -105,7 +104,7 @@ export function Verify() {
                   "mt-6 h-11 rounded-full border-neutral-200 px-6 text-neutral-700 hover:bg-neutral-50",
                 )}
               >
-                Verify another product
+                {t.resultReset}
               </button>
             </div>
           ) : (
@@ -122,7 +121,7 @@ export function Verify() {
                   )}
                 >
                   <KeyRound className="size-4" />
-                  Enter Code
+                  {t.tabCode}
                 </button>
                 <button
                   type="button"
@@ -135,7 +134,7 @@ export function Verify() {
                   )}
                 >
                   <ScanLine className="size-4" />
-                  Scan or Upload
+                  {t.tabPhoto}
                 </button>
               </div>
 
@@ -146,19 +145,19 @@ export function Verify() {
                       htmlFor="verify-code"
                       className="text-xs font-medium uppercase tracking-widest text-neutral-400"
                     >
-                      Batch Code
+                      {t.codeLabel}
                     </label>
                     <input
                       id="verify-code"
                       type="text"
                       value={code}
                       onChange={(e) => setCode(e.target.value)}
-                      placeholder="e.g. CYN-2K9F-7QRT"
+                      placeholder={t.codePlaceholder}
                       autoComplete="off"
                       className="mt-2 h-12 w-full rounded-xl border border-neutral-200 bg-white px-4 font-mono text-sm tracking-wide text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
                     />
                     <p className="mt-2 text-xs text-neutral-400">
-                      Found on the box, near the batch number.
+                      {t.codeHelper}
                     </p>
                   </div>
                 ) : (
@@ -190,7 +189,7 @@ export function Verify() {
                         <button
                           type="button"
                           onClick={() => handleFile(null)}
-                          aria-label="Remove photo"
+                          aria-label={t.removePhoto}
                           className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full bg-white/90 text-neutral-600 shadow-sm backdrop-blur hover:bg-white"
                         >
                           <X className="size-4" />
@@ -204,7 +203,7 @@ export function Verify() {
                           className="flex h-32 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-neutral-200 text-neutral-500 transition-colors hover:border-teal-400 hover:text-teal-600"
                         >
                           <Camera className="size-6" strokeWidth={1.5} />
-                          <span className="text-sm font-medium">Scan Photo</span>
+                          <span className="text-sm font-medium">{t.scanPhoto}</span>
                         </button>
                         <button
                           type="button"
@@ -212,12 +211,12 @@ export function Verify() {
                           className="flex h-32 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-neutral-200 text-neutral-500 transition-colors hover:border-teal-400 hover:text-teal-600"
                         >
                           <Upload className="size-6" strokeWidth={1.5} />
-                          <span className="text-sm font-medium">Upload Photo</span>
+                          <span className="text-sm font-medium">{t.uploadPhoto}</span>
                         </button>
                       </div>
                     )}
                     <p className="mt-2 text-xs text-neutral-400">
-                      Include the label showing the batch code and QR code.
+                      {t.photoHelper}
                     </p>
                   </div>
                 )}
@@ -233,10 +232,10 @@ export function Verify() {
                   {status === "submitting" ? (
                     <>
                       <Loader2 className="size-4 animate-spin" />
-                      Verifying…
+                      {t.submitting}
                     </>
                   ) : (
-                    "Verify Product"
+                    t.submit
                   )}
                 </button>
               </form>
@@ -245,20 +244,7 @@ export function Verify() {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-6 border-t border-neutral-100 pt-10 sm:grid-cols-3">
-          {[
-            {
-              title: "Unique per unit",
-              body: "Every box ships with its own batch code, logged at manufacture.",
-            },
-            {
-              title: "Cold-chain verified",
-              body: "Storage and shipping conditions are tracked for every batch.",
-            },
-            {
-              title: "Report a concern",
-              body: "Think you've received a suspicious product? Let us know.",
-            },
-          ].map((item) => (
+          {t.trust.map((item) => (
             <div key={item.title}>
               <p className="text-sm font-medium text-neutral-900">{item.title}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">
@@ -268,7 +254,6 @@ export function Verify() {
           ))}
         </div>
       </div>
-      </section>
-    </>
+    </section>
   );
 }
