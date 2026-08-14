@@ -121,6 +121,42 @@ export const translations = {
         orforglipron: "0.8 · 2.5 · 5.5 · 9 · 14.5 · 17.2 mg",
       },
     },
+    comparison: {
+      eyebrow: "Compare Formulations",
+      title: "Product Comparison",
+      subtitle:
+        "Evaluate mechanisms, administration methods, and patient profile targets across our formulations.",
+      headers: [
+        "Feature",
+        "Mechanism",
+        "Administration",
+        "Primary Target",
+        "Patient Profile",
+      ],
+      rows: [
+        {
+          name: "Retatrutide",
+          mechanism: "Triple Agonist (GLP-1 / GIP / GCG)",
+          administration: "Weekly Injection",
+          primaryTarget: "Maximum Weight Reduction",
+          patientProfile: "Treatment Resistant Cases",
+        },
+        {
+          name: "Tirzepatide",
+          mechanism: "Dual Agonist (GLP-1 / GIP)",
+          administration: "Weekly Injection",
+          primaryTarget: "Obesity & T2D Control",
+          patientProfile: "Mainline Clinical Patients",
+        },
+        {
+          name: "Orforglipron",
+          mechanism: "Oral Agonist (GLP-1)",
+          administration: "Daily Tablet",
+          primaryTarget: "Convenient Weight Mgmt",
+          patientProfile: "Preference for Oral Therapy",
+        },
+      ],
+    },
     contact: {
       headingPlain: "Get ",
       headingHighlight: "Product Updates",
@@ -284,6 +320,7 @@ export const translations = {
       ctaTitle: "Every batch is uniquely coded and verifiable.",
       ctaBody: "Confirm the authenticity of your product in seconds.",
       ctaButton: "Verify Product",
+      exploreLabel: "Explore Quality & Compliance",
     },
   },
 
@@ -404,6 +441,42 @@ export const translations = {
         tirzepatide: "2,5 · 5 · 7,5 · 10 · 12,5 · 15 мг",
         orforglipron: "0,8 · 2,5 · 5,5 · 9 · 14,5 · 17,2 мг",
       },
+    },
+    comparison: {
+      eyebrow: "Сравнение форм выпуска",
+      title: "Сравнение продуктов",
+      subtitle:
+        "Оцените механизмы действия, способы введения и целевые группы пациентов для наших препаратов.",
+      headers: [
+        "Характеристика",
+        "Механизм действия",
+        "Способ применения",
+        "Основная цель",
+        "Профиль пациента",
+      ],
+      rows: [
+        {
+          name: "Ретатрутид",
+          mechanism: "Тройной агонист (GLP-1/GIP/GCG)",
+          administration: "Еженедельная инъекция",
+          primaryTarget: "Максимальное снижение веса",
+          patientProfile: "Случаи, устойчивые к лечению",
+        },
+        {
+          name: "Тирзепатид",
+          mechanism: "Двойной агонист (GLP1/GIP)",
+          administration: "Еженедельная инъекция",
+          primaryTarget: "Контроль ожирения и диабета 2 типа",
+          patientProfile: "Основные клинические пациенты",
+        },
+        {
+          name: "Орфорглипрон",
+          mechanism: "Пероральный агонист (GLP-1)",
+          administration: "Ежедневная таблетка",
+          primaryTarget: "Удобное управление весом",
+          patientProfile: "Пациенты, предпочитающие пероральную терапию",
+        },
+      ],
     },
     contact: {
       headingPlain: "Давайте развивать здоровье ",
@@ -568,6 +641,7 @@ export const translations = {
       ctaTitle: "Каждая партия имеет уникальный код и может быть проверена.",
       ctaBody: "Подтвердите подлинность продукта за несколько секунд.",
       ctaButton: "Проверить продукт",
+      exploreLabel: "Изучить контроль качества",
     },
   },
 } as const;
