@@ -59,7 +59,7 @@ export function Verify() {
   }
 
   return (
-    <section className="relative bg-white px-6 pt-32 pb-24 md:pt-40 md:pb-32">
+    <section className="relative px-6 pt-32 pb-24 md:pt-40 md:pb-32">
       <div className="mx-auto max-w-xl">
         <div className="text-center">
           <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-teal-100 bg-teal-50">
@@ -76,7 +76,7 @@ export function Verify() {
           </p>
         </div>
 
-        <div className="mt-10 rounded-3xl border border-neutral-200 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] sm:p-8">
+        <div className="mt-10 rounded-3xl border border-neutral-200 bg-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
           {status === "submitted" ? (
             <div className="flex flex-col items-center py-6 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-teal-50">

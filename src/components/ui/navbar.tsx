@@ -16,10 +16,9 @@ export function Navbar() {
   const t = translations[language].nav;
   const isHome = pathname === "/";
 
-  // Only the home hero has a dark nebula background behind the fixed
-  // header; once scrolled past it (or on any other page) the page
-  // background is white, so the transparent/white-text look flips to a
-  // solid, dark-text bar for legibility.
+  // Every page now sits on the same light pastel gradient, so the header is
+  // transparent at the top and picks up a solid blurred bar once scrolled —
+  // no more light/dark text swap since the background is never dark.
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const transparent = isHome && !scrolled;
+  const transparent = !scrolled;
 
   const menuList: IMenu[] = [
     { id: 1, title: t.home, url: "/" },
@@ -63,7 +62,7 @@ export function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="shrink-0">
           <Image
-            src={transparent ? "/logo/cynapept-white.svg" : "/logo/cynapept-color.svg"}
+            src="/logo/cynapept-color.svg"
             alt="Cynapept"
             width={130}
             height={28}
@@ -72,7 +71,7 @@ export function Navbar() {
         </Link>
 
         <div className="hidden sm:block">
-          <Menu list={menuList} variant={transparent ? "light" : "dark"} />
+          <Menu list={menuList} variant="dark" />
         </div>
 
         <LanguageSelectorDropdown />

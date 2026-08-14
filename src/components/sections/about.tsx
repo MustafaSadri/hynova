@@ -18,7 +18,7 @@ export function About() {
   const t = translations[language].about;
 
   return (
-    <section className="relative bg-white px-6 pt-32 pb-24 md:pt-40 md:pb-32">
+    <section className="relative px-6 pt-32 pb-24 md:pt-40 md:pb-32">
       <div className="mx-auto max-w-4xl">
         <span className="inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm tracking-wide text-neutral-500">
           {t.eyebrow}

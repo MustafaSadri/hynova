@@ -14,9 +14,32 @@ export const translations = {
       contact: "Contact",
     },
     hero: {
-      tagline: "Pure · Precise · Precision",
+      tagline: "Pure · Proven · Precise",
       exploreButton: "Explore Portfolio",
       verifyButton: "Verify Product",
+    },
+    whyUs: {
+      eyebrow: "Why Cynapept",
+      headingPlain: "Precision Built on ",
+      headingHighlight: "Global Standards.",
+      items: [
+        {
+          title: "UAE Strategic Hub",
+          body: "Headquartered at the crossroads of global trade and logistics.",
+        },
+        {
+          title: "Swiss Expertise",
+          body: "Precision engineering rooted in Swiss pharmaceutical heritage.",
+        },
+        {
+          title: "GMP Quality Standards",
+          body: "Every batch manufactured under strict international compliance.",
+        },
+        {
+          title: "Scientific Innovation",
+          body: "Advancing metabolic medicine through rigorous, ongoing research.",
+        },
+      ],
     },
     portfolio: {
       eyebrow: "Our Portfolio",
@@ -30,26 +53,66 @@ export const translations = {
           title: "Retatrutide",
           subtitle: "Injectable Pen",
           alt: "Retatrutide injectable pen packaging",
+          category: "Triple Receptor Agonist · Injectable",
+          description:
+            "The world's most powerful triple-agonist peptide targeting GLP-1, GIP, and Glucagon receptors simultaneously for superior metabolic regulation.",
+          highlights: [
+            "Proven up to 24% body weight reduction in clinical trials",
+            "Strongest efficacy in class with direct fat-burning pathways",
+            "GMP-certified, cold-chain maintained, batch-tested ≥99.9% purity",
+          ],
         },
         retatrutideVial: {
           title: "Retatrutide",
           subtitle: "Lyophilized Vial",
           alt: "Retatrutide lyophilized vial packaging",
+          category: "Triple Receptor Agonist · Lyophilized",
+          description:
+            "High-purity lyophilized Retatrutide formulation for extended stability — ideal for research facilities and clinical applications.",
+          highlights: [
+            "Verified ≥99.9% purity via HPLC certificate of analysis",
+            "Freeze-dried to maintain peak stability and long shelf life",
+            "Zero additives, stabilizers, or fillers — pharmaceutical grade",
+          ],
         },
         tirzepatidePen: {
           title: "Tirzepatide",
           subtitle: "Injectable Pen",
           alt: "Tirzepatide injectable pen packaging",
+          category: "Dual Receptor Agonist · Injectable",
+          description:
+            "Dual-targeted GLP-1 and GIP receptor agonist delivering clinically validated glycemic control and significant weight reduction.",
+          highlights: [
+            "Slows gastric emptying for prolonged satiety and appetite control",
+            "Robust glycemic control and metabolic regulation in T2DM",
+            "Highly documented safety profile across global clinical studies",
+          ],
         },
         tirzepatideVial: {
           title: "Tirzepatide",
           subtitle: "Lyophilized Vial",
           alt: "Tirzepatide lyophilized vial packaging",
+          category: "Dual Receptor Agonist · Lyophilized",
+          description:
+            "Premium-grade lyophilized Tirzepatide with guaranteed 99.9% purity — the clinical research standard.",
+          highlights: [
+            "Guaranteed ≥99.9% purity with detailed HPLC certificate",
+            "Freeze-dried format for maximum long-term shelf life",
+            "Ideal for clinical labs requiring exact compound concentrations",
+          ],
         },
         orforglipron: {
           title: "Orforglipron",
           subtitle: "Oral Tablets",
           alt: "Orforglipron oral tablets packaging",
+          category: "Oral GLP-1 Receptor Agonist · Non-peptide",
+          description:
+            "Next-generation oral non-peptide GLP-1 receptor agonist — effective metabolic therapy without injections.",
+          highlights: [
+            "No needles — simple once-daily tablet administration",
+            "Directly stimulates GLP-1 receptors for appetite regulation",
+            "Room-temperature stable — easy to store and travel with",
+          ],
         },
       },
       strengths: {
@@ -235,9 +298,32 @@ export const translations = {
     hero: {
       // Kept as a stylized brand motto rather than translated — flagged
       // separately since it isn't sourced from the content file.
-      tagline: "Pure · Precise · Precision",
+      tagline: "Pure · Proven · Precise",
       exploreButton: "Изучить портфолио",
       verifyButton: "Проверить продукт",
+    },
+    whyUs: {
+      eyebrow: "Почему CYNAPEPT",
+      headingPlain: "Точность на основе ",
+      headingHighlight: "мировых стандартов.",
+      items: [
+        {
+          title: "Штаб-квартира в ОАЭ",
+          body: "Расположены на пересечении мировых торговых путей.",
+        },
+        {
+          title: "Швейцарский опыт",
+          body: "Точное инженерное решение и фармацевтическое наследие.",
+        },
+        {
+          title: "Стандарты GMP",
+          body: "Каждая партия производится в строгом соответствии GMP.",
+        },
+        {
+          title: "Научные инновации",
+          body: "Развитие метаболической медицины через передовые исследования.",
+        },
+      ],
     },
     portfolio: {
       eyebrow: "Портфолио",
@@ -251,26 +337,66 @@ export const translations = {
           title: "Ретатрутид",
           subtitle: "Инъекционная ручка",
           alt: "Упаковка инъекционной ручки Ретатрутид",
+          category: "Тройной агонист рецепторов · Инъекционный",
+          description:
+            "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения, представляющая собой тройной агонист для максимальной эффективности.",
+          highlights: [
+            "Доказано снижение веса до 24% в клинических исследованиях",
+            "Наивысшая эффективность в классе с прямыми путями жиросжигания",
+            "GMP-сертифицирован, чистота ≥99,9% в каждой партии",
+          ],
         },
         retatrutideVial: {
           title: "Ретатрутид",
           subtitle: "Лиофилизированный флакон",
           alt: "Упаковка лиофилизированного флакона Ретатрутид",
+          category: "Тройной агонист рецепторов · Лиофилизированный",
+          description:
+            "Ретатрутид (Retatrutide) — пептидная терапия следующего поколения, представляющая собой тройной агонист для максимальной эффективности.",
+          highlights: [
+            "Подтверждённая чистота ≥99,9% по ВЭЖХ-сертификату",
+            "Сублимационная сушка для максимальной стабильности и срока хранения",
+            "Без добавок, стабилизаторов и наполнителей — фармацевтическое качество",
+          ],
         },
         tirzepatidePen: {
           title: "Тирзепатид",
           subtitle: "Инъекционная ручка",
           alt: "Упаковка инъекционной ручки Тирзепатид",
+          category: "Двойной агонист рецепторов · Инъекционный",
+          description:
+            "Тирзепатид (Tirzepatide) — золотой стандарт терапии двойным агонистом для контроля метаболизма.",
+          highlights: [
+            "Замедляет опорожнение желудка для продлённого насыщения",
+            "Надёжный гликемический контроль при сахарном диабете 2 типа",
+            "Хорошо задокументированный профиль безопасности в мировых исследованиях",
+          ],
         },
         tirzepatideVial: {
           title: "Тирзепатид",
           subtitle: "Лиофилизированный флакон",
           alt: "Упаковка лиофилизированного флакона Тирзепатид",
+          category: "Двойной агонист рецепторов · Лиофилизированный",
+          description:
+            "Тирзепатид (Tirzepatide) — золотой стандарт терапии двойным агонистом для контроля метаболизма.",
+          highlights: [
+            "Гарантированная чистота ≥99,9% с подробным ВЭЖХ-сертификатом",
+            "Формат сублимационной сушки для максимального срока хранения",
+            "Идеален для клинических лабораторий с точными требованиями к концентрации",
+          ],
         },
         orforglipron: {
           title: "Орфорглипрон",
           subtitle: "Пероральные таблетки",
           alt: "Упаковка пероральных таблеток Орфорглипрон",
+          category: "Пероральный агонист GLP-1 · Непептид",
+          description:
+            "Орфорглипрон (Orforglipron) — инновационная пероральная непептидная терапия для удобства пациентов.",
+          highlights: [
+            "Без иглы — простое ежедневное применение в таблетированной форме",
+            "Непосредственно стимулирует рецепторы GLP-1 для регуляции аппетита",
+            "Стабилен при комнатной температуре — удобно хранить и брать с собой",
+          ],
         },
       },
       strengths: {

@@ -20,7 +20,7 @@ export function QualityCompliance() {
   const t = translations[language].quality;
 
   return (
-    <section className="relative bg-white px-6 pt-32 pb-24 md:pt-40 md:pb-32">
+    <section className="relative px-6 pt-32 pb-24 md:pt-40 md:pb-32">
       <div className="mx-auto max-w-4xl">
         <span className="inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-sm tracking-wide text-neutral-500">
           {t.eyebrow}
@@ -41,7 +41,7 @@ export function QualityCompliance() {
             return (
               <div
                 key={step.title}
-                className="rounded-2xl border border-neutral-200 p-6"
+                className="rounded-2xl border border-neutral-200 bg-white/70 p-6 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-teal-100 bg-teal-50">

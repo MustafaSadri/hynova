@@ -32,7 +32,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative bg-white px-6 pt-8 pb-24 md:pt-12 md:pb-32"
+      className="relative px-6 pt-8 pb-24 md:pt-12 md:pb-32"
     >
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-light tracking-tight text-neutral-900 sm:text-5xl">
