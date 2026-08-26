@@ -11,12 +11,12 @@ export function Portfolio() {
   const t = translations[language].portfolio;
   const p = t.products;
 
-  // Pens, then vials, then tablets — each row alternates image/content sides.
+  // Tirzepatide pen, then Retatrutide pen, then vial, then tablets — each
+  // row alternates image/content sides.
   const items = [
-    { src: "/products/retatrutide-pen.jpg", strengths: t.strengths.retatrutide, ...p.retatrutidePen },
-    { src: "/products/tirzepatide-pen.jpg", strengths: t.strengths.tirzepatide, ...p.tirzepatidePen },
-    { src: "/products/retatrutide-vial.jpg", strengths: t.strengths.retatrutide, ...p.retatrutideVial },
-    { src: "/products/tirzepatide-vial.jpg", strengths: t.strengths.tirzepatide, ...p.tirzepatideVial },
+    { src: "/products/tirzepatide-pen.png", strengths: t.strengths.tirzepatidePen, ...p.tirzepatidePen },
+    { src: "/products/retatrutide-pen.jpg", strengths: t.strengths.retatrutidePen, ...p.retatrutidePen },
+    { src: "/products/retatrutide-vial.jpg", strengths: t.strengths.retatrutideVial, ...p.retatrutideVial },
     { src: "/products/orforglipron-tablets.png", strengths: t.strengths.orforglipron, ...p.orforglipron },
   ];
 

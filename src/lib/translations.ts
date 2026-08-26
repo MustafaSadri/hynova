@@ -46,7 +46,7 @@ export const translations = {
       headingPlain: "Discover ",
       headingHighlight: "What's Possible.",
       subtitle:
-        "Five formulations, manufactured and verified to the same rigorous standard — across pens, vials, and oral tablets.",
+        "Four formulations, manufactured and verified to the same rigorous standard — across pens, vials, and oral tablets.",
       strengthsLabel: "Strengths",
       products: {
         retatrutidePen: {
@@ -88,19 +88,6 @@ export const translations = {
             "Highly documented safety profile across global clinical studies",
           ],
         },
-        tirzepatideVial: {
-          title: "Tirzepatide",
-          subtitle: "Lyophilized Vial",
-          alt: "Tirzepatide lyophilized vial packaging",
-          category: "Dual Receptor Agonist · Lyophilized",
-          description:
-            "Premium-grade lyophilized Tirzepatide with guaranteed 99.9% purity — the clinical research standard.",
-          highlights: [
-            "Guaranteed ≥99.9% purity with detailed HPLC certificate",
-            "Freeze-dried format for maximum long-term shelf life",
-            "Ideal for clinical labs requiring exact compound concentrations",
-          ],
-        },
         orforglipron: {
           title: "Orforglipron",
           subtitle: "Oral Tablets",
@@ -116,9 +103,10 @@ export const translations = {
         },
       },
       strengths: {
-        retatrutide: "8 · 16 · 24 · 40 mg",
-        tirzepatide: "2.5 · 5 · 7.5 · 10 · 12.5 · 15 mg",
-        orforglipron: "0.8 · 2.5 · 5.5 · 9 · 14.5 · 17.2 mg",
+        retatrutidePen: "10 · 20 · 40 mg",
+        retatrutideVial: "10 · 20 · 40 · 60 mg",
+        tirzepatidePen: "10 · 20 · 30 · 40 · 50 · 60 mg",
+        orforglipron: "0.8 · 2.5 · 5.5 · 9 · 14.5 mg",
       },
     },
     comparison: {
@@ -292,6 +280,7 @@ export const translations = {
       ],
       locationNote:
         "Dubai, United Arab Emirates — expanding across the Middle East, Europe, and Asia.",
+      learnMoreLabel: "Learn More About Us",
     },
     quality: {
       eyebrow: "Manufacturing Excellence",
@@ -409,19 +398,6 @@ export const translations = {
             "Хорошо задокументированный профиль безопасности в мировых исследованиях",
           ],
         },
-        tirzepatideVial: {
-          title: "Тирзепатид",
-          subtitle: "Лиофилизированный флакон",
-          alt: "Упаковка лиофилизированного флакона Тирзепатид",
-          category: "Двойной агонист рецепторов · Лиофилизированный",
-          description:
-            "Тирзепатид (Tirzepatide) — золотой стандарт терапии двойным агонистом для контроля метаболизма.",
-          highlights: [
-            "Гарантированная чистота ≥99,9% с подробным ВЭЖХ-сертификатом",
-            "Формат сублимационной сушки для максимального срока хранения",
-            "Идеален для клинических лабораторий с точными требованиями к концентрации",
-          ],
-        },
         orforglipron: {
           title: "Орфорглипрон",
           subtitle: "Пероральные таблетки",
@@ -437,9 +413,10 @@ export const translations = {
         },
       },
       strengths: {
-        retatrutide: "8 · 16 · 24 · 40 мг",
-        tirzepatide: "2,5 · 5 · 7,5 · 10 · 12,5 · 15 мг",
-        orforglipron: "0,8 · 2,5 · 5,5 · 9 · 14,5 · 17,2 мг",
+        retatrutidePen: "10 · 20 · 40 мг",
+        retatrutideVial: "10 · 20 · 40 · 60 мг",
+        tirzepatidePen: "10 · 20 · 30 · 40 · 50 · 60 мг",
+        orforglipron: "0,8 · 2,5 · 5,5 · 9 · 14,5 мг",
       },
     },
     comparison: {
@@ -613,6 +590,7 @@ export const translations = {
       ],
       locationNote:
         "Дубай, Объединённые Арабские Эмираты — расширение на Ближнем Востоке, в Европе и Азии.",
+      learnMoreLabel: "Узнать больше о нас",
     },
     quality: {
       eyebrow: "Производственное превосходство",

@@ -3,6 +3,13 @@
 import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 
+const fieldKeys = [
+  "mechanism",
+  "administration",
+  "primaryTarget",
+  "patientProfile",
+] as const;
+
 export function ProductComparison() {
   const { language } = useLanguage();
   const t = translations[language].comparison;
@@ -23,47 +30,44 @@ export function ProductComparison() {
           </p>
         </div>
 
-        {/* Desktop / tablet: real table, scrolls horizontally if the
-            viewport is narrower than its content. */}
+        {/* Desktop / tablet: products across the top as columns, features
+            down the first column — scrolls horizontally if the viewport is
+            narrower than its content. */}
         <div className="mt-10 hidden overflow-hidden rounded-3xl border border-neutral-200 bg-white/70 backdrop-blur-sm sm:block">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-left">
+            <table className="w-full min-w-[640px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-neutral-200 bg-neutral-50/70">
                   <th className="px-6 py-4 text-xs font-medium tracking-wide text-neutral-500 uppercase">
                     {featureLabel}
                   </th>
-                  {fieldLabels.map((header) => (
+                  {t.rows.map((row) => (
                     <th
-                      key={header}
-                      className="px-6 py-4 text-xs font-medium tracking-wide text-neutral-500 uppercase"
+                      key={row.name}
+                      className="px-6 py-4 text-sm font-medium text-neutral-900"
                     >
-                      {header}
+                      {row.name}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {t.rows.map((row) => (
+                {fieldKeys.map((key, i) => (
                   <tr
-                    key={row.name}
+                    key={key}
                     className="border-b border-neutral-100 transition-colors last:border-0 hover:bg-teal-50/40"
                   >
-                    <td className="px-6 py-5 text-sm font-medium text-neutral-900">
-                      {row.name}
+                    <td className="px-6 py-5 text-xs font-medium tracking-wide text-neutral-500 uppercase">
+                      {fieldLabels[i]}
                     </td>
-                    <td className="px-6 py-5 text-sm text-neutral-600">
-                      {row.mechanism}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-neutral-600">
-                      {row.administration}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-neutral-600">
-                      {row.primaryTarget}
-                    </td>
-                    <td className="px-6 py-5 text-sm text-neutral-600">
-                      {row.patientProfile}
-                    </td>
+                    {t.rows.map((row) => (
+                      <td
+                        key={row.name}
+                        className="px-6 py-5 text-sm text-neutral-600"
+                      >
+                        {row[key]}
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </tbody>

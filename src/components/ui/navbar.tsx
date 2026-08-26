@@ -55,14 +55,14 @@ export function Navbar() {
 
   const menuList: IMenu[] = [
     { id: 1, title: t.home, url: "/" },
+    { id: 2, title: t.about, url: "/about" },
     {
-      id: 2,
+      id: 3,
       title: t.portfolio,
       url: isHome ? "#portfolio" : "/#portfolio",
       onClick: isHome ? scrollToId("portfolio") : undefined,
     },
-    { id: 3, title: t.quality, url: "/quality-compliance" },
-    { id: 4, title: t.about, url: "/about" },
+    { id: 4, title: t.quality, url: "/quality-compliance" },
     {
       id: 5,
       title: t.contact,
