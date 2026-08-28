@@ -193,11 +193,20 @@ export const translations = {
       photoHelper: "Include the label showing the batch code and QR code.",
       submit: "Verify Product",
       submitting: "Verifying…",
-      resultTitle: "Request received",
-      resultBodyForCode: "We've received your verification request for code",
-      resultBodyNoCode: "We've received your verification request",
-      resultBodySuffix:
-        ". Automated verification is being finalized — we'll be in touch if we need anything else.",
+      resultGenuineTitle: "Genuine product confirmed",
+      resultGenuineFirstBody:
+        "This code matches a product registered in our authentication system, and this is the first time it's been checked. Your product is genuine.",
+      resultGenuineRepeatBody:
+        "This code is genuine, but it has already been checked {count} time(s) before. If that's unexpected, please contact our support team.",
+      resultFakeTitle: "We couldn't verify this code",
+      resultFakeBody:
+        "This code doesn't match any product in our authentication system. It may be counterfeit — please avoid using the product and contact our support team.",
+      resultErrorTitle: "Verification unavailable",
+      resultErrorBody:
+        "We couldn't reach the verification service right now. Please try again in a moment, or contact support if this keeps happening.",
+      resultDecodeErrorTitle: "No code found in that photo",
+      resultDecodeErrorBody:
+        "We couldn't read a QR code in that image. Try a clearer, well-lit photo of the label, or enter the code manually instead.",
       resultReset: "Verify another product",
       trust: [
         {
@@ -503,11 +512,20 @@ export const translations = {
       photoHelper: "Включите этикетку с номером партии и QR-кодом.",
       submit: "Проверить продукт",
       submitting: "Проверка…",
-      resultTitle: "Запрос получен",
-      resultBodyForCode: "Мы получили ваш запрос на проверку для кода",
-      resultBodyNoCode: "Мы получили ваш запрос на проверку",
-      resultBodySuffix:
-        ". Автоматическая проверка дорабатывается — при необходимости мы свяжемся с вами.",
+      resultGenuineTitle: "Подлинность подтверждена",
+      resultGenuineFirstBody:
+        "Этот код соответствует продукту, зарегистрированному в нашей системе аутентификации, и проверяется впервые. Ваш продукт подлинный.",
+      resultGenuineRepeatBody:
+        "Код подлинный, но он уже был проверен {count} раз(а) ранее. Если это неожиданно для вас, свяжитесь с нашей службой поддержки.",
+      resultFakeTitle: "Не удалось подтвердить этот код",
+      resultFakeBody:
+        "Этот код не соответствует ни одному продукту в нашей системе аутентификации. Возможно, это подделка — не используйте продукт и свяжитесь с нашей службой поддержки.",
+      resultErrorTitle: "Проверка временно недоступна",
+      resultErrorBody:
+        "Не удалось связаться со службой проверки. Попробуйте ещё раз через некоторое время или свяжитесь с поддержкой, если проблема повторяется.",
+      resultDecodeErrorTitle: "На фото не найден код",
+      resultDecodeErrorBody:
+        "Не удалось распознать QR-код на этом изображении. Попробуйте сделать более чёткое, хорошо освещённое фото этикетки или введите код вручную.",
       resultReset: "Проверить ещё один продукт",
       trust: [
         {

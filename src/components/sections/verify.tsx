@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import jsQR from "jsqr";
 import {
+  AlertTriangle,
   Camera,
   CheckCircle2,
   KeyRound,
   Loader2,
   ScanLine,
+  ShieldAlert,
   ShieldCheck,
   Upload,
   X,
@@ -17,7 +20,65 @@ import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 
 type Mode = "code" | "photo";
-type Status = "idle" | "submitting" | "submitted";
+type Status =
+  | "idle"
+  | "submitting"
+  | "genuine"
+  | "fake"
+  | "error"
+  | "decode-error";
+
+type VerifyOutcome = {
+  firstScan: boolean;
+  scanCount: number | null;
+};
+
+// Reads an image file, decodes any QR code in it, and pulls a security code
+// out of the payload. Labels may encode the raw code, or a URL that carries
+// it as a query param (fwcode/code/sn) or as the last path segment.
+function decodeQrFromFile(file: File): Promise<string | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(null);
+        return;
+      }
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const result = jsQR(imageData.data, imageData.width, imageData.height);
+      resolve(result?.data ?? null);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(null);
+    };
+    img.src = url;
+  });
+}
+
+function extractCodeFromText(text: string): string {
+  try {
+    const url = new URL(text);
+    const param =
+      url.searchParams.get("fwcode") ||
+      url.searchParams.get("code") ||
+      url.searchParams.get("sn");
+    if (param) return param;
+    const segments = url.pathname.split("/").filter(Boolean);
+    if (segments.length) return segments[segments.length - 1];
+  } catch {
+    // Not a URL — treat the raw decoded text as the code.
+  }
+  return text.trim();
+}
 
 export function Verify() {
   const { language } = useLanguage();
@@ -28,6 +89,7 @@ export function Verify() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
+  const [outcome, setOutcome] = useState<VerifyOutcome | null>(null);
 
   const scanInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
@@ -46,17 +108,71 @@ export function Verify() {
   function reset() {
     setCode("");
     handleFile(null);
+    setOutcome(null);
     setStatus("idle");
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function verifyCode(rawCode: string) {
+    try {
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: rawCode }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        setOutcome(null);
+        setStatus("error");
+        return;
+      }
+
+      setOutcome({ firstScan: data.firstScan, scanCount: data.scanCount });
+      setStatus(data.genuine ? "genuine" : "fake");
+    } catch {
+      setOutcome(null);
+      setStatus("error");
+    }
+  }
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!canSubmit) return;
     setStatus("submitting");
-    // Verification isn't wired to a backend yet — this just gives the UI a
-    // real submit → processing → confirmation flow to build against later.
-    setTimeout(() => setStatus("submitted"), 1000);
+
+    if (mode === "photo") {
+      if (!file) return;
+      const decoded = await decodeQrFromFile(file);
+      if (!decoded) {
+        setOutcome(null);
+        setStatus("decode-error");
+        return;
+      }
+      await verifyCode(extractCodeFromText(decoded));
+      return;
+    }
+
+    await verifyCode(code.trim());
   }
+
+  const resultCopy =
+    status === "genuine"
+      ? {
+          title: t.resultGenuineTitle,
+          body: outcome?.firstScan
+            ? t.resultGenuineFirstBody
+            : t.resultGenuineRepeatBody.replace(
+                "{count}",
+                String(outcome?.scanCount ?? ""),
+              ),
+        }
+      : status === "fake"
+        ? { title: t.resultFakeTitle, body: t.resultFakeBody }
+        : status === "error"
+          ? { title: t.resultErrorTitle, body: t.resultErrorBody }
+          : status === "decode-error"
+            ? { title: t.resultDecodeErrorTitle, body: t.resultDecodeErrorBody }
+            : null;
 
   return (
     <section className="relative px-6 pt-32 pb-24 md:pt-40 md:pb-32">
@@ -77,24 +193,29 @@ export function Verify() {
         </div>
 
         <div className="mt-10 rounded-3xl border border-neutral-200 bg-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
-          {status === "submitted" ? (
+          {resultCopy ? (
             <div className="flex flex-col items-center py-6 text-center">
-              <div className="flex size-14 items-center justify-center rounded-full bg-teal-50">
-                <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
+              <div
+                className={cn(
+                  "flex size-14 items-center justify-center rounded-full",
+                  status === "genuine" && "bg-teal-50",
+                  status === "fake" && "bg-red-50",
+                  status === "error" && "bg-amber-50",
+                )}
+              >
+                {status === "genuine" ? (
+                  <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
+                ) : status === "fake" ? (
+                  <ShieldAlert className="size-7 text-red-600" strokeWidth={1.5} />
+                ) : (
+                  <AlertTriangle className="size-7 text-amber-600" strokeWidth={1.5} />
+                )}
               </div>
               <h2 className="mt-5 text-xl font-medium text-neutral-900">
-                {t.resultTitle}
+                {resultCopy.title}
               </h2>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
-                {mode === "code" && code ? (
-                  <>
-                    {t.resultBodyForCode}{" "}
-                    <span className="font-medium text-neutral-700">{code}</span>
-                  </>
-                ) : (
-                  t.resultBodyNoCode
-                )}
-                {t.resultBodySuffix}
+                {resultCopy.body}
               </p>
               <button
                 type="button"
