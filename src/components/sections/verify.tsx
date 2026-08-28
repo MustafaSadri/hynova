@@ -9,7 +9,7 @@ import {
   KeyRound,
   Loader2,
   ScanLine,
-  ShieldAlert,
+  ShieldAlert, 
   ShieldCheck,
   Upload,
   X,
@@ -23,15 +23,10 @@ type Mode = "code" | "photo";
 type Status =
   | "idle"
   | "submitting"
-  | "genuine"
-  | "fake"
+  | "authentic"
+  | "invalid"
   | "error"
   | "decode-error";
-
-type VerifyOutcome = {
-  firstScan: boolean;
-  scanCount: number | null;
-};
 
 // Reads an image file, decodes any QR code in it, and pulls a security code
 // out of the payload. Labels may encode the raw code, or a URL that carries
@@ -80,7 +75,7 @@ function extractCodeFromText(text: string): string {
   return text.trim();
 }
 
-export function Verify() {
+export function Verify({ initialCode }: { initialCode?: string }) {
   const { language } = useLanguage();
   const t = translations[language].verify;
 
@@ -88,8 +83,7 @@ export function Verify() {
   const [code, setCode] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [status, setStatus] = useState<Status>("idle");
-  const [outcome, setOutcome] = useState<VerifyOutcome | null>(null);
+  const [status, setStatus] = useState<Status>(initialCode ? "submitting" : "idle");
   const [scanning, setScanning] = useState(false);
 
   const scanInputRef = useRef<HTMLInputElement>(null);
@@ -114,7 +108,6 @@ export function Verify() {
     stopScan();
     setCode("");
     handleFile(null);
-    setOutcome(null);
     setStatus("idle");
   }
 
@@ -207,18 +200,24 @@ export function Verify() {
       const data = await res.json();
 
       if (!res.ok || !data.ok) {
-        setOutcome(null);
         setStatus("error");
         return;
       }
 
-      setOutcome({ firstScan: data.firstScan, scanCount: data.scanCount });
-      setStatus(data.genuine ? "genuine" : "fake");
+      setStatus(data.authentic ? "authentic" : "invalid");
     } catch {
-      setOutcome(null);
       setStatus("error");
     }
   }
+
+  // Arriving via a scanned sticker QR (?code=...) skips the form entirely —
+  // the code is already known, so we verify it immediately on load.
+  useEffect(() => {
+    if (initialCode) {
+      void verifyCode(initialCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -229,7 +228,6 @@ export function Verify() {
       if (!file) return;
       const decoded = await decodeQrFromFile(file);
       if (!decoded) {
-        setOutcome(null);
         setStatus("decode-error");
         return;
       }
@@ -241,18 +239,10 @@ export function Verify() {
   }
 
   const resultCopy =
-    status === "genuine"
-      ? {
-          title: t.resultGenuineTitle,
-          body: outcome?.firstScan
-            ? t.resultGenuineFirstBody
-            : t.resultGenuineRepeatBody.replace(
-                "{count}",
-                String(outcome?.scanCount ?? ""),
-              ),
-        }
-      : status === "fake"
-        ? { title: t.resultFakeTitle, body: t.resultFakeBody }
+    status === "authentic"
+      ? { title: t.resultAuthenticTitle, body: t.resultAuthenticBody }
+      : status === "invalid"
+        ? { title: t.resultInvalidTitle, body: t.resultInvalidBody }
         : status === "error"
           ? { title: t.resultErrorTitle, body: t.resultErrorBody }
           : status === "decode-error"
@@ -283,14 +273,14 @@ export function Verify() {
               <div
                 className={cn(
                   "flex size-14 items-center justify-center rounded-full",
-                  status === "genuine" && "bg-teal-50",
-                  status === "fake" && "bg-red-50",
-                  status === "error" && "bg-amber-50",
+                  status === "authentic" && "bg-teal-50",
+                  status === "invalid" && "bg-red-50",
+                  (status === "error" || status === "decode-error") && "bg-amber-50",
                 )}
               >
-                {status === "genuine" ? (
+                {status === "authentic" ? (
                   <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
-                ) : status === "fake" ? (
+                ) : status === "invalid" ? (
                   <ShieldAlert className="size-7 text-red-600" strokeWidth={1.5} />
                 ) : (
                   <AlertTriangle className="size-7 text-amber-600" strokeWidth={1.5} />
@@ -312,6 +302,11 @@ export function Verify() {
               >
                 {t.resultReset}
               </button>
+            </div>
+          ) : initialCode ? (
+            <div className="flex flex-col items-center py-10 text-center">
+              <Loader2 className="size-8 animate-spin text-teal-600" strokeWidth={1.5} />
+              <p className="mt-4 text-sm text-neutral-500">{t.autoVerifying}</p>
             </div>
           ) : scanning ? (
             <div className="flex flex-col items-center">

@@ -185,7 +185,7 @@ export const translations = {
       tabCode: "Enter Code",
       tabPhoto: "Scan or Upload",
       codeLabel: "Batch Code",
-      codePlaceholder: "e.g. CYN-2K9F-7QRT",
+      codePlaceholder: "e.g. CYN-4F9K-QX7M-2WYT",
       codeHelper: "Found on the box, near the batch number.",
       scanPhoto: "Scan Photo",
       uploadPhoto: "Upload Photo",
@@ -195,13 +195,12 @@ export const translations = {
       scanCancel: "Cancel scan",
       submit: "Verify Product",
       submitting: "Verifying…",
-      resultGenuineTitle: "Genuine product confirmed",
-      resultGenuineFirstBody:
-        "This code matches a product registered in our authentication system, and this is the first time it's been checked. Your product is genuine.",
-      resultGenuineRepeatBody:
-        "This code is genuine, but it has already been checked {count} time(s) before. If that's unexpected, please contact our support team.",
-      resultFakeTitle: "We couldn't verify this code",
-      resultFakeBody:
+      autoVerifying: "Verifying your product…",
+      resultAuthenticTitle: "Authentic Product",
+      resultAuthenticBody:
+        "This code matches a product registered in our authentication system.",
+      resultInvalidTitle: "Invalid Product",
+      resultInvalidBody:
         "This code doesn't match any product in our authentication system. It may be counterfeit — please avoid using the product and contact our support team.",
       resultErrorTitle: "Verification unavailable",
       resultErrorBody:
@@ -506,7 +505,7 @@ export const translations = {
       tabCode: "Ввести код",
       tabPhoto: "Сканировать или загрузить",
       codeLabel: "Номер партии",
-      codePlaceholder: "напр. CYNAPEPT-RET-INJ-A1B2C3",
+      codePlaceholder: "напр. CYN-4F9K-QX7M-2WYT",
       codeHelper: "Указан на упаковке, рядом с номером партии.",
       scanPhoto: "Сканировать фото",
       uploadPhoto: "Загрузить фото",
@@ -516,13 +515,12 @@ export const translations = {
       scanCancel: "Отменить сканирование",
       submit: "Проверить продукт",
       submitting: "Проверка…",
-      resultGenuineTitle: "Подлинность подтверждена",
-      resultGenuineFirstBody:
-        "Этот код соответствует продукту, зарегистрированному в нашей системе аутентификации, и проверяется впервые. Ваш продукт подлинный.",
-      resultGenuineRepeatBody:
-        "Код подлинный, но он уже был проверен {count} раз(а) ранее. Если это неожиданно для вас, свяжитесь с нашей службой поддержки.",
-      resultFakeTitle: "Не удалось подтвердить этот код",
-      resultFakeBody:
+      autoVerifying: "Проверяем ваш продукт…",
+      resultAuthenticTitle: "Подлинный продукт",
+      resultAuthenticBody:
+        "Этот код соответствует продукту, зарегистрированному в нашей системе аутентификации.",
+      resultInvalidTitle: "Недействительный продукт",
+      resultInvalidBody:
         "Этот код не соответствует ни одному продукту в нашей системе аутентификации. Возможно, это подделка — не используйте продукт и свяжитесь с нашей службой поддержки.",
       resultErrorTitle: "Проверка временно недоступна",
       resultErrorBody:

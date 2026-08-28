@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: "Confirm the authenticity of your Cynapept product.",
 };
 
-export default function VerifyPage() {
-  return <Verify />;
+export default async function VerifyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  const { code } = await searchParams;
+  return <Verify initialCode={code} />;
 }
