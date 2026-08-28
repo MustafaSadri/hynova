@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import jsQR from "jsqr";
 import {
   AlertTriangle,
@@ -90,9 +90,14 @@ export function Verify() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [outcome, setOutcome] = useState<VerifyOutcome | null>(null);
+  const [scanning, setScanning] = useState(false);
 
   const scanInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const canSubmit =
     status !== "submitting" && (mode === "code" ? code.trim().length > 0 : !!file);
@@ -106,11 +111,91 @@ export function Verify() {
   }
 
   function reset() {
+    stopScan();
     setCode("");
     handleFile(null);
     setOutcome(null);
     setStatus("idle");
   }
+
+  function stopScan() {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setScanning(false);
+  }
+
+  function scanFrame() {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState !== video.HAVE_ENOUGH_DATA) {
+      rafRef.current = requestAnimationFrame(scanFrame);
+      return;
+    }
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      rafRef.current = requestAnimationFrame(scanFrame);
+      return;
+    }
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const result = jsQR(imageData.data, imageData.width, imageData.height);
+    if (result?.data) {
+      const detected = extractCodeFromText(result.data);
+      stopScan();
+      setStatus("submitting");
+      void verifyCode(detected);
+      return;
+    }
+    rafRef.current = requestAnimationFrame(scanFrame);
+  }
+
+  // Live camera scanning needs getUserMedia over a secure context; when it's
+  // unavailable or the user declines the permission prompt, fall back to the
+  // native camera-capture file input (single photo, decoded on submit).
+  async function startScan() {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      scanInputRef.current?.click();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      streamRef.current = stream;
+      setScanning(true);
+    } catch {
+      scanInputRef.current?.click();
+    }
+  }
+
+  useEffect(() => {
+    if (!scanning) return;
+    const video = videoRef.current;
+    const stream = streamRef.current;
+    if (!video || !stream) return;
+    video.srcObject = stream;
+    video.play().catch(() => {});
+    rafRef.current = requestAnimationFrame(scanFrame);
+    return () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scanning]);
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
 
   async function verifyCode(rawCode: string) {
     try {
@@ -228,6 +313,32 @@ export function Verify() {
                 {t.resultReset}
               </button>
             </div>
+          ) : scanning ? (
+            <div className="flex flex-col items-center">
+              <div className="relative w-full overflow-hidden rounded-xl bg-black">
+                <video
+                  ref={videoRef}
+                  muted
+                  playsInline
+                  className="h-72 w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                  <div className="size-44 rounded-2xl border-2 border-white/80" />
+                </div>
+              </div>
+              <canvas ref={canvasRef} className="hidden" />
+              <p className="mt-4 text-sm text-neutral-500">{t.scanningHint}</p>
+              <button
+                type="button"
+                onClick={stopScan}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg" }),
+                  "mt-4 h-11 rounded-full border-neutral-200 px-6 text-neutral-700 hover:bg-neutral-50",
+                )}
+              >
+                {t.scanCancel}
+              </button>
+            </div>
           ) : (
             <>
               <div className="grid grid-cols-2 gap-1 rounded-full bg-neutral-100 p-1">
@@ -320,7 +431,7 @@ export function Verify() {
                       <div className="grid grid-cols-2 gap-3">
                         <button
                           type="button"
-                          onClick={() => scanInputRef.current?.click()}
+                          onClick={() => void startScan()}
                           className="flex h-32 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-neutral-200 text-neutral-500 transition-colors hover:border-teal-400 hover:text-teal-600"
                         >
                           <Camera className="size-6" strokeWidth={1.5} />
