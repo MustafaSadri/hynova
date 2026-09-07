@@ -199,6 +199,9 @@ export const translations = {
       resultAuthenticTitle: "Authentic Product",
       resultAuthenticBody:
         "This code matches a product registered in our authentication system.",
+      resultAlreadyScannedTitle: "Code Already Scanned",
+      resultAlreadyScannedBody:
+        "This code is genuine, but it has already been verified before. If you're the first person to open this product, please contact our support team.",
       resultInvalidTitle: "Invalid Product",
       resultInvalidBody:
         "This code doesn't match any product in our authentication system. It may be counterfeit — please avoid using the product and contact our support team.",
@@ -519,6 +522,9 @@ export const translations = {
       resultAuthenticTitle: "Подлинный продукт",
       resultAuthenticBody:
         "Этот код соответствует продукту, зарегистрированному в нашей системе аутентификации.",
+      resultAlreadyScannedTitle: "Код уже проверялся",
+      resultAlreadyScannedBody:
+        "Этот код подлинный, но он уже был проверен ранее. Если вы первый, кто открыл этот продукт, свяжитесь с нашей службой поддержки.",
       resultInvalidTitle: "Недействительный продукт",
       resultInvalidBody:
         "Этот код не соответствует ни одному продукту в нашей системе аутентификации. Возможно, это подделка — не используйте продукт и свяжитесь с нашей службой поддержки.",

@@ -6,6 +6,7 @@ export interface CodeRow {
   code: string;
   product_group: ProductGroup;
   batch_id: string | null;
+  serial_number: number;
   scan_count: number;
   first_scanned_at: string | null;
   last_scanned_at: string | null;

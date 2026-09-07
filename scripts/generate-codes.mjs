@@ -33,6 +33,7 @@ const CREATE_CODES_TABLE_SQL = `
     code TEXT PRIMARY KEY,
     product_group TEXT NOT NULL,
     batch_id TEXT,
+    serial_number BIGINT GENERATED ALWAYS AS IDENTITY UNIQUE,
     scan_count INTEGER NOT NULL DEFAULT 0,
     first_scanned_at TIMESTAMPTZ,
     last_scanned_at TIMESTAMPTZ,
@@ -42,6 +43,39 @@ const CREATE_CODES_TABLE_SQL = `
 const CREATE_CODES_PRODUCT_GROUP_INDEX_SQL = `
   CREATE INDEX IF NOT EXISTS codes_product_group_idx ON codes (product_group)
 `;
+
+// Self-healing migration for tables created before serial_number existed
+// (safe to run every time — each step only acts if there's something to do).
+// Backfills existing rows in creation order, then wires up a sequence so
+// every future INSERT gets the next serial automatically, same as a fresh
+// GENERATED ALWAYS AS IDENTITY column would.
+const MIGRATION_STEPS_SQL = [
+  `ALTER TABLE codes ADD COLUMN IF NOT EXISTS serial_number BIGINT`,
+  `
+    UPDATE codes
+    SET serial_number = sub.rn
+    FROM (
+      SELECT code, ROW_NUMBER() OVER (ORDER BY created_at, code) AS rn
+      FROM codes
+      WHERE serial_number IS NULL
+    ) sub
+    WHERE codes.code = sub.code
+  `,
+  `CREATE SEQUENCE IF NOT EXISTS codes_serial_number_seq OWNED BY codes.serial_number`,
+  `SELECT setval('codes_serial_number_seq', COALESCE((SELECT MAX(serial_number) FROM codes), 0))`,
+  `ALTER TABLE codes ALTER COLUMN serial_number SET DEFAULT nextval('codes_serial_number_seq')`,
+  `ALTER TABLE codes ALTER COLUMN serial_number SET NOT NULL`,
+  `
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'codes_serial_number_unique'
+      ) THEN
+        ALTER TABLE codes ADD CONSTRAINT codes_serial_number_unique UNIQUE (serial_number);
+      END IF;
+    END $$
+  `,
+];
 
 // Excludes visually ambiguous characters (0/O, 1/I/L) since customers may
 // need to type a code by hand if scanning fails.
@@ -167,6 +201,9 @@ async function main() {
   const sql = neon(url);
   await sql.query(CREATE_CODES_TABLE_SQL);
   await sql.query(CREATE_CODES_PRODUCT_GROUP_INDEX_SQL);
+  for (const step of MIGRATION_STEPS_SQL) {
+    await sql.query(step);
+  }
 
   console.log(`Generating ${count} codes for ${group}...`);
 

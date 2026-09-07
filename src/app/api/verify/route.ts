@@ -30,16 +30,20 @@ export async function POST(request: Request) {
           last_scanned_at = now(),
           first_scanned_at = COALESCE(first_scanned_at, now())
       WHERE code = ${normalized}
-      RETURNING product_group
-    `) as Pick<CodeRow, "product_group">[];
+      RETURNING product_group, scan_count
+    `) as Pick<CodeRow, "product_group" | "scan_count">[];
 
     if (rows.length === 0) {
       return NextResponse.json({ ok: true, authentic: false });
     }
 
+    // scan_count was just incremented, so 1 means this was the first time
+    // this code has ever been checked; anything higher means it's been
+    // scanned before.
     return NextResponse.json({
       ok: true,
       authentic: true,
+      alreadyScanned: rows[0].scan_count > 1,
       productGroup: rows[0].product_group,
     });
   } catch (err) {

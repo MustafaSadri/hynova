@@ -6,10 +6,11 @@ import {
   AlertTriangle,
   Camera,
   CheckCircle2,
+  History,
   KeyRound,
   Loader2,
   ScanLine,
-  ShieldAlert, 
+  ShieldAlert,
   ShieldCheck,
   Upload,
   X,
@@ -24,6 +25,7 @@ type Status =
   | "idle"
   | "submitting"
   | "authentic"
+  | "already-scanned"
   | "invalid"
   | "error"
   | "decode-error";
@@ -92,6 +94,7 @@ export function Verify({ initialCode }: { initialCode?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const rafRef = useRef<number | null>(null);
+  const autoVerifiedRef = useRef(false);
 
   const canSubmit =
     status !== "submitting" && (mode === "code" ? code.trim().length > 0 : !!file);
@@ -204,16 +207,24 @@ export function Verify({ initialCode }: { initialCode?: string }) {
         return;
       }
 
-      setStatus(data.authentic ? "authentic" : "invalid");
+      if (!data.authentic) {
+        setStatus("invalid");
+      } else {
+        setStatus(data.alreadyScanned ? "already-scanned" : "authentic");
+      }
     } catch {
       setStatus("error");
     }
   }
 
   // Arriving via a scanned sticker QR (?code=...) skips the form entirely —
-  // the code is already known, so we verify it immediately on load.
+  // the code is already known, so we verify it immediately on load. Guarded
+  // by a ref (not just the effect's empty deps) because this call mutates
+  // scan_count server-side, and React can invoke an effect more than once
+  // per mount (e.g. Strict Mode in development).
   useEffect(() => {
-    if (initialCode) {
+    if (initialCode && !autoVerifiedRef.current) {
+      autoVerifiedRef.current = true;
       void verifyCode(initialCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -241,13 +252,15 @@ export function Verify({ initialCode }: { initialCode?: string }) {
   const resultCopy =
     status === "authentic"
       ? { title: t.resultAuthenticTitle, body: t.resultAuthenticBody }
-      : status === "invalid"
-        ? { title: t.resultInvalidTitle, body: t.resultInvalidBody }
-        : status === "error"
-          ? { title: t.resultErrorTitle, body: t.resultErrorBody }
-          : status === "decode-error"
-            ? { title: t.resultDecodeErrorTitle, body: t.resultDecodeErrorBody }
-            : null;
+      : status === "already-scanned"
+        ? { title: t.resultAlreadyScannedTitle, body: t.resultAlreadyScannedBody }
+        : status === "invalid"
+          ? { title: t.resultInvalidTitle, body: t.resultInvalidBody }
+          : status === "error"
+            ? { title: t.resultErrorTitle, body: t.resultErrorBody }
+            : status === "decode-error"
+              ? { title: t.resultDecodeErrorTitle, body: t.resultDecodeErrorBody }
+              : null;
 
   return (
     <section className="relative px-6 pt-32 pb-24 md:pt-40 md:pb-32">
@@ -274,12 +287,15 @@ export function Verify({ initialCode }: { initialCode?: string }) {
                 className={cn(
                   "flex size-14 items-center justify-center rounded-full",
                   status === "authentic" && "bg-teal-50",
+                  status === "already-scanned" && "bg-amber-50",
                   status === "invalid" && "bg-red-50",
                   (status === "error" || status === "decode-error") && "bg-amber-50",
                 )}
               >
                 {status === "authentic" ? (
                   <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
+                ) : status === "already-scanned" ? (
+                  <History className="size-7 text-amber-600" strokeWidth={1.5} />
                 ) : status === "invalid" ? (
                   <ShieldAlert className="size-7 text-red-600" strokeWidth={1.5} />
                 ) : (
