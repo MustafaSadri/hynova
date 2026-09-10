@@ -80,7 +80,7 @@ export function Contact() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.emailPlaceholder}
                 aria-label={t.emailLabel}
-                className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                className="h-14 flex-1 rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
               />
 
               <div className="relative">
@@ -89,7 +89,7 @@ export function Contact() {
                   onChange={(e) => setInterest(e.target.value)}
                   required
                   aria-label={t.interestLabel}
-                  className="h-12 w-full appearance-none rounded-full border border-neutral-200 bg-white px-5 pr-10 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500 sm:w-56"
+                  className="h-14 w-full appearance-none rounded-full border border-neutral-200 bg-white px-6 pr-10 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500 sm:w-56"
                 >
                   <option value="" disabled>
                     {t.interestPlaceholder}
@@ -100,7 +100,7 @@ export function Contact() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
+                <ChevronDown className="pointer-events-none absolute right-5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
               </div>
             </div>
 
@@ -110,7 +110,7 @@ export function Contact() {
               placeholder={t.messagePlaceholder}
               aria-label={t.messageLabel}
               rows={4}
-              className="w-full resize-none rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+              className="w-full resize-none rounded-2xl border border-neutral-200 bg-white px-6 py-4 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
             />
 
             {status === "error" && (
@@ -120,7 +120,7 @@ export function Contact() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="h-12 shrink-0 self-center rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 px-7 text-sm font-medium text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] transition hover:from-teal-400 hover:to-cyan-400 disabled:opacity-40"
+              className="h-14 shrink-0 self-center rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 px-8 text-base font-medium text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] transition hover:from-teal-400 hover:to-cyan-400 disabled:opacity-40"
             >
               {status === "submitting" ? (
                 <span className="flex items-center gap-2">
