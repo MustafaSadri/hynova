@@ -71,7 +71,7 @@ export function Contact() {
             {t.confirmationMiddle} {interest.toLowerCase()}.
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mt-10 flex flex-col gap-3">
+          <form onSubmit={handleSubmit} className="mt-10 flex flex-col gap-4">
             <div className="flex flex-col gap-3 sm:flex-row">
               <input
                 type="email"
