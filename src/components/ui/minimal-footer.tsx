@@ -31,7 +31,7 @@ export function MinimalFooter() {
   ];
 
   const contactLinks = [
-    { icon: <MailIcon className="size-4" />, link: "mailto:support@cynapept.com" },
+    { icon: <MailIcon className="size-4" />, link: "mailto:info@cynapept.com" },
     { icon: <MessageCircleIcon className="size-4" />, link: "#contact" },
   ];
 
@@ -53,6 +53,12 @@ export function MinimalFooter() {
             <p className="text-muted-foreground max-w-sm font-mono text-sm text-balance">
               {t.tagline}
             </p>
+            <a
+              href="mailto:info@cynapept.com"
+              className="text-muted-foreground w-max text-sm hover:underline"
+            >
+              info@cynapept.com
+            </a>
             <div className="flex gap-2">
               {contactLinks.map((item, i) => (
                 <a
