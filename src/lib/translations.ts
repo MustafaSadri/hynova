@@ -224,6 +224,7 @@ export const translations = {
       cta: "Register Now",
       dismiss: "Maybe later",
       close: "Close",
+      floatingCta: "Private Event · Register",
     },
     verify: {
       headingPlain: "Verify Your ",
@@ -595,6 +596,7 @@ export const translations = {
       cta: "Зарегистрироваться",
       dismiss: "Позже",
       close: "Закрыть",
+      floatingCta: "Закрытое мероприятие · Регистрация",
     },
     verify: {
       headingPlain: "Проверка ",

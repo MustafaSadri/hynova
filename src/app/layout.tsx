@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { MinimalFooter } from "@/components/ui/minimal-footer";
 import { Navbar } from "@/components/ui/navbar";
 import { GradientBackground } from "@/components/ui/soft-pastel-blend";
+import { EventCtaButton } from "@/components/sections/event-cta-button";
 import { LanguageProvider } from "@/lib/language-context";
 import "./globals.css";
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Navbar />
           {children}
           <MinimalFooter />
+          <EventCtaButton />
         </LanguageProvider>
       </body>
     </html>
