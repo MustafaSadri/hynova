@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
 import { CURRENT_EVENT_SLUG, normalizeEmail, type EventRegistrationRow } from "@/lib/rsvp";
+import {
+  EDIT_TOKEN_TTL_MINUTES,
+  EMAIL_PATTERN,
+  ensureTokensTable,
+  generateToken,
+} from "@/lib/rsvp-server";
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const OTP_PATTERN = /^\d{6}$/;
 
 export async function POST(request: Request) {
@@ -24,6 +29,7 @@ export async function POST(request: Request) {
 
   try {
     const sql = getSql();
+    await ensureTokensTable(sql);
 
     const otpRows = (await sql`
       SELECT otp, expires_at FROM event_registration_otps
@@ -51,9 +57,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "not_found" }, { status: 404 });
     }
 
+    // Issues a short-lived token so the guest can edit or cancel their
+    // registration in this session without re-verifying by email again.
+    const token = generateToken();
+    const tokenExpiresAt = new Date(Date.now() + EDIT_TOKEN_TTL_MINUTES * 60 * 1000).toISOString();
+    await sql`
+      INSERT INTO event_registration_tokens (token, email, event_slug, expires_at)
+      VALUES (${token}, ${normalizedEmail}, ${CURRENT_EVENT_SLUG}, ${tokenExpiresAt})
+    `;
+
     const r = rows[0];
     return NextResponse.json({
       ok: true,
+      token,
       registration: {
         fullName: r.full_name,
         email: r.email,

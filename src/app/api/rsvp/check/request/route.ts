@@ -2,13 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getSql } from "@/lib/db";
 import { CURRENT_EVENT_SLUG, normalizeEmail } from "@/lib/rsvp";
-
-const OTP_TTL_MINUTES = 10;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function generateOtp(): string {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
+import { EMAIL_PATTERN, ensureOtpTable, generateOtp, OTP_TTL_MINUTES } from "@/lib/rsvp-server";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -27,6 +21,8 @@ export async function POST(request: Request) {
   try {
     const sql = getSql();
 
+    // Found regardless of status (including "cancelled") — the check flow
+    // is meant to show someone their current state, cancelled included.
     const existing = (await sql`
       SELECT id FROM event_registrations
       WHERE email = ${normalizedEmail} AND event_slug = ${CURRENT_EVENT_SLUG}
@@ -39,16 +35,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, found: false });
     }
 
-    await sql.query(`
-      CREATE TABLE IF NOT EXISTS event_registration_otps (
-        email TEXT NOT NULL,
-        event_slug TEXT NOT NULL,
-        otp TEXT NOT NULL,
-        expires_at TIMESTAMPTZ NOT NULL,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-        PRIMARY KEY (email, event_slug)
-      )
-    `);
+    await ensureOtpTable(sql);
 
     const otp = generateOtp();
     const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000).toISOString();

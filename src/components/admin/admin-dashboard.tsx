@@ -13,12 +13,14 @@ const STATUS_LABELS: Record<RegistrationStatus, string> = {
   registered: "Registered",
   contacting: "Contacting",
   confirmed: "Confirmed",
+  cancelled: "Cancelled",
 };
 
 const STATUS_COLORS: Record<RegistrationStatus, string> = {
   registered: "bg-neutral-100 text-neutral-600",
   contacting: "bg-amber-100 text-amber-700",
   confirmed: "bg-teal-100 text-teal-700",
+  cancelled: "bg-red-100 text-red-700",
 };
 
 function formatDate(iso: string) {
@@ -45,6 +47,8 @@ interface Props {
 export function AdminDashboard({ initialRegistrations, initialEventDetails }: Props) {
   const [registrations, setRegistrations] = useState(initialRegistrations);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
   const [eventName, setEventName] = useState(initialEventDetails?.event_name ?? "");
   const [eventDate, setEventDate] = useState(initialEventDetails?.event_date ?? "");
@@ -76,6 +80,21 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
       setRegistrations(previous); // roll back on failure
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function deleteRegistration(id: number) {
+    setDeletingId(id);
+    const previous = registrations;
+    setRegistrations((rows) => rows.filter((r) => r.id !== id));
+    try {
+      const res = await fetch(`/api/admin/registrations/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("failed");
+    } catch {
+      setRegistrations(previous); // roll back on failure
+    } finally {
+      setDeletingId(null);
+      setConfirmDeleteId(null);
     }
   }
 
@@ -145,7 +164,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
         </a>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <div className="rounded-2xl border border-neutral-200 bg-white p-4">
           <p className="text-xs tracking-wide text-neutral-400 uppercase">Total</p>
           <p className="mt-1 text-2xl font-medium text-neutral-900">{registrations.length}</p>
@@ -168,12 +187,13 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
               <th className="px-5 py-3 font-medium">Guests</th>
               <th className="px-5 py-3 font-medium">Status</th>
               <th className="px-5 py-3 font-medium">Registered</th>
+              <th className="px-5 py-3 font-medium"></th>
             </tr>
           </thead>
           <tbody>
             {registrations.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-5 py-10 text-center text-neutral-400">
+                <td colSpan={7} className="px-5 py-10 text-center text-neutral-400">
                   No registrations yet.
                 </td>
               </tr>
@@ -215,6 +235,40 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                     </div>
                   </td>
                   <td className="px-5 py-3 text-neutral-600">{formatDate(r.created_at)}</td>
+                  <td className="px-5 py-3">
+                    {confirmDeleteId === r.id ? (
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => deleteRegistration(r.id)}
+                          disabled={deletingId === r.id}
+                          className="rounded-full bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700 disabled:opacity-50"
+                        >
+                          {deletingId === r.id ? (
+                            <Loader2 className="size-3.5 animate-spin" />
+                          ) : (
+                            "Confirm"
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setConfirmDeleteId(null)}
+                          className="text-xs text-neutral-500 hover:text-neutral-700"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setConfirmDeleteId(r.id)}
+                        aria-label="Delete registration"
+                        className="flex size-8 items-center justify-center rounded-full text-neutral-400 hover:bg-red-50 hover:text-red-600"
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))
             )}

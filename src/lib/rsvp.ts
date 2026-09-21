@@ -9,7 +9,12 @@ export interface Guest {
   phone: string;
 }
 
-export const REGISTRATION_STATUSES = ["registered", "contacting", "confirmed"] as const;
+// "cancelled" is a soft-delete: the row stays in the database and visible
+// in the admin dashboard (it's just a status). A guest who cancels can
+// re-register later and this same row gets reactivated. Guests can only
+// ever set "cancelled" themselves (via the self-service flow); admins can
+// set any of these, including reversing a cancellation manually.
+export const REGISTRATION_STATUSES = ["registered", "contacting", "confirmed", "cancelled"] as const;
 export type RegistrationStatus = (typeof REGISTRATION_STATUSES)[number];
 
 export function isRegistrationStatus(value: string): value is RegistrationStatus {

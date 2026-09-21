@@ -210,14 +210,14 @@ export const translations = {
       guestPhonePlaceholder: "Guest's phone number",
       submit: "Register",
       submitting: "Registering…",
+      registerOtpPrompt: "Enter the 6-digit code we sent to {email} to confirm your registration.",
       errorMessage:
         "Something went wrong submitting your registration. Please try again, or email us directly at info@cynapept.com.",
+      alreadyRegisteredBlockedMessage:
+        "This email is already registered. Use \"Already registered? Check your status\" below to view or update it.",
       confirmationTitle: "You're registered",
       confirmationBody:
         "Thanks — we've saved your spot. Full event details will follow by email closer to the date.",
-      alreadyRegisteredTitle: "You're already registered",
-      alreadyRegisteredBody:
-        "We found an existing registration for this email and updated your details. Check your inbox for confirmation.",
       confirmationReset: "Register another guest",
       contactFooter: "Questions? Reach us at support@cynapept.com or info@cynapept.com.",
       checkToggle: "Already registered? Check your status",
@@ -234,6 +234,13 @@ export const translations = {
       checkStatusRegistered: "Registered",
       checkStatusContacting: "Contacting",
       checkStatusConfirmed: "Confirmed",
+      checkStatusCancelled: "Cancelled",
+      checkEdit: "Edit registration",
+      checkEditSaved: "Saved — your registration has been updated.",
+      checkSave: "Save changes",
+      checkCancelRegistration: "Cancel registration",
+      checkCancelled: "Your registration has been cancelled.",
+      checkClose: "Close",
     },
     eventPopup: {
       eyebrow: "Cynapept Event Moscow",
@@ -600,14 +607,14 @@ export const translations = {
       guestPhonePlaceholder: "Номер телефона гостя",
       submit: "Зарегистрироваться",
       submitting: "Регистрация…",
+      registerOtpPrompt: "Введите 6-значный код, отправленный на {email}, чтобы подтвердить регистрацию.",
       errorMessage:
         "Что-то пошло не так при отправке регистрации. Попробуйте ещё раз или напишите нам напрямую на info@cynapept.com.",
+      alreadyRegisteredBlockedMessage:
+        "Этот email уже зарегистрирован. Используйте «Уже зарегистрированы? Проверьте статус» ниже, чтобы посмотреть или изменить данные.",
       confirmationTitle: "Вы зарегистрированы",
       confirmationBody:
         "Спасибо — мы сохранили за вами место. Полную информацию о мероприятии мы отправим по электронной почте ближе к дате.",
-      alreadyRegisteredTitle: "Вы уже зарегистрированы",
-      alreadyRegisteredBody:
-        "Мы нашли существующую регистрацию для этого email и обновили ваши данные. Проверьте почту для подтверждения.",
       confirmationReset: "Зарегистрировать ещё одного гостя",
       contactFooter: "Есть вопросы? Пишите нам на support@cynapept.com или info@cynapept.com.",
       checkToggle: "Уже зарегистрированы? Проверьте статус",
@@ -624,6 +631,13 @@ export const translations = {
       checkStatusRegistered: "Зарегистрирован",
       checkStatusContacting: "Связываемся",
       checkStatusConfirmed: "Подтверждён",
+      checkStatusCancelled: "Отменена",
+      checkEdit: "Изменить регистрацию",
+      checkEditSaved: "Сохранено — ваша регистрация обновлена.",
+      checkSave: "Сохранить изменения",
+      checkCancelRegistration: "Отменить регистрацию",
+      checkCancelled: "Ваша регистрация отменена.",
+      checkClose: "Закрыть",
     },
     eventPopup: {
       eyebrow: "Cynapept Event Moscow",

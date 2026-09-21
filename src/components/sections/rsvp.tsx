@@ -7,20 +7,13 @@ import { buttonVariants } from "@/components/ui/button";
 import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
+import { resizeGuestFields, type GuestField } from "@/lib/guest-utils";
 import type { EventDetailsRow } from "@/lib/event-details";
 import { CheckRegistration } from "@/components/sections/check-registration";
+import { GuestFieldsEditor } from "@/components/sections/guest-fields-editor";
 
-type Status = "idle" | "submitting" | "submitted" | "already-registered" | "error";
-
-interface GuestField {
-  name: string;
-  countryCode: string;
-  phone: string;
-}
-
-function emptyGuest(): GuestField {
-  return { name: "", countryCode: DEFAULT_COUNTRY_CODE, phone: "" };
-}
+type Status = "idle" | "submitting" | "otp" | "verifying" | "submitted" | "error";
+type ErrorType = "already_registered" | "invalid_otp" | "generic" | null;
 
 export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null }) {
   const { language } = useLanguage();
@@ -39,23 +32,9 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
   const [guestCount, setGuestCount] = useState(1);
   const [guests, setGuests] = useState<GuestField[]>([]);
   const [status, setStatus] = useState<Status>("idle");
-
-  function setGuestCountAndResize(n: number) {
-    const clamped = Math.min(20, Math.max(1, n));
-    setGuestCount(clamped);
-    setGuests((prev) => {
-      const needed = clamped - 1;
-      if (needed === prev.length) return prev;
-      if (needed < prev.length) return prev.slice(0, needed);
-      return [...prev, ...Array.from({ length: needed - prev.length }, emptyGuest)];
-    });
-  }
-
-  function updateGuest(index: number, field: keyof GuestField, value: string) {
-    setGuests((prev) =>
-      prev.map((g, i) => (i === index ? { ...g, [field]: value } : g)),
-    );
-  }
+  const [errorType, setErrorType] = useState<ErrorType>(null);
+  const [otp, setOtp] = useState("");
+  const [checkTrigger, setCheckTrigger] = useState<{ email: string; nonce: number } | null>(null);
 
   const additionalGuestsValid = guests.every(
     (g) => g.name.trim().length > 0 && g.phone.trim().length > 0,
@@ -74,6 +53,8 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
     setPhone("");
     setGuestCount(1);
     setGuests([]);
+    setOtp("");
+    setErrorType(null);
     setStatus("idle");
   }
 
@@ -81,6 +62,7 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
     e.preventDefault();
     if (!canSubmit) return;
     setStatus("submitting");
+    setErrorType(null);
 
     try {
       const res = await fetch("/api/rsvp", {
@@ -100,12 +82,46 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
       const data = await res.json();
 
       if (!res.ok || !data.ok) {
+        if (data.error === "already_registered") {
+          setErrorType("already_registered");
+          // Hands off straight into the check-status flow, pre-filled and
+          // already requesting a code, instead of leaving them stuck.
+          setCheckTrigger({ email: email.trim(), nonce: Date.now() });
+        } else {
+          setErrorType("generic");
+        }
         setStatus("error");
         return;
       }
-      setStatus(data.alreadyRegistered ? "already-registered" : "submitted");
+      setStatus("otp");
     } catch {
+      setErrorType("generic");
       setStatus("error");
+    }
+  }
+
+  async function handleVerifyOtp(e: FormEvent) {
+    e.preventDefault();
+    setStatus("verifying");
+    setErrorType(null);
+
+    try {
+      const res = await fetch("/api/rsvp/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), otp: otp.trim() }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        setErrorType("invalid_otp");
+        setStatus("otp");
+        return;
+      }
+      setStatus("submitted");
+    } catch {
+      setErrorType("invalid_otp");
+      setStatus("otp");
     }
   }
 
@@ -165,16 +181,16 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
             )}
           </div>
 
-          {status === "submitted" || status === "already-registered" ? (
+          {status === "submitted" ? (
             <div className="flex flex-col items-center py-6 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-teal-50">
                 <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
               </div>
               <h2 className="mt-5 text-xl font-medium text-neutral-900">
-                {status === "already-registered" ? t.alreadyRegisteredTitle : t.confirmationTitle}
+                {t.confirmationTitle}
               </h2>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
-                {status === "already-registered" ? t.alreadyRegisteredBody : t.confirmationBody}
+                {t.confirmationBody}
               </p>
               <p className="mt-4 text-xs text-neutral-400">{t.contactFooter}</p>
               <button
@@ -188,6 +204,48 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
                 {t.confirmationReset}
               </button>
             </div>
+          ) : status === "otp" || status === "verifying" ? (
+            <form onSubmit={handleVerifyOtp} className="mt-6 flex flex-col gap-4">
+              <p className="text-sm text-neutral-600">
+                {t.registerOtpPrompt.replace("{email}", email.trim())}
+              </p>
+              <input
+                type="text"
+                required
+                inputMode="numeric"
+                maxLength={6}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                placeholder="000000"
+                className="h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-center text-lg tracking-[0.3em] text-neutral-900 outline-none transition-colors focus:border-teal-500"
+              />
+              {errorType === "invalid_otp" && (
+                <p className="text-sm text-red-600">{t.checkInvalidOtp}</p>
+              )}
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={status === "verifying"}
+                  className="h-14 flex-1 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 text-base font-medium text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] transition hover:from-teal-400 hover:to-cyan-400 disabled:opacity-40"
+                >
+                  {status === "verifying" ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="size-4 animate-spin" />
+                      {t.submitting}
+                    </span>
+                  ) : (
+                    t.checkVerify
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="h-14 rounded-full border border-neutral-200 px-6 text-sm text-neutral-600 hover:bg-neutral-50"
+                >
+                  {t.checkCancel}
+                </button>
+              </div>
+            </form>
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
               <div>
@@ -261,77 +319,26 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
                 </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="rsvp-guest-count"
-                  className="text-xs font-medium uppercase tracking-widest text-neutral-400"
-                >
-                  {t.guestCountLabel}
-                </label>
-                <input
-                  id="rsvp-guest-count"
-                  type="number"
-                  min={1}
-                  max={20}
-                  required
-                  value={guestCount}
-                  onChange={(e) => setGuestCountAndResize(Number(e.target.value))}
-                  className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500"
-                />
-                <p className="mt-2 text-xs text-neutral-400">{t.guestCountHelper}</p>
-              </div>
+              <GuestFieldsEditor
+                idPrefix="rsvp"
+                guestCount={guestCount}
+                guests={guests}
+                onGuestCountChange={(n) => {
+                  setGuestCount(Math.min(20, Math.max(1, n)));
+                  setGuests((prev) => resizeGuestFields(prev, n));
+                }}
+                onGuestChange={(index, field, value) =>
+                  setGuests((prev) =>
+                    prev.map((g, i) => (i === index ? { ...g, [field]: value } : g)),
+                  )
+                }
+                t={t}
+              />
 
-              {guests.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-                    {t.additionalGuestsHeading}
-                  </p>
-                  {guests.map((guest, index) => (
-                    <div
-                      key={index}
-                      className="rounded-2xl border border-neutral-200 bg-white p-4"
-                    >
-                      <p className="text-xs font-medium tracking-wide text-neutral-500">
-                        {t.guestLabel.replace("{n}", String(index + 2))}
-                      </p>
-                      <div className="mt-3 flex flex-col gap-3">
-                        <input
-                          type="text"
-                          required
-                          value={guest.name}
-                          onChange={(e) => updateGuest(index, "name", e.target.value)}
-                          placeholder={t.guestNamePlaceholder}
-                          className="h-12 w-full rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
-                        />
-                        <div className="flex gap-2">
-                          <select
-                            value={guest.countryCode}
-                            onChange={(e) => updateGuest(index, "countryCode", e.target.value)}
-                            aria-label={t.countryCodeLabel}
-                            className="h-12 w-24 shrink-0 rounded-full border border-neutral-200 bg-white px-3 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500"
-                          >
-                            {COUNTRY_CODES.map((c) => (
-                              <option key={c.code} value={c.code}>
-                                {c.code}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="tel"
-                            required
-                            value={guest.phone}
-                            onChange={(e) => updateGuest(index, "phone", e.target.value)}
-                            placeholder={t.guestPhonePlaceholder}
-                            className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              {status === "error" && errorType === "already_registered" && (
+                <p className="text-sm text-amber-700">{t.alreadyRegisteredBlockedMessage}</p>
               )}
-
-              {status === "error" && (
+              {status === "error" && errorType === "generic" && (
                 <p className="text-sm text-red-600">{t.errorMessage}</p>
               )}
 
@@ -353,9 +360,9 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
           )}
         </div>
 
-        {status !== "submitted" && status !== "already-registered" && (
+        {status !== "submitted" && (
           <div className="mt-6 text-center">
-            <CheckRegistration />
+            <CheckRegistration trigger={checkTrigger} />
           </div>
         )}
       </div>
