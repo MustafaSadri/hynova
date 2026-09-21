@@ -7,8 +7,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
+import type { EventDetailsRow } from "@/lib/event-details";
+import { CheckRegistration } from "@/components/sections/check-registration";
 
-type Status = "idle" | "submitting" | "submitted" | "error";
+type Status = "idle" | "submitting" | "submitted" | "already-registered" | "error";
 
 interface GuestField {
   name: string;
@@ -20,9 +22,15 @@ function emptyGuest(): GuestField {
   return { name: "", countryCode: DEFAULT_COUNTRY_CODE, phone: "" };
 }
 
-export function Rsvp() {
+export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null }) {
   const { language } = useLanguage();
   const t = translations[language].rsvp;
+
+  const displayEventName = eventDetails?.event_name || t.eventName;
+  const displayEventDate = eventDetails?.event_date || t.eventDate;
+  const displayVenueName = eventDetails?.venue_name || t.eventVenue;
+  const displayVenueAddress = eventDetails?.venue_address || t.eventAddress;
+  const venuePhotos = eventDetails?.venue_photos ?? [];
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -95,7 +103,7 @@ export function Rsvp() {
         setStatus("error");
         return;
       }
-      setStatus("submitted");
+      setStatus(data.alreadyRegistered ? "already-registered" : "submitted");
     } catch {
       setStatus("error");
     }
@@ -122,14 +130,14 @@ export function Rsvp() {
 
         <div className="mt-10 rounded-3xl border border-neutral-200 bg-white/70 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
           <div className="rounded-2xl border border-neutral-100 bg-neutral-50 p-5">
-            <p className="text-sm font-medium text-neutral-900">{t.eventName}</p>
+            <p className="text-sm font-medium text-neutral-900">{displayEventName}</p>
             <div className="mt-3 flex items-start gap-2 text-sm text-neutral-600">
               <CalendarClock className="mt-0.5 size-4 shrink-0 text-teal-600" />
               <div>
                 <p className="text-xs tracking-wide text-neutral-400 uppercase">
                   {t.eventDateLabel}
                 </p>
-                <p>{t.eventDate}</p>
+                <p>{displayEventDate}</p>
               </div>
             </div>
             <div className="mt-3 flex items-start gap-2 text-sm text-neutral-600">
@@ -138,23 +146,37 @@ export function Rsvp() {
                 <p className="text-xs tracking-wide text-neutral-400 uppercase">
                   {t.eventVenueLabel}
                 </p>
-                <p>{t.eventVenue}</p>
-                <p>{t.eventAddress}</p>
+                <p>{displayVenueName}</p>
+                <p>{displayVenueAddress}</p>
               </div>
             </div>
+            {venuePhotos.length > 0 && (
+              <div className="mt-4 flex gap-2 overflow-x-auto">
+                {venuePhotos.map((src, i) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={i}
+                    src={src}
+                    alt={`${displayVenueName} ${i + 1}`}
+                    className="h-20 w-28 shrink-0 rounded-lg object-cover"
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
-          {status === "submitted" ? (
+          {status === "submitted" || status === "already-registered" ? (
             <div className="flex flex-col items-center py-6 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-teal-50">
                 <CheckCircle2 className="size-7 text-teal-600" strokeWidth={1.5} />
               </div>
               <h2 className="mt-5 text-xl font-medium text-neutral-900">
-                {t.confirmationTitle}
+                {status === "already-registered" ? t.alreadyRegisteredTitle : t.confirmationTitle}
               </h2>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
-                {t.confirmationBody}
+                {status === "already-registered" ? t.alreadyRegisteredBody : t.confirmationBody}
               </p>
+              <p className="mt-4 text-xs text-neutral-400">{t.contactFooter}</p>
               <button
                 type="button"
                 onClick={reset}
@@ -330,6 +352,12 @@ export function Rsvp() {
             </form>
           )}
         </div>
+
+        {status !== "submitted" && status !== "already-registered" && (
+          <div className="mt-6 text-center">
+            <CheckRegistration />
+          </div>
+        )}
       </div>
     </section>
   );

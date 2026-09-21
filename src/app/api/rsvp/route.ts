@@ -77,6 +77,7 @@ export async function POST(request: Request) {
   const trimmedName = fullName.trim();
   const normalizedEmail = normalizeEmail(email);
   const trimmedPhone = phone.trim();
+  let isNewRegistration = true;
 
   try {
     const sql = getSql();
@@ -89,19 +90,24 @@ export async function POST(request: Request) {
         phone TEXT NOT NULL,
         guest_count INTEGER NOT NULL DEFAULT 1,
         guests JSONB NOT NULL DEFAULT '[]'::jsonb,
+        status TEXT NOT NULL DEFAULT 'registered',
         event_slug TEXT NOT NULL,
         created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
         updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
         UNIQUE (event_slug, email)
       )
     `);
-    // Self-healing for a table created before guest_count/guests existed.
+    // Self-healing for a table created before guest_count/guests/status existed.
     await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS guest_count INTEGER NOT NULL DEFAULT 1`);
     await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS guests JSONB NOT NULL DEFAULT '[]'::jsonb`);
+    await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'registered'`);
 
     // Re-submitting (e.g. to fix a typo'd phone number) updates the existing
-    // row instead of erroring or creating a duplicate.
-    await sql`
+    // row instead of erroring or creating a duplicate. `xmax = 0` is the
+    // standard Postgres tell for "this row was just inserted" vs "this row
+    // already existed and we updated it via the ON CONFLICT path" — lets
+    // us tell the registrant which case they're in.
+    const upsertResult = (await sql`
       INSERT INTO event_registrations (full_name, email, phone, guest_count, guests, event_slug)
       VALUES (${trimmedName}, ${normalizedEmail}, ${trimmedPhone}, ${guestCount}, ${JSON.stringify(parsedGuests)}, ${CURRENT_EVENT_SLUG})
       ON CONFLICT (event_slug, email)
@@ -111,7 +117,9 @@ export async function POST(request: Request) {
         guest_count = EXCLUDED.guest_count,
         guests = EXCLUDED.guests,
         updated_at = now()
-    `;
+      RETURNING (xmax = 0) AS inserted
+    `) as { inserted: boolean }[];
+    isNewRegistration = upsertResult[0]?.inserted ?? true;
   } catch (err) {
     console.error("rsvp: db error:", err);
     return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
@@ -127,23 +135,41 @@ export async function POST(request: Request) {
       : "";
     const guestSummary =
       guestCount > 1 ? `, along with ${guestCount - 1} additional guest(s)` : "";
+    const contactFooter = `
+      <p style="color:#666">Any questions or further communication about the event — reach us at
+        <a href="mailto:support@cynapept.com">support@cynapept.com</a> or
+        <a href="mailto:info@cynapept.com">info@cynapept.com</a>.</p>
+    `;
 
     // Both sends are best-effort — the registration itself is already
     // saved, so a mail hiccup shouldn't fail the whole request. The SDK
     // resolves with { error } rather than throwing on API-level failures,
     // so that has to be checked explicitly or failures go unnoticed.
     try {
-      const { error } = await resend.emails.send({
-        from: "Cynapept Events <noreply@cynapept.com>",
-        to: normalizedEmail,
-        subject: "You're registered — Cynapept Private Event",
-        html: `
-          <p>Hi ${escapeHtml(trimmedName)},</p>
-          <p>Thanks for registering — we've got you down for the Cynapept private event in Moscow${guestSummary}. Full details (date, time, and venue) will follow separately.</p>
-          <p>If anything about your details changes, just fill out the registration form again with the same email and we'll update it.</p>
-          <p>— Cynapept</p>
-        `,
-      });
+      const { error } = isNewRegistration
+        ? await resend.emails.send({
+            from: "Cynapept Events <noreply@cynapept.com>",
+            to: normalizedEmail,
+            subject: "Thank you for registering — Cynapept Event Moscow",
+            html: `
+              <p>Hi ${escapeHtml(trimmedName)},</p>
+              <p>Thank you for registering for Cynapept Event Moscow${guestSummary}. We've got you down, and full details (date, time, and venue) will follow separately.</p>
+              <p>If anything about your details changes, just fill out the registration form again with the same email and we'll update it.</p>
+              <p>— Cynapept</p>
+              ${contactFooter}
+            `,
+          })
+        : await resend.emails.send({
+            from: "Cynapept Events <noreply@cynapept.com>",
+            to: normalizedEmail,
+            subject: "You're already registered — Cynapept Event Moscow",
+            html: `
+              <p>Hi ${escapeHtml(trimmedName)},</p>
+              <p>You were already registered for Cynapept Event Moscow — we've updated your details${guestSummary}.</p>
+              <p>— Cynapept</p>
+              ${contactFooter}
+            `,
+          });
       if (error) console.error("rsvp: confirmation email failed:", error);
     } catch (err) {
       console.error("rsvp: confirmation email threw:", err);
@@ -153,7 +179,7 @@ export async function POST(request: Request) {
       const { error } = await resend.emails.send({
         from: "Cynapept Events <noreply@cynapept.com>",
         to: NOTIFY_ADDRESS,
-        subject: `New event registration — ${trimmedName}`,
+        subject: `${isNewRegistration ? "New" : "Updated"} event registration — ${trimmedName}`,
         html: `
           <p><strong>Name:</strong> ${escapeHtml(trimmedName)}</p>
           <p><strong>Email:</strong> ${escapeHtml(normalizedEmail)}</p>
@@ -170,5 +196,5 @@ export async function POST(request: Request) {
     console.error("rsvp: missing RESEND_API_KEY, skipped emails");
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, alreadyRegistered: !isNewRegistration });
 }

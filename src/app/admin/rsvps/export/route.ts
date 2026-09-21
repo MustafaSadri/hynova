@@ -19,7 +19,7 @@ export async function GET() {
     rows = [];
   }
 
-  const header = "full_name,email,phone,guest_count,additional_guests,registered_at\n";
+  const header = "full_name,email,phone,guest_count,additional_guests,status,registered_at\n";
   const body = rows
     .map((r) =>
       [
@@ -28,6 +28,7 @@ export async function GET() {
         csvEscape(r.phone),
         csvEscape(String(r.guest_count)),
         csvEscape(r.guests.map((g) => `${g.name} (${g.phone})`).join("; ")),
+        csvEscape(r.status),
         csvEscape(new Date(r.created_at).toISOString()),
       ].join(","),
     )

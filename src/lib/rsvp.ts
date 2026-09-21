@@ -9,6 +9,13 @@ export interface Guest {
   phone: string;
 }
 
+export const REGISTRATION_STATUSES = ["registered", "contacting", "confirmed"] as const;
+export type RegistrationStatus = (typeof REGISTRATION_STATUSES)[number];
+
+export function isRegistrationStatus(value: string): value is RegistrationStatus {
+  return (REGISTRATION_STATUSES as readonly string[]).includes(value);
+}
+
 export interface EventRegistrationRow {
   id: number;
   full_name: string;
@@ -16,6 +23,7 @@ export interface EventRegistrationRow {
   phone: string;
   guest_count: number;
   guests: Guest[];
+  status: RegistrationStatus;
   event_slug: string;
   created_at: string;
   updated_at: string;
