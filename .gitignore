@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# raw source photos awaiting processing — not web assets
+/product-photos-inbox/*/*
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
