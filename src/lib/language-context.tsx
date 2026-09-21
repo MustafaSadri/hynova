@@ -14,16 +14,18 @@ const LanguageContext = createContext<{
   language: Language;
   setLanguage: (lang: Language) => void;
 }>({
-  language: "en",
+  language: "ru",
   setLanguage: () => {},
 });
 
 const STORAGE_KEY = "cynapept-language";
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Always starts "en" on both server and first client render, then syncs
-  // from localStorage after mount — avoids a hydration mismatch.
-  const [language, setLanguageState] = useState<Language>("en");
+  // Always starts "ru" (the site's default) on both server and first client
+  // render, then syncs from localStorage after mount — avoids a hydration
+  // mismatch, and still lets a visitor's own past choice (including "en")
+  // override the default once we know it.
+  const [language, setLanguageState] = useState<Language>("ru");
 
   useEffect(() => {
     // Genuine external-system sync: localStorage isn't reachable during SSR

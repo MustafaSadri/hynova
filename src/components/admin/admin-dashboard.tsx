@@ -8,13 +8,8 @@ import {
   type RegistrationStatus,
 } from "@/lib/rsvp";
 import { MAX_PHOTO_BYTES, MAX_VENUE_PHOTOS, type EventDetailsRow } from "@/lib/event-details";
-
-const STATUS_LABELS: Record<RegistrationStatus, string> = {
-  registered: "Registered",
-  contacting: "Contacting",
-  confirmed: "Confirmed",
-  cancelled: "Cancelled",
-};
+import { useLanguage } from "@/lib/language-context";
+import { translations } from "@/lib/translations";
 
 const STATUS_COLORS: Record<RegistrationStatus, string> = {
   registered: "bg-neutral-100 text-neutral-600",
@@ -22,13 +17,6 @@ const STATUS_COLORS: Record<RegistrationStatus, string> = {
   confirmed: "bg-teal-100 text-teal-700",
   cancelled: "bg-red-100 text-red-700",
 };
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("en-GB", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-}
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -45,6 +33,23 @@ interface Props {
 }
 
 export function AdminDashboard({ initialRegistrations, initialEventDetails }: Props) {
+  const { language } = useLanguage();
+  const t = translations[language].admin;
+
+  const STATUS_LABELS: Record<RegistrationStatus, string> = {
+    registered: t.statRegistered,
+    contacting: t.statContacting,
+    confirmed: t.statConfirmed,
+    cancelled: t.statCancelled,
+  };
+
+  function formatDate(iso: string) {
+    return new Date(iso).toLocaleString(language === "ru" ? "ru-RU" : "en-GB", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  }
+
   const [registrations, setRegistrations] = useState(initialRegistrations);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -104,14 +109,18 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
 
     const remaining = MAX_VENUE_PHOTOS - venuePhotos.length;
     if (remaining <= 0) {
-      setPhotoError(`Maximum ${MAX_VENUE_PHOTOS} photos.`);
+      setPhotoError(t.photoTooMany.replace("{max}", String(MAX_VENUE_PHOTOS)));
       return;
     }
 
     const selected = Array.from(files).slice(0, remaining);
     const tooLarge = selected.find((f) => f.size > MAX_PHOTO_BYTES);
     if (tooLarge) {
-      setPhotoError(`"${tooLarge.name}" is too large — max ${Math.round(MAX_PHOTO_BYTES / 1024 / 1024)}MB per photo.`);
+      setPhotoError(
+        t.photoTooLarge
+          .replace("{name}", tooLarge.name)
+          .replace("{max}", String(Math.round(MAX_PHOTO_BYTES / 1024 / 1024))),
+      );
       return;
     }
 
@@ -139,9 +148,9 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
         }),
       });
       const data = await res.json();
-      setSaveMessage(res.ok && data.ok ? "Saved." : "Failed to save — try again.");
+      setSaveMessage(res.ok && data.ok ? t.saved : t.saveFailed);
     } catch {
-      setSaveMessage("Failed to save — try again.");
+      setSaveMessage(t.saveFailed);
     } finally {
       setSavingDetails(false);
     }
@@ -151,22 +160,24 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
     <div className="mx-auto max-w-5xl">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-medium text-neutral-900">Event Registrations</h1>
+          <h1 className="text-2xl font-medium text-neutral-900">{t.heading}</h1>
           <p className="mt-1 text-sm text-neutral-500">
-            {registrations.length} registration(s) — {totalAttendees} total attendee(s)
+            {t.registrationsSummary
+              .replace("{count}", String(registrations.length))
+              .replace("{attendees}", String(totalAttendees))}
           </p>
         </div>
         <a
           href="/admin/rsvps/export"
           className="rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800"
         >
-          Download CSV
+          {t.downloadCsv}
         </a>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <div className="rounded-2xl border border-neutral-200 bg-white p-4">
-          <p className="text-xs tracking-wide text-neutral-400 uppercase">Total</p>
+          <p className="text-xs tracking-wide text-neutral-400 uppercase">{t.statTotal}</p>
           <p className="mt-1 text-2xl font-medium text-neutral-900">{registrations.length}</p>
         </div>
         {REGISTRATION_STATUSES.map((s) => (
@@ -181,12 +192,12 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-neutral-200 text-xs tracking-wide text-neutral-400 uppercase">
-              <th className="px-5 py-3 font-medium">Name</th>
-              <th className="px-5 py-3 font-medium">Email</th>
-              <th className="px-5 py-3 font-medium">Phone</th>
-              <th className="px-5 py-3 font-medium">Guests</th>
-              <th className="px-5 py-3 font-medium">Status</th>
-              <th className="px-5 py-3 font-medium">Registered</th>
+              <th className="px-5 py-3 font-medium">{t.colName}</th>
+              <th className="px-5 py-3 font-medium">{t.colEmail}</th>
+              <th className="px-5 py-3 font-medium">{t.colPhone}</th>
+              <th className="px-5 py-3 font-medium">{t.colGuests}</th>
+              <th className="px-5 py-3 font-medium">{t.colStatus}</th>
+              <th className="px-5 py-3 font-medium">{t.colRegistered}</th>
               <th className="px-5 py-3 font-medium"></th>
             </tr>
           </thead>
@@ -194,7 +205,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
             {registrations.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-5 py-10 text-center text-neutral-400">
-                  No registrations yet.
+                  {t.noRegistrations}
                 </td>
               </tr>
             ) : (
@@ -247,7 +258,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                           {deletingId === r.id ? (
                             <Loader2 className="size-3.5 animate-spin" />
                           ) : (
-                            "Confirm"
+                            t.confirmDelete
                           )}
                         </button>
                         <button
@@ -255,14 +266,14 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                           onClick={() => setConfirmDeleteId(null)}
                           className="text-xs text-neutral-500 hover:text-neutral-700"
                         >
-                          Cancel
+                          {t.cancelDelete}
                         </button>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={() => setConfirmDeleteId(r.id)}
-                        aria-label="Delete registration"
+                        aria-label={t.deleteAriaLabel}
                         className="flex size-8 items-center justify-center rounded-full text-neutral-400 hover:bg-red-50 hover:text-red-600"
                       >
                         <Trash2 className="size-4" />
@@ -277,57 +288,55 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
       </div>
 
       <div className="mt-10 rounded-2xl border border-neutral-200 bg-white p-6">
-        <h2 className="text-lg font-medium text-neutral-900">Event Details</h2>
-        <p className="mt-1 text-sm text-neutral-500">
-          Shown on the public registration page and in the homepage popup.
-        </p>
+        <h2 className="text-lg font-medium text-neutral-900">{t.eventDetailsHeading}</h2>
+        <p className="mt-1 text-sm text-neutral-500">{t.eventDetailsSubtitle}</p>
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-              Event name
+              {t.eventNameLabel}
             </label>
             <input
               type="text"
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
-              placeholder="Cynapept Event Moscow"
+              placeholder={t.eventNamePlaceholder}
               className="mt-2 h-11 w-full rounded-xl border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
             />
           </div>
           <div>
             <label className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-              Date &amp; time
+              {t.eventDateLabel}
             </label>
             <input
               type="text"
               value={eventDate}
               onChange={(e) => setEventDate(e.target.value)}
-              placeholder="e.g. 12 December 2026, 7:00 PM"
+              placeholder={t.eventDatePlaceholder}
               className="mt-2 h-11 w-full rounded-xl border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
             />
           </div>
           <div>
             <label className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-              Venue name
+              {t.venueNameLabel}
             </label>
             <input
               type="text"
               value={venueName}
               onChange={(e) => setVenueName(e.target.value)}
-              placeholder="e.g. Ritz-Carlton Moscow"
+              placeholder={t.venueNamePlaceholder}
               className="mt-2 h-11 w-full rounded-xl border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
             />
           </div>
           <div>
             <label className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-              Venue address
+              {t.venueAddressLabel}
             </label>
             <input
               type="text"
               value={venueAddress}
               onChange={(e) => setVenueAddress(e.target.value)}
-              placeholder="e.g. Tverskaya St 3, Moscow"
+              placeholder={t.venueAddressPlaceholder}
               className="mt-2 h-11 w-full rounded-xl border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
             />
           </div>
@@ -335,7 +344,9 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
 
         <div className="mt-5">
           <label className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-            Venue photos ({venuePhotos.length}/{MAX_VENUE_PHOTOS})
+            {t.venuePhotosLabel
+              .replace("{count}", String(venuePhotos.length))
+              .replace("{max}", String(MAX_VENUE_PHOTOS))}
           </label>
           <div className="mt-2 flex flex-wrap gap-3">
             {venuePhotos.map((src, i) => (
@@ -345,7 +356,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                 <button
                   type="button"
                   onClick={() => removePhoto(i)}
-                  aria-label="Remove photo"
+                  aria-label={t.removePhotoAriaLabel}
                   className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
                 >
                   <Trash2 className="size-3.5" />
@@ -355,7 +366,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
             {venuePhotos.length < MAX_VENUE_PHOTOS && (
               <label className="flex size-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-neutral-300 text-neutral-400 hover:border-teal-400 hover:text-teal-600">
                 <Upload className="size-5" />
-                <span className="text-xs">Upload</span>
+                <span className="text-xs">{t.upload}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -376,7 +387,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
             disabled={savingDetails}
             className="rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-2.5 text-sm font-medium text-white hover:from-teal-400 hover:to-cyan-400 disabled:opacity-50"
           >
-            {savingDetails ? "Saving…" : "Save Event Details"}
+            {savingDetails ? t.saving : t.saveEventDetails}
           </button>
           {saveMessage && <p className="text-sm text-neutral-500">{saveMessage}</p>}
         </div>
