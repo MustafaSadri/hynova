@@ -30,12 +30,6 @@ export function generateToken(): string {
   return randomBytes(24).toString("base64url");
 }
 
-export const contactFooterHtml = `
-  <p style="color:#666">Any questions or further communication about the event — reach us at
-    <a href="mailto:support@cynapept.com">support@cynapept.com</a> or
-    <a href="mailto:info@cynapept.com">info@cynapept.com</a>.</p>
-`;
-
 export async function ensureRegistrationsTable(sql: Sql) {
   await sql.query(`
     CREATE TABLE IF NOT EXISTS event_registrations (

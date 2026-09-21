@@ -10,6 +10,8 @@ import { GuestFieldsEditor } from "@/components/sections/guest-fields-editor";
 
 type Step = "closed" | "email" | "otp" | "result" | "edit" | "not-found";
 
+const RESEND_COOLDOWN_SECONDS = 60;
+
 interface RegistrationResult {
   fullName: string;
   email: string;
@@ -42,6 +44,8 @@ export function CheckRegistration({
   const [result, setResult] = useState<RegistrationResult | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resending, setResending] = useState(false);
 
   // Edit-mode fields
   const [editName, setEditName] = useState("");
@@ -71,12 +75,28 @@ export function CheckRegistration({
         return;
       }
       setStep("otp");
+      setResendCooldown(RESEND_COOLDOWN_SECONDS);
     } catch {
       setError(t.checkError);
       setStep("email");
     } finally {
       setBusy(false);
     }
+  }
+
+  // One interval for the component's lifetime — ticks the cooldown down via
+  // the functional updater, so it never needs resendCooldown as a
+  // dependency (and React bails out of re-rendering once it hits 0).
+  useEffect(() => {
+    const timer = setInterval(() => setResendCooldown((n) => Math.max(0, n - 1)), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  async function handleResendOtp() {
+    if (resendCooldown > 0 || resending) return;
+    setResending(true);
+    await requestCodeFor(email.trim());
+    setResending(false);
   }
 
   useEffect(() => {
@@ -213,6 +233,7 @@ export function CheckRegistration({
     setResult(null);
     setToken(null);
     setActionMessage(null);
+    setResendCooldown(0);
   }
 
   if (step === "closed") {
@@ -288,6 +309,18 @@ export function CheckRegistration({
             className="h-11 w-full rounded-full border border-neutral-200 px-4 text-center text-lg tracking-[0.3em] outline-none focus:border-teal-500"
           />
           {error && <p className="text-xs text-red-600">{error}</p>}
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            disabled={resendCooldown > 0 || resending}
+            className="text-xs text-neutral-500 underline-offset-4 hover:text-teal-600 hover:underline disabled:cursor-default disabled:text-neutral-400 disabled:no-underline"
+          >
+            {resending
+              ? t.submitting
+              : resendCooldown > 0
+                ? t.checkResendIn.replace("{n}", String(resendCooldown))
+                : t.checkResend}
+          </button>
           <div className="flex gap-2">
             <button
               type="submit"

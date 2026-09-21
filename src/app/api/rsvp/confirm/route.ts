@@ -3,7 +3,6 @@ import { Resend } from "resend";
 import { getSql } from "@/lib/db";
 import { CURRENT_EVENT_SLUG, normalizeEmail } from "@/lib/rsvp";
 import {
-  contactFooterHtml,
   EDIT_TOKEN_TTL_MINUTES,
   EMAIL_PATTERN,
   ensureRegistrationsTable,
@@ -104,9 +103,9 @@ export async function POST(request: Request) {
           subject: "Thank you for registering — Cynapept Event Moscow",
           html: `
             <p>Hi ${escapeHtml(fullName)},</p>
-            <p>Thank you for registering for Cynapept Event Moscow${guestSummary}. We've got you down, and full details (date, time, and venue) will follow separately.</p>
+            <p>Thank you for registering for Cynapept Event Moscow${guestSummary}.</p>
+            <p>If there are any changes — including to the date or time — we'll notify you via support@cynapept.com.</p>
             <p>— Cynapept</p>
-            ${contactFooterHtml}
           `,
         });
         if (error) console.error("rsvp confirm: confirmation email failed:", error);

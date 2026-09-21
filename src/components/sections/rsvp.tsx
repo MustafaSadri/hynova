@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { CalendarClock, CheckCircle2, Loader2, MapPin, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -14,6 +15,8 @@ import { GuestFieldsEditor } from "@/components/sections/guest-fields-editor";
 
 type Status = "idle" | "submitting" | "otp" | "verifying" | "submitted" | "error";
 type ErrorType = "already_registered" | "invalid_otp" | "generic" | null;
+
+const RESEND_COOLDOWN_SECONDS = 60;
 
 export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null }) {
   const { language } = useLanguage();
@@ -35,6 +38,8 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
   const [errorType, setErrorType] = useState<ErrorType>(null);
   const [otp, setOtp] = useState("");
   const [checkTrigger, setCheckTrigger] = useState<{ email: string; nonce: number } | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resending, setResending] = useState(false);
 
   const additionalGuestsValid = guests.every(
     (g) => g.name.trim().length > 0 && g.phone.trim().length > 0,
@@ -46,24 +51,15 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
     phone.trim().length > 0 &&
     additionalGuestsValid;
 
-  function reset() {
-    setFullName("");
-    setEmail("");
-    setCountryCode(DEFAULT_COUNTRY_CODE);
-    setPhone("");
-    setGuestCount(1);
-    setGuests([]);
-    setOtp("");
-    setErrorType(null);
-    setStatus("idle");
-  }
+  // One interval for the component's lifetime — ticks the cooldown down via
+  // the functional updater, so it never needs resendCooldown as a
+  // dependency (and React bails out of re-rendering once it hits 0).
+  useEffect(() => {
+    const timer = setInterval(() => setResendCooldown((n) => Math.max(0, n - 1)), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    if (!canSubmit) return;
-    setStatus("submitting");
-    setErrorType(null);
-
+  async function requestOtp(): Promise<boolean> {
     try {
       const res = await fetch("/api/rsvp", {
         method: "POST",
@@ -90,14 +86,32 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
         } else {
           setErrorType("generic");
         }
-        setStatus("error");
-        return;
+        return false;
       }
-      setStatus("otp");
+      setResendCooldown(RESEND_COOLDOWN_SECONDS);
+      return true;
     } catch {
       setErrorType("generic");
-      setStatus("error");
+      return false;
     }
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (!canSubmit) return;
+    setStatus("submitting");
+    setErrorType(null);
+
+    const ok = await requestOtp();
+    setStatus(ok ? "otp" : "error");
+  }
+
+  async function handleResendOtp() {
+    if (resendCooldown > 0 || resending) return;
+    setResending(true);
+    setErrorType(null);
+    await requestOtp();
+    setResending(false);
   }
 
   async function handleVerifyOtp(e: FormEvent) {
@@ -192,17 +206,15 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
                 {t.confirmationBody}
               </p>
-              <p className="mt-4 text-xs text-neutral-400">{t.contactFooter}</p>
-              <button
-                type="button"
-                onClick={reset}
+              <Link
+                href="/"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
                   "mt-6 h-11 rounded-full border-neutral-200 px-6 text-neutral-700 hover:bg-neutral-50",
                 )}
               >
-                {t.confirmationReset}
-              </button>
+                {t.confirmationReturnHome}
+              </Link>
             </div>
           ) : status === "otp" || status === "verifying" ? (
             <form onSubmit={handleVerifyOtp} className="mt-6 flex flex-col gap-4">
@@ -222,6 +234,18 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
               {errorType === "invalid_otp" && (
                 <p className="text-sm text-red-600">{t.checkInvalidOtp}</p>
               )}
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resendCooldown > 0 || resending}
+                className="text-sm text-neutral-500 underline-offset-4 hover:text-teal-600 hover:underline disabled:cursor-default disabled:text-neutral-400 disabled:no-underline"
+              >
+                {resending
+                  ? t.submitting
+                  : resendCooldown > 0
+                    ? t.checkResendIn.replace("{n}", String(resendCooldown))
+                    : t.checkResend}
+              </button>
               <div className="flex gap-2">
                 <button
                   type="submit"
