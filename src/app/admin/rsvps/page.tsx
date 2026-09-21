@@ -28,17 +28,19 @@ function formatDate(iso: string) {
 
 export default async function AdminRsvpsPage() {
   const registrations = await getRegistrations();
+  const totalAttendees = registrations.reduce((sum, r) => sum + r.guest_count, 0);
 
   return (
     <div className="min-h-screen bg-neutral-50 px-6 py-10">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl font-medium text-neutral-900">
               Event Registrations
             </h1>
             <p className="mt-1 text-sm text-neutral-500">
-              {registrations.length} registered — event: {CURRENT_EVENT_SLUG}
+              {registrations.length} registration(s) — {totalAttendees} total attendee(s) —
+              event: {CURRENT_EVENT_SLUG}
             </p>
           </div>
           <a
@@ -56,13 +58,14 @@ export default async function AdminRsvpsPage() {
                 <th className="px-5 py-3 font-medium">Name</th>
                 <th className="px-5 py-3 font-medium">Email</th>
                 <th className="px-5 py-3 font-medium">Phone</th>
+                <th className="px-5 py-3 font-medium">Guests</th>
                 <th className="px-5 py-3 font-medium">Registered</th>
               </tr>
             </thead>
             <tbody>
               {registrations.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-5 py-10 text-center text-neutral-400">
+                  <td colSpan={5} className="px-5 py-10 text-center text-neutral-400">
                     No registrations yet.
                   </td>
                 </tr>
@@ -71,7 +74,21 @@ export default async function AdminRsvpsPage() {
                   <tr key={r.id} className="border-b border-neutral-100 last:border-0">
                     <td className="px-5 py-3 text-neutral-900">{r.full_name}</td>
                     <td className="px-5 py-3 text-neutral-600">{r.email}</td>
-                    <td className="px-5 py-3 text-neutral-600">{r.phone || "—"}</td>
+                    <td className="px-5 py-3 text-neutral-600">{r.phone}</td>
+                    <td className="px-5 py-3 text-neutral-600">
+                      <span className="font-medium text-neutral-900">
+                        {r.guest_count}
+                      </span>
+                      {r.guests.length > 0 && (
+                        <ul className="mt-1 text-xs text-neutral-500">
+                          {r.guests.map((g, i) => (
+                            <li key={i}>
+                              {g.name} — {g.phone}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </td>
                     <td className="px-5 py-3 text-neutral-600">
                       {formatDate(r.created_at)}
                     </td>

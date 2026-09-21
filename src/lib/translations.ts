@@ -199,7 +199,15 @@ export const translations = {
       emailLabel: "Email address",
       emailPlaceholder: "you@example.com",
       phoneLabel: "Phone number",
-      phonePlaceholder: "Phone number (optional)",
+      phonePlaceholder: "Phone number",
+      countryCodeLabel: "Country code",
+      guestCountLabel: "Number of guests (including you)",
+      guestCountHelper:
+        "Bringing anyone? Every additional guest needs a name and phone number.",
+      additionalGuestsHeading: "Additional guest details",
+      guestLabel: "Guest {n}",
+      guestNamePlaceholder: "Guest's full name",
+      guestPhonePlaceholder: "Guest's phone number",
       submit: "Register",
       submitting: "Registering…",
       errorMessage:
@@ -208,6 +216,14 @@ export const translations = {
       confirmationBody:
         "Thanks — we've saved your spot. Full event details will follow by email closer to the date.",
       confirmationReset: "Register another guest",
+    },
+    eventPopup: {
+      eyebrow: "Private Event",
+      title: "You're Invited",
+      body: "We're hosting a private event for our future business partners in Moscow. Register your spot below.",
+      cta: "Register Now",
+      dismiss: "Maybe later",
+      close: "Close",
     },
     verify: {
       headingPlain: "Verify Your ",
@@ -554,7 +570,15 @@ export const translations = {
       emailLabel: "Адрес электронной почты",
       emailPlaceholder: "you@example.com",
       phoneLabel: "Номер телефона",
-      phonePlaceholder: "Номер телефона (необязательно)",
+      phonePlaceholder: "Номер телефона",
+      countryCodeLabel: "Код страны",
+      guestCountLabel: "Количество гостей (включая вас)",
+      guestCountHelper:
+        "Идёте не одни? Для каждого дополнительного гостя укажите имя и номер телефона.",
+      additionalGuestsHeading: "Данные дополнительных гостей",
+      guestLabel: "Гость {n}",
+      guestNamePlaceholder: "Полное имя гостя",
+      guestPhonePlaceholder: "Номер телефона гостя",
       submit: "Зарегистрироваться",
       submitting: "Регистрация…",
       errorMessage:
@@ -563,6 +587,14 @@ export const translations = {
       confirmationBody:
         "Спасибо — мы сохранили за вами место. Полную информацию о мероприятии мы отправим по электронной почте ближе к дате.",
       confirmationReset: "Зарегистрировать ещё одного гостя",
+    },
+    eventPopup: {
+      eyebrow: "Закрытое мероприятие",
+      title: "Вы приглашены",
+      body: "Мы проводим закрытое мероприятие в Москве для наших будущих деловых партнёров. Зарегистрируйтесь ниже.",
+      cta: "Зарегистрироваться",
+      dismiss: "Позже",
+      close: "Закрыть",
     },
     verify: {
       headingPlain: "Проверка ",

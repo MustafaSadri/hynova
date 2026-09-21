@@ -4,11 +4,18 @@ export const EVENT_REGISTRATIONS_TABLE = "event_registrations";
 // setting up a future event, without touching old registrations.
 export const CURRENT_EVENT_SLUG = "moscow-private-event";
 
+export interface Guest {
+  name: string;
+  phone: string;
+}
+
 export interface EventRegistrationRow {
   id: number;
   full_name: string;
   email: string;
-  phone: string | null;
+  phone: string;
+  guest_count: number;
+  guests: Guest[];
   event_slug: string;
   created_at: string;
   updated_at: string;

@@ -6,8 +6,19 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
+import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
 
 type Status = "idle" | "submitting" | "submitted" | "error";
+
+interface GuestField {
+  name: string;
+  countryCode: string;
+  phone: string;
+}
+
+function emptyGuest(): GuestField {
+  return { name: "", countryCode: DEFAULT_COUNTRY_CODE, phone: "" };
+}
 
 export function Rsvp() {
   const { language } = useLanguage();
@@ -15,15 +26,46 @@ export function Rsvp() {
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState(DEFAULT_COUNTRY_CODE);
   const [phone, setPhone] = useState("");
+  const [guestCount, setGuestCount] = useState(1);
+  const [guests, setGuests] = useState<GuestField[]>([]);
   const [status, setStatus] = useState<Status>("idle");
 
-  const canSubmit = status !== "submitting" && fullName.trim().length > 0 && email.trim().length > 0;
+  function setGuestCountAndResize(n: number) {
+    const clamped = Math.min(20, Math.max(1, n));
+    setGuestCount(clamped);
+    setGuests((prev) => {
+      const needed = clamped - 1;
+      if (needed === prev.length) return prev;
+      if (needed < prev.length) return prev.slice(0, needed);
+      return [...prev, ...Array.from({ length: needed - prev.length }, emptyGuest)];
+    });
+  }
+
+  function updateGuest(index: number, field: keyof GuestField, value: string) {
+    setGuests((prev) =>
+      prev.map((g, i) => (i === index ? { ...g, [field]: value } : g)),
+    );
+  }
+
+  const additionalGuestsValid = guests.every(
+    (g) => g.name.trim().length > 0 && g.phone.trim().length > 0,
+  );
+  const canSubmit =
+    status !== "submitting" &&
+    fullName.trim().length > 0 &&
+    email.trim().length > 0 &&
+    phone.trim().length > 0 &&
+    additionalGuestsValid;
 
   function reset() {
     setFullName("");
     setEmail("");
+    setCountryCode(DEFAULT_COUNTRY_CODE);
     setPhone("");
+    setGuestCount(1);
+    setGuests([]);
     setStatus("idle");
   }
 
@@ -39,7 +81,12 @@ export function Rsvp() {
         body: JSON.stringify({
           fullName: fullName.trim(),
           email: email.trim(),
-          phone: phone.trim() || undefined,
+          phone: `${countryCode} ${phone.trim()}`,
+          guestCount,
+          guests: guests.map((g) => ({
+            name: g.name.trim(),
+            phone: `${g.countryCode} ${g.phone.trim()}`,
+          })),
         }),
       });
       const data = await res.json();
@@ -166,16 +213,101 @@ export function Rsvp() {
                 >
                   {t.phoneLabel}
                 </label>
-                <input
-                  id="rsvp-phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder={t.phonePlaceholder}
-                  autoComplete="tel"
-                  className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
-                />
+                <div className="mt-2 flex gap-2">
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    aria-label={t.countryCodeLabel}
+                    className="h-14 w-28 shrink-0 rounded-full border border-neutral-200 bg-white px-3 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500"
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.code}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    id="rsvp-phone"
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder={t.phonePlaceholder}
+                    autoComplete="tel"
+                    className="h-14 flex-1 rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                  />
+                </div>
               </div>
+
+              <div>
+                <label
+                  htmlFor="rsvp-guest-count"
+                  className="text-xs font-medium uppercase tracking-widest text-neutral-400"
+                >
+                  {t.guestCountLabel}
+                </label>
+                <input
+                  id="rsvp-guest-count"
+                  type="number"
+                  min={1}
+                  max={20}
+                  required
+                  value={guestCount}
+                  onChange={(e) => setGuestCountAndResize(Number(e.target.value))}
+                  className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500"
+                />
+                <p className="mt-2 text-xs text-neutral-400">{t.guestCountHelper}</p>
+              </div>
+
+              {guests.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">
+                    {t.additionalGuestsHeading}
+                  </p>
+                  {guests.map((guest, index) => (
+                    <div
+                      key={index}
+                      className="rounded-2xl border border-neutral-200 bg-white p-4"
+                    >
+                      <p className="text-xs font-medium tracking-wide text-neutral-500">
+                        {t.guestLabel.replace("{n}", String(index + 2))}
+                      </p>
+                      <div className="mt-3 flex flex-col gap-3">
+                        <input
+                          type="text"
+                          required
+                          value={guest.name}
+                          onChange={(e) => updateGuest(index, "name", e.target.value)}
+                          placeholder={t.guestNamePlaceholder}
+                          className="h-12 w-full rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                        />
+                        <div className="flex gap-2">
+                          <select
+                            value={guest.countryCode}
+                            onChange={(e) => updateGuest(index, "countryCode", e.target.value)}
+                            aria-label={t.countryCodeLabel}
+                            className="h-12 w-24 shrink-0 rounded-full border border-neutral-200 bg-white px-3 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500"
+                          >
+                            {COUNTRY_CODES.map((c) => (
+                              <option key={c.code} value={c.code}>
+                                {c.code}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            type="tel"
+                            required
+                            value={guest.phone}
+                            onChange={(e) => updateGuest(index, "phone", e.target.value)}
+                            placeholder={t.guestPhonePlaceholder}
+                            className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {status === "error" && (
                 <p className="text-sm text-red-600">{t.errorMessage}</p>
