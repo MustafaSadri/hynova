@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Trash2, Upload } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Loader2, LogOut, Trash2, Upload } from "lucide-react";
 import {
   REGISTRATION_STATUSES,
   type EventRegistrationRow,
@@ -35,6 +36,13 @@ interface Props {
 export function AdminDashboard({ initialRegistrations, initialEventDetails }: Props) {
   const { language } = useLanguage();
   const t = translations[language].admin;
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+    router.refresh();
+  }
 
   const STATUS_LABELS: Record<RegistrationStatus, string> = {
     registered: t.statRegistered,
@@ -167,12 +175,22 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
               .replace("{attendees}", String(totalAttendees))}
           </p>
         </div>
-        <a
-          href="/admin/rsvps/export"
-          className="rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800"
-        >
-          {t.downloadCsv}
-        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href="/admin/rsvps/export"
+            className="rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800"
+          >
+            {t.downloadCsv}
+          </a>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50"
+          >
+            <LogOut className="size-4" />
+            {t.logout}
+          </button>
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
