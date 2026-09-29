@@ -78,7 +78,7 @@ export function EventPopup() {
             onClick={dismiss}
             className={cn(
               buttonVariants({ size: "lg" }),
-              "h-12 flex-1 rounded-full border-0 bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] hover:from-teal-400 hover:to-cyan-400",
+              "h-12 rounded-full border-0 bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] hover:from-teal-400 hover:to-cyan-400 sm:flex-1",
             )}
           >
             {t.cta}

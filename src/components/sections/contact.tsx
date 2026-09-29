@@ -80,7 +80,7 @@ export function Contact() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t.emailPlaceholder}
                 aria-label={t.emailLabel}
-                className="h-14 flex-1 rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                className="h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500 sm:w-auto sm:flex-1"
               />
 
               <div className="relative">
