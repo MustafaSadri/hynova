@@ -11,6 +11,10 @@ export interface CodeRow {
   first_scanned_at: string | null;
   last_scanned_at: string | null;
   created_at: string;
+  product_name: string | null;
+  dosage: string | null;
+  manufacture_date: string | null;
+  expiry_date: string | null;
 }
 
 // Codes may come from typed input, a decoded QR, or a scanned URL, so

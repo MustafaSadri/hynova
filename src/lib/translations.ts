@@ -286,6 +286,12 @@ export const translations = {
       resultDecodeErrorTitle: "No code found in that photo",
       resultDecodeErrorBody:
         "We couldn't read a QR code in that image. Try a clearer, well-lit photo of the label, or enter the code manually instead.",
+      alreadyScannedCountWarning: "This code has already been scanned {n} times.",
+      productNameLabel: "Product",
+      dosageLabel: "Dosage",
+      manufactureDateLabel: "Manufactured",
+      expiryDateLabel: "Valid until",
+      batchLabel: "Batch",
       resultReset: "Verify another product",
       trust: [
         {
@@ -732,6 +738,12 @@ export const translations = {
       resultDecodeErrorTitle: "На фото не найден код",
       resultDecodeErrorBody:
         "Не удалось распознать QR-код на этом изображении. Попробуйте сделать более чёткое, хорошо освещённое фото этикетки или введите код вручную.",
+      alreadyScannedCountWarning: "Этот код уже был отсканирован {n} раз.",
+      productNameLabel: "Продукт",
+      dosageLabel: "Дозировка",
+      manufactureDateLabel: "Дата производства",
+      expiryDateLabel: "Срок годности до",
+      batchLabel: "Партия",
       resultReset: "Проверить ещё один продукт",
       trust: [
         {

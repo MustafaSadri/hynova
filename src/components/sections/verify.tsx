@@ -21,6 +21,16 @@ import { useLanguage } from "@/lib/language-context";
 import { translations } from "@/lib/translations";
 
 type Mode = "code" | "photo";
+
+interface ProductInfo {
+  productName: string | null;
+  dosage: string | null;
+  manufactureDate: string | null;
+  expiryDate: string | null;
+  batchId: string | null;
+  scanCount: number;
+}
+
 type Status =
   | "idle"
   | "submitting"
@@ -87,6 +97,7 @@ export function Verify({ initialCode }: { initialCode?: string }) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>(initialCode ? "submitting" : "idle");
   const [scanning, setScanning] = useState(false);
+  const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
 
   const scanInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
@@ -112,6 +123,7 @@ export function Verify({ initialCode }: { initialCode?: string }) {
     setCode("");
     handleFile(null);
     setStatus("idle");
+    setProductInfo(null);
   }
 
   function stopScan() {
@@ -208,8 +220,17 @@ export function Verify({ initialCode }: { initialCode?: string }) {
       }
 
       if (!data.authentic) {
+        setProductInfo(null);
         setStatus("invalid");
       } else {
+        setProductInfo({
+          productName: data.productName ?? null,
+          dosage: data.dosage ?? null,
+          manufactureDate: data.manufactureDate ?? null,
+          expiryDate: data.expiryDate ?? null,
+          batchId: data.batchId ?? null,
+          scanCount: data.scanCount ?? 0,
+        });
         setStatus(data.alreadyScanned ? "already-scanned" : "authentic");
       }
     } catch {
@@ -308,6 +329,53 @@ export function Verify({ initialCode }: { initialCode?: string }) {
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
                 {resultCopy.body}
               </p>
+
+              {status === "already-scanned" && productInfo && (
+                <p className="mt-3 text-xs font-medium text-amber-600">
+                  {t.alreadyScannedCountWarning.replace("{n}", String(productInfo.scanCount))}
+                </p>
+              )}
+
+              {(status === "authentic" || status === "already-scanned") &&
+                productInfo?.productName && (
+                  <dl className="mt-5 w-full rounded-2xl border border-neutral-100 bg-neutral-50 p-4 text-left text-sm">
+                    <p className="font-medium text-neutral-900">{productInfo.productName}</p>
+                    <div className="mt-2 space-y-1.5 text-neutral-600">
+                      {productInfo.dosage && (
+                        <div className="flex items-baseline justify-between gap-3">
+                          <dt className="text-xs tracking-wide text-neutral-400 uppercase">
+                            {t.dosageLabel}
+                          </dt>
+                          <dd>{productInfo.dosage}</dd>
+                        </div>
+                      )}
+                      {productInfo.manufactureDate && (
+                        <div className="flex items-baseline justify-between gap-3">
+                          <dt className="text-xs tracking-wide text-neutral-400 uppercase">
+                            {t.manufactureDateLabel}
+                          </dt>
+                          <dd>{productInfo.manufactureDate}</dd>
+                        </div>
+                      )}
+                      {productInfo.expiryDate && (
+                        <div className="flex items-baseline justify-between gap-3">
+                          <dt className="text-xs tracking-wide text-neutral-400 uppercase">
+                            {t.expiryDateLabel}
+                          </dt>
+                          <dd>{productInfo.expiryDate}</dd>
+                        </div>
+                      )}
+                      {productInfo.batchId && (
+                        <div className="flex items-baseline justify-between gap-3">
+                          <dt className="text-xs tracking-wide text-neutral-400 uppercase">
+                            {t.batchLabel}
+                          </dt>
+                          <dd>{productInfo.batchId}</dd>
+                        </div>
+                      )}
+                    </div>
+                  </dl>
+                )}
               <button
                 type="button"
                 onClick={reset}
