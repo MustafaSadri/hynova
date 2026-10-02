@@ -104,7 +104,8 @@ export async function POST(request: Request) {
           html: `
             <p>Hi ${escapeHtml(fullName)},</p>
             <p>Thank you for registering for Cynapept Event Moscow${guestSummary}.</p>
-            <p>If there are any changes — including to the date or time — we'll notify you via support@cynapept.com.</p>
+            <p>You'll receive your entry pass by email once it's ready — please show it (digital or printed) at the door.</p>
+            <p>If there are any changes — including to the date or time — or any other questions, we're reachable at support@cynapept.com.</p>
             <p>— Cynapept</p>
           `,
         });

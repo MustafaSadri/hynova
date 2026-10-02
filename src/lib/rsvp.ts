@@ -32,6 +32,11 @@ export interface EventRegistrationRow {
   event_slug: string;
   created_at: string;
   updated_at: string;
+  pass_token: string | null;
+  pass_sent_at: string | null;
+  checkin_count: number;
+  first_checked_in_at: string | null;
+  last_checked_in_at: string | null;
 }
 
 export function normalizeEmail(raw: string): string {

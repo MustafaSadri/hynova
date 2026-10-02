@@ -30,6 +30,14 @@ export function generateToken(): string {
   return randomBytes(24).toString("base64url");
 }
 
+// Separate from generateToken() even though it's the same shape — pass
+// tokens and edit/cancel tokens are conceptually distinct (one identifies a
+// registration for check-in indefinitely, the other is a short-lived
+// self-service credential) and shouldn't be swapped by accident.
+export function generatePassToken(): string {
+  return randomBytes(24).toString("base64url");
+}
+
 export async function ensureRegistrationsTable(sql: Sql) {
   await sql.query(`
     CREATE TABLE IF NOT EXISTS event_registrations (
@@ -50,6 +58,22 @@ export async function ensureRegistrationsTable(sql: Sql) {
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS guest_count INTEGER NOT NULL DEFAULT 1`);
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS guests JSONB NOT NULL DEFAULT '[]'::jsonb`);
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'registered'`);
+  // Self-healing for the entry-pass/check-in columns added after the above.
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS pass_token TEXT`);
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS pass_sent_at TIMESTAMPTZ`);
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS checkin_count INTEGER NOT NULL DEFAULT 0`);
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS first_checked_in_at TIMESTAMPTZ`);
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS last_checked_in_at TIMESTAMPTZ`);
+  await sql.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'event_registrations_pass_token_key'
+      ) THEN
+        ALTER TABLE event_registrations ADD CONSTRAINT event_registrations_pass_token_key UNIQUE (pass_token);
+      END IF;
+    END $$
+  `);
 }
 
 export async function ensurePendingTable(sql: Sql) {

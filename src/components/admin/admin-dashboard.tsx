@@ -62,6 +62,8 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [sendingPassId, setSendingPassId] = useState<number | null>(null);
+  const [passErrorId, setPassErrorId] = useState<number | null>(null);
 
   const [eventName, setEventName] = useState(initialEventDetails?.event_name ?? "");
   const [eventDate, setEventDate] = useState(initialEventDetails?.event_date ?? "");
@@ -93,6 +95,23 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
       setRegistrations(previous); // roll back on failure
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function sendEntryPass(id: number) {
+    setSendingPassId(id);
+    setPassErrorId(null);
+    try {
+      const res = await fetch(`/api/admin/registrations/${id}/send-pass`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error("failed");
+      setRegistrations((rows) =>
+        rows.map((r) => (r.id === id ? { ...r, pass_sent_at: data.passSentAt } : r)),
+      );
+    } catch {
+      setPassErrorId(id);
+    } finally {
+      setSendingPassId(null);
     }
   }
 
@@ -177,6 +196,12 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
         </div>
         <div className="flex items-center gap-3">
           <a
+            href="/admin/check-in"
+            className="rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-medium text-neutral-600 hover:bg-neutral-50"
+          >
+            {t.checkInNavLink}
+          </a>
+          <a
             href="/admin/rsvps/export"
             className="rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800"
           >
@@ -215,6 +240,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
               <th className="px-5 py-3 font-medium">{t.colPhone}</th>
               <th className="px-5 py-3 font-medium">{t.colGuests}</th>
               <th className="px-5 py-3 font-medium">{t.colStatus}</th>
+              <th className="px-5 py-3 font-medium">{t.colPass}</th>
               <th className="px-5 py-3 font-medium">{t.colRegistered}</th>
               <th className="px-5 py-3 font-medium"></th>
             </tr>
@@ -222,7 +248,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
           <tbody>
             {registrations.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-5 py-10 text-center text-neutral-400">
+                <td colSpan={8} className="px-5 py-10 text-center text-neutral-400">
                   {t.noRegistrations}
                 </td>
               </tr>
@@ -262,6 +288,40 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                         <Loader2 className="size-3.5 animate-spin text-neutral-400" />
                       )}
                     </div>
+                  </td>
+                  <td className="px-5 py-3">
+                    <button
+                      type="button"
+                      onClick={() => void sendEntryPass(r.id)}
+                      disabled={sendingPassId === r.id || r.status === "cancelled"}
+                      className="flex items-center gap-1.5 rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50 disabled:cursor-default disabled:opacity-50"
+                    >
+                      {sendingPassId === r.id ? (
+                        <Loader2 className="size-3.5 animate-spin" />
+                      ) : null}
+                      {r.status === "cancelled"
+                        ? t.sendPassDisabledCancelled
+                        : sendingPassId === r.id
+                          ? t.sendingPass
+                          : r.pass_sent_at
+                            ? t.resendPass
+                            : t.sendPass}
+                    </button>
+                    {passErrorId === r.id && (
+                      <p className="mt-1 text-xs text-red-600">{t.sendPassFailed}</p>
+                    )}
+                    {r.pass_sent_at && (
+                      <p className="mt-1 text-xs text-neutral-400">
+                        {t.passSentOn.replace("{date}", formatDate(r.pass_sent_at))}
+                      </p>
+                    )}
+                    {r.first_checked_in_at && (
+                      <p className="mt-1 text-xs text-teal-600">
+                        {t.checkedInOn
+                          .replace("{date}", formatDate(r.first_checked_in_at))
+                          .replace("{count}", String(r.checkin_count))}
+                      </p>
+                    )}
                   </td>
                   <td className="px-5 py-3 text-neutral-600">{formatDate(r.created_at)}</td>
                   <td className="px-5 py-3">
