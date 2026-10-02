@@ -320,7 +320,9 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                     )}
                     {r.pass_sent_at && (
                       <p className="mt-1 text-xs text-neutral-400">
-                        {t.passSentOn.replace("{date}", formatDate(r.pass_sent_at))}
+                        {t.passSentOn
+                          .replace("{date}", formatDate(r.pass_sent_at))
+                          .replace("{email}", r.email)}
                       </p>
                     )}
                     {r.first_checked_in_at && (
