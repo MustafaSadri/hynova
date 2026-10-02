@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { COUNTRY_CODES } from "@/lib/countries";
 import type { GuestField } from "@/lib/guest-utils";
 import type { translations } from "@/lib/translations";
@@ -26,6 +27,29 @@ export function GuestFieldsEditor({
   onGuestChange,
   t,
 }: Props) {
+  // Mirrors guestCount as a free-typed string rather than binding the input
+  // directly to the number — binding directly meant every keystroke (even
+  // backspacing to empty) got clamped straight back to 1 before the next
+  // digit landed, so typing "2" after clearing the field produced "12".
+  // This only clamps (and propagates) on blur or once the typed value is
+  // actually valid, so the field can sit empty mid-edit.
+  const [rawGuestCount, setRawGuestCount] = useState(String(guestCount));
+
+  function handleGuestCountChange(value: string) {
+    setRawGuestCount(value);
+    const parsed = Number(value);
+    if (value.trim() !== "" && Number.isInteger(parsed) && parsed >= 1 && parsed <= 20) {
+      onGuestCountChange(parsed);
+    }
+  }
+
+  function handleGuestCountBlur() {
+    const parsed = Number(rawGuestCount);
+    if (rawGuestCount.trim() === "" || !Number.isInteger(parsed) || parsed < 1 || parsed > 20) {
+      setRawGuestCount(String(guestCount));
+    }
+  }
+
   return (
     <>
       <div>
@@ -41,8 +65,9 @@ export function GuestFieldsEditor({
           min={1}
           max={20}
           required
-          value={guestCount}
-          onChange={(e) => onGuestCountChange(Number(e.target.value))}
+          value={rawGuestCount}
+          onChange={(e) => handleGuestCountChange(e.target.value)}
+          onBlur={handleGuestCountBlur}
           className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500"
         />
         <p className="mt-2 text-xs text-neutral-400">{t.guestCountHelper}</p>
