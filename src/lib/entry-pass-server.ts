@@ -33,17 +33,44 @@ export interface EntryPassInput {
 }
 
 const PAGE_WIDTH = 420;
-const PAGE_HEIGHT = 560;
 const MARGIN = 40;
+const LOGO_HEIGHT = 26;
+const QR_SIZE = 170;
 const TEAL = rgb(0.078, 0.58, 0.533); // close to the site's teal-600
 const GRAY = rgb(0.4, 0.4, 0.4);
 const DARK = rgb(0.1, 0.1, 0.1);
 
+// Pure arithmetic mirror of the vertical space buildEntryPassPdf's drawing
+// pass below actually consumes — kept in sync with it so the page is
+// always sized to exactly fit its content. A guest list long enough to
+// run past a fixed page height would otherwise push the QR (and the
+// manual-entry code under it) off the bottom of the page entirely.
+function computeContentHeight(input: EntryPassInput): number {
+  let height = LOGO_HEIGHT + 22;
+  height += 16 + 3; // event name
+  height += 11 + 2; // event date
+  height += 11 + 2; // venue name
+  if (input.venueAddress) height += 11 + 2;
+  height += 12; // gap before divider
+  height += 18; // gap after divider
+  height += 15 + 4; // registrant name
+  height += 11 + 10; // "Admits N guests"
+  if (input.guests.length > 0) {
+    height += input.guests.length * (10 + 3);
+    height += 6;
+  }
+  height += QR_SIZE;
+  height += 18; // gap after QR
+  height += 9; // pass code line
+  return height;
+}
+
 // Builds a single, simple PDF "entry pass" for one registration — logo,
 // event date/time and location (as set on the admin page), the registrant
-// and guest names, and a QR code. One pass per registration (admits the
-// whole party), not one per person — scanning it on /admin/check-in is
-// what shows the "genuine, admit this many people" result.
+// and guest names, a QR code, and the same code printed below it for
+// manual entry on /admin/check-in if the QR can't be scanned. One pass per
+// registration (admits the whole party), not one per person — scanning it
+// is what shows the "genuine, admit this many people" result.
 export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Array> {
   const checkInUrl = `${input.baseUrl.replace(/\/$/, "")}/admin/check-in?token=${input.passToken}`;
   const qrPngBytes = await QRCode.toBuffer(checkInUrl, {
@@ -53,15 +80,17 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
     color: { dark: "#0f172a", light: "#ffffff" },
   });
 
+  const pageHeight = MARGIN * 2 + computeContentHeight(input);
+
   const pdf = await PDFDocument.create();
   pdf.registerFontkit(fontkit);
-  const page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+  const page = pdf.addPage([PAGE_WIDTH, pageHeight]);
   const regular = await pdf.embedFont(REGULAR_FONT_BYTES);
   const bold = await pdf.embedFont(BOLD_FONT_BYTES);
   const qrImage = await pdf.embedPng(qrPngBytes);
   const logoImage = await pdf.embedPng(LOGO_PNG_BYTES);
 
-  let y = PAGE_HEIGHT - MARGIN;
+  let y = pageHeight - MARGIN;
 
   function text(
     value: string,
@@ -80,15 +109,14 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
   }
 
   // Logo, centered.
-  const logoHeight = 26;
-  const logoWidth = (logoImage.width / logoImage.height) * logoHeight;
+  const logoWidth = (logoImage.width / logoImage.height) * LOGO_HEIGHT;
   page.drawImage(logoImage, {
     x: (PAGE_WIDTH - logoWidth) / 2,
-    y: y - logoHeight,
+    y: y - LOGO_HEIGHT,
     width: logoWidth,
-    height: logoHeight,
+    height: LOGO_HEIGHT,
   });
-  y -= logoHeight + 22;
+  y -= LOGO_HEIGHT + 22;
 
   text(input.eventName, { size: 16, font: bold, gap: 3 });
   text(input.eventDate, { size: 11, color: GRAY, gap: 2 });
@@ -121,10 +149,23 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
     y -= 6;
   }
 
-  const qrSize = 170;
-  const qrX = (PAGE_WIDTH - qrSize) / 2;
-  y -= qrSize;
-  page.drawImage(qrImage, { x: qrX, y, width: qrSize, height: qrSize });
+  const qrX = (PAGE_WIDTH - QR_SIZE) / 2;
+  y -= QR_SIZE;
+  page.drawImage(qrImage, { x: qrX, y, width: QR_SIZE, height: QR_SIZE });
+  y -= 18;
+
+  // Printed fallback for /admin/check-in's manual-entry field, in case the
+  // QR itself can't be scanned (damaged print, camera issue, etc.).
+  const codeText = `Pass code: ${input.passToken}`;
+  const codeSize = 9;
+  const codeWidth = regular.widthOfTextAtSize(codeText, codeSize);
+  page.drawText(codeText, {
+    x: (PAGE_WIDTH - codeWidth) / 2,
+    y: y - codeSize,
+    size: codeSize,
+    font: regular,
+    color: GRAY,
+  });
 
   return pdf.save();
 }
