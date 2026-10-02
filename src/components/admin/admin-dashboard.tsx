@@ -64,6 +64,7 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [sendingPassId, setSendingPassId] = useState<number | null>(null);
   const [passErrorId, setPassErrorId] = useState<number | null>(null);
+  const [passErrorDetail, setPassErrorDetail] = useState<string | null>(null);
 
   const [eventName, setEventName] = useState(initialEventDetails?.event_name ?? "");
   const [eventDate, setEventDate] = useState(initialEventDetails?.event_date ?? "");
@@ -101,10 +102,14 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
   async function sendEntryPass(id: number) {
     setSendingPassId(id);
     setPassErrorId(null);
+    setPassErrorDetail(null);
     try {
       const res = await fetch(`/api/admin/registrations/${id}/send-pass`, { method: "POST" });
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error("failed");
+      if (!res.ok || !data.ok) {
+        setPassErrorDetail(typeof data.detail === "string" ? data.detail : null);
+        throw new Error("failed");
+      }
       setRegistrations((rows) =>
         rows.map((r) => (r.id === id ? { ...r, pass_sent_at: data.passSentAt } : r)),
       );
@@ -308,7 +313,10 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                             : t.sendPass}
                     </button>
                     {passErrorId === r.id && (
-                      <p className="mt-1 text-xs text-red-600">{t.sendPassFailed}</p>
+                      <p className="mt-1 text-xs text-red-600">
+                        {t.sendPassFailed}
+                        {passErrorDetail && ` (${passErrorDetail})`}
+                      </p>
                     )}
                     {r.pass_sent_at && (
                       <p className="mt-1 text-xs text-neutral-400">

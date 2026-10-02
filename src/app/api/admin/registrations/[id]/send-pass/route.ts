@@ -42,15 +42,13 @@ export async function POST(
     }
 
     // Reuse an already-issued token on resend — a previously sent pass's QR
-    // must keep working, never silently invalidated by a later resend.
+    // must keep working, never silently invalidated by a later resend. Only
+    // the token is persisted here; pass_sent_at is stamped later, only once
+    // the email actually goes out, so a failed send is never shown as sent.
     const passToken = registration.pass_token ?? generatePassToken();
-
-    const updated = (await sql`
-      UPDATE event_registrations
-      SET pass_token = ${passToken}, pass_sent_at = now()
-      WHERE id = ${registrationId}
-      RETURNING pass_sent_at
-    `) as { pass_sent_at: string }[];
+    if (!registration.pass_token) {
+      await sql`UPDATE event_registrations SET pass_token = ${passToken} WHERE id = ${registrationId}`;
+    }
 
     const eventDetailsRows = (await sql`
       SELECT * FROM event_details WHERE event_slug = ${CURRENT_EVENT_SLUG}
@@ -95,8 +93,18 @@ export async function POST(
     });
     if (error) {
       console.error("send-pass: email failed:", error);
-      return NextResponse.json({ ok: false, error: "send_failed" }, { status: 502 });
+      return NextResponse.json(
+        { ok: false, error: "send_failed", detail: error.message },
+        { status: 502 },
+      );
     }
+
+    const updated = (await sql`
+      UPDATE event_registrations
+      SET pass_sent_at = now()
+      WHERE id = ${registrationId}
+      RETURNING pass_sent_at
+    `) as { pass_sent_at: string }[];
 
     return NextResponse.json({ ok: true, passSentAt: updated[0].pass_sent_at });
   } catch (err) {
