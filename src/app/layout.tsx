@@ -26,7 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      translate="no"
+      className={`${geistSans.variable} ${geistMono.variable} notranslate h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-transparent">
         <div className="fixed inset-0 -z-10" aria-hidden="true">
