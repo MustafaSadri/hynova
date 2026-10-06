@@ -27,7 +27,7 @@ export async function GET() {
         csvEscape(r.email),
         csvEscape(r.phone),
         csvEscape(String(r.guest_count)),
-        csvEscape(r.guests.map((g) => `${g.name} (${g.phone})`).join("; ")),
+        csvEscape(r.guests.map((g) => (g.phone ? `${g.name} (${g.phone})` : g.name)).join("; ")),
         csvEscape(r.status),
         csvEscape(new Date(r.created_at).toISOString()),
       ].join(","),

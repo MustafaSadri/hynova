@@ -269,7 +269,8 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
                       <ul className="mt-1 text-xs text-neutral-500">
                         {r.guests.map((g, i) => (
                           <li key={i}>
-                            {g.name} — {g.phone}
+                            {g.name}
+                            {g.phone && ` — ${g.phone}`}
                           </li>
                         ))}
                       </ul>

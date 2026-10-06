@@ -291,7 +291,8 @@ export function CheckInScanner({ initialToken }: { initialToken?: string }) {
                     <ul className="mt-1">
                       {registration.guests.map((g, i) => (
                         <li key={i}>
-                          {g.name} — {g.phone}
+                          {g.name}
+                          {g.phone && ` — ${g.phone}`}
                         </li>
                       ))}
                     </ul>

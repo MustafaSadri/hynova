@@ -112,7 +112,10 @@ export async function POST(request: Request) {
       const guestSummary = guestCount > 1 ? `, along with ${guestCount - 1} additional guest(s)` : "";
       const guestListHtml = guests.length
         ? `<p><strong>Additional guests:</strong></p><ul>${guests
-            .map((g) => `<li>${escapeHtml(g.name)} — ${escapeHtml(g.phone)}</li>`)
+            .map(
+              (g) =>
+                `<li>${escapeHtml(g.name)}${g.phone ? ` — ${escapeHtml(g.phone)}` : ""}</li>`,
+            )
             .join("")}</ul>`
         : "";
 

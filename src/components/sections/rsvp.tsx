@@ -41,9 +41,9 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
   const [resendCooldown, setResendCooldown] = useState(0);
   const [resending, setResending] = useState(false);
 
-  const additionalGuestsValid = guests.every(
-    (g) => g.name.trim().length > 0 && g.phone.trim().length > 0,
-  );
+  // Companion phone is optional (see guest-fields-editor.tsx) — only the
+  // name is required to identify them.
+  const additionalGuestsValid = guests.every((g) => g.name.trim().length > 0);
   const canSubmit =
     status !== "submitting" &&
     fullName.trim().length > 0 &&
@@ -71,7 +71,10 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
           guestCount,
           guests: guests.map((g) => ({
             name: g.name.trim(),
-            phone: `${g.countryCode} ${g.phone.trim()}`,
+            // Phone is optional for a companion — don't prepend a country
+            // code to nothing, or an empty field becomes "+7 " instead of
+            // staying truly empty.
+            phone: g.phone.trim() ? `${g.countryCode} ${g.phone.trim()}` : "",
           })),
         }),
       });

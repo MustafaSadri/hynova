@@ -172,7 +172,10 @@ export function CheckRegistration({
           guestCount: editGuestCount,
           guests: editGuests.map((g) => ({
             name: g.name.trim(),
-            phone: `${g.countryCode} ${g.phone.trim()}`,
+            // Phone is optional for a companion — don't prepend a country
+            // code to nothing, or an empty field becomes "+7 " instead of
+            // staying truly empty.
+            phone: g.phone.trim() ? `${g.countryCode} ${g.phone.trim()}` : "",
           })),
         }),
       });
