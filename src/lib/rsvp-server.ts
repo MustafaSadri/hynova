@@ -24,6 +24,12 @@ export function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= MAX_FIELD_LENGTH;
 }
 
+// A companion's phone number is optional — only their name is required to
+// identify them on the entry pass.
+export function isOptionalString(value: unknown): boolean {
+  return value === undefined || value === null || value === "" || isNonEmptyString(value);
+}
+
 export function generateOtp(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
@@ -162,14 +168,14 @@ export function parseRegistrationBody(
         typeof guest !== "object" ||
         guest === null ||
         !isNonEmptyString((guest as Record<string, unknown>).name) ||
-        !isNonEmptyString((guest as Record<string, unknown>).phone)
+        !isOptionalString((guest as Record<string, unknown>).phone)
       ) {
         return { ok: false, error: "invalid_guests" };
       }
     }
-    parsedGuests = (guests as { name: string; phone: string }[]).map((g) => ({
+    parsedGuests = (guests as { name: string; phone?: string | null }[]).map((g) => ({
       name: g.name.trim(),
-      phone: g.phone.trim(),
+      phone: (g.phone ?? "").trim(),
     }));
   }
 

@@ -16,7 +16,7 @@ export function emptyGuestField(): GuestField {
 export function resizeGuestFields(
   guests: GuestField[],
   guestCount: number,
-  maxGuestCount = 20,
+  maxGuestCount = 2,
 ): GuestField[] {
   const needed = Math.max(0, Math.min(maxGuestCount, Math.max(1, guestCount)) - 1);
   if (needed === guests.length) return guests;

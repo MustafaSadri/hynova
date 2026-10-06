@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { COUNTRY_CODES } from "@/lib/countries";
 import type { GuestField } from "@/lib/guest-utils";
 import type { translations } from "@/lib/translations";
@@ -9,11 +10,6 @@ import type { translations } from "@/lib/translations";
 // keys but TypeScript infers each locale's literal string values, which
 // aren't mutually assignable (e.g. "Register" vs "Зарегистрироваться").
 type RsvpCopy = { [K in keyof (typeof translations)["en"]["rsvp"]]: string };
-
-// Mirrors MAX_GUEST_COUNT in src/lib/rsvp-server.ts (not imported directly —
-// that module pulls in Node's `crypto`, which has no place in a client
-// bundle). 1 (the registrant) + 1 companion, max.
-const MAX_GUESTS = 2;
 
 interface Props {
   idPrefix: string;
@@ -24,104 +20,70 @@ interface Props {
   t: RsvpCopy;
 }
 
-export function GuestFieldsEditor({
-  idPrefix,
-  guestCount,
-  guests,
-  onGuestCountChange,
-  onGuestChange,
-  t,
-}: Props) {
-  // Mirrors guestCount as a free-typed string rather than binding the input
-  // directly to the number — binding directly meant every keystroke (even
-  // backspacing to empty) got clamped straight back to 1 before the next
-  // digit landed, so typing "2" after clearing the field produced "12".
-  // This only clamps (and propagates) on blur or once the typed value is
-  // actually valid, so the field can sit empty mid-edit.
-  const [rawGuestCount, setRawGuestCount] = useState(String(guestCount));
-
-  function handleGuestCountChange(value: string) {
-    setRawGuestCount(value);
-    const parsed = Number(value);
-    if (value.trim() !== "" && Number.isInteger(parsed) && parsed >= 1 && parsed <= MAX_GUESTS) {
-      onGuestCountChange(parsed);
-    }
-  }
-
-  function handleGuestCountBlur() {
-    const parsed = Number(rawGuestCount);
-    if (rawGuestCount.trim() === "" || !Number.isInteger(parsed) || parsed < 1 || parsed > MAX_GUESTS) {
-      setRawGuestCount(String(guestCount));
-    }
-  }
+// No more "how many guests" number field — just a single yes/no toggle for
+// one optional companion (the hard cap is 1 registrant + 1 companion, see
+// MAX_GUEST_COUNT in rsvp-server.ts). Ticking it on is what reveals the
+// companion's fields; only their name is required, phone is optional.
+export function GuestFieldsEditor({ idPrefix, guestCount, guests, onGuestCountChange, onGuestChange, t }: Props) {
+  const hasCompanion = guestCount >= 2;
+  const companion = guests[0];
 
   return (
     <>
-      <div>
-        <label
-          htmlFor={`${idPrefix}-guest-count`}
-          className="text-xs font-medium uppercase tracking-widest text-neutral-400"
+      <button
+        type="button"
+        id={`${idPrefix}-bring-companion`}
+        onClick={() => onGuestCountChange(hasCompanion ? 1 : 2)}
+        aria-pressed={hasCompanion}
+        className={cn(
+          "flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left transition-colors",
+          hasCompanion ? "border-teal-500 bg-teal-50" : "border-neutral-200 bg-white hover:border-neutral-300",
+        )}
+      >
+        <span className="text-sm font-medium text-neutral-900">{t.bringCompanionLabel}</span>
+        <span
+          className={cn(
+            "flex size-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+            hasCompanion ? "border-teal-500 bg-teal-500" : "border-neutral-300 bg-white",
+          )}
         >
-          {t.guestCountLabel}
-        </label>
-        <input
-          id={`${idPrefix}-guest-count`}
-          type="number"
-          min={1}
-          max={MAX_GUESTS}
-          required
-          value={rawGuestCount}
-          onChange={(e) => handleGuestCountChange(e.target.value)}
-          onBlur={handleGuestCountBlur}
-          className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 outline-none transition-colors focus:border-teal-500"
-        />
-        <p className="mt-2 text-xs text-neutral-400">{t.guestCountHelper}</p>
-      </div>
+          {hasCompanion && <Check className="size-3.5 text-white" strokeWidth={3} />}
+        </span>
+      </button>
 
-      {guests.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">
-            {t.additionalGuestsHeading}
-          </p>
-          {guests.map((guest, index) => (
-            <div key={index} className="rounded-2xl border border-neutral-200 bg-white p-4">
-              <p className="text-xs font-medium tracking-wide text-neutral-500">
-                {t.guestLabel.replace("{n}", String(index + 2))}
-              </p>
-              <div className="mt-3 flex flex-col gap-3">
-                <input
-                  type="text"
-                  required
-                  value={guest.name}
-                  onChange={(e) => onGuestChange(index, "name", e.target.value)}
-                  placeholder={t.guestNamePlaceholder}
-                  className="h-12 w-full rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
-                />
-                <div className="flex gap-2">
-                  <select
-                    value={guest.countryCode}
-                    onChange={(e) => onGuestChange(index, "countryCode", e.target.value)}
-                    aria-label={t.countryCodeLabel}
-                    className="h-12 w-24 shrink-0 rounded-full border border-neutral-200 bg-white px-3 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500"
-                  >
-                    {COUNTRY_CODES.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.code}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="tel"
-                    required
-                    value={guest.phone}
-                    onChange={(e) => onGuestChange(index, "phone", e.target.value)}
-                    placeholder={t.guestPhonePlaceholder}
-                    className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
-                  />
-                </div>
-              </div>
+      {hasCompanion && companion && (
+        <div className="rounded-2xl border border-neutral-200 bg-white p-4">
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              required
+              value={companion.name}
+              onChange={(e) => onGuestChange(0, "name", e.target.value)}
+              placeholder={t.companionNamePlaceholder}
+              className="h-12 w-full rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+            />
+            <div className="flex gap-2">
+              <select
+                value={companion.countryCode}
+                onChange={(e) => onGuestChange(0, "countryCode", e.target.value)}
+                aria-label={t.countryCodeLabel}
+                className="h-12 w-24 shrink-0 rounded-full border border-neutral-200 bg-white px-3 text-sm text-neutral-900 outline-none transition-colors focus:border-teal-500"
+              >
+                {COUNTRY_CODES.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.code}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="tel"
+                value={companion.phone}
+                onChange={(e) => onGuestChange(0, "phone", e.target.value)}
+                placeholder={t.companionPhonePlaceholder}
+                className="h-12 flex-1 rounded-full border border-neutral-200 bg-white px-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+              />
             </div>
-          ))}
+          </div>
         </div>
       )}
     </>
