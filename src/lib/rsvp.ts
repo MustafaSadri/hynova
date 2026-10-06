@@ -26,6 +26,7 @@ export interface EventRegistrationRow {
   full_name: string;
   email: string;
   phone: string;
+  organization: string | null;
   guest_count: number;
   guests: Guest[];
   status: RegistrationStatus;

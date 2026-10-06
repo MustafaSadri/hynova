@@ -27,6 +27,7 @@ const OTP_PATTERN = /^\d{6}$/;
 interface PendingPayload {
   fullName: string;
   phone: string;
+  organization: string | null;
   guestCount: number;
   guests: { name: string; phone: string }[];
 }
@@ -64,17 +65,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "invalid_otp" }, { status: 400 });
     }
 
-    const { fullName, phone, guestCount, guests } = pending.payload;
+    const { fullName, phone, organization, guestCount, guests } = pending.payload;
 
     // Upsert rather than a plain insert: if this email previously cancelled,
     // the row already exists (soft-deleted, not removed), so registering
     // again needs to reactivate that same row rather than conflict.
     const upserted = (await sql`
-      INSERT INTO event_registrations (full_name, email, phone, guest_count, guests, status, event_slug)
-      VALUES (${fullName}, ${normalizedEmail}, ${phone}, ${guestCount}, ${JSON.stringify(guests)}, 'registered', ${CURRENT_EVENT_SLUG})
+      INSERT INTO event_registrations (full_name, email, phone, organization, guest_count, guests, status, event_slug)
+      VALUES (${fullName}, ${normalizedEmail}, ${phone}, ${organization}, ${guestCount}, ${JSON.stringify(guests)}, 'registered', ${CURRENT_EVENT_SLUG})
       ON CONFLICT (event_slug, email) DO UPDATE SET
         full_name = EXCLUDED.full_name,
         phone = EXCLUDED.phone,
+        organization = EXCLUDED.organization,
         guest_count = EXCLUDED.guest_count,
         guests = EXCLUDED.guests,
         status = 'registered',
@@ -133,6 +135,7 @@ export async function POST(request: Request) {
 
         const pdfBytes = await buildEntryPassPdf({
           fullName,
+          organization,
           guestCount,
           guests,
           eventName: eventDetails?.event_name || DEFAULT_EVENT_NAME,
@@ -184,6 +187,7 @@ export async function POST(request: Request) {
             <p><strong>Name:</strong> ${escapeHtml(fullName)}</p>
             <p><strong>Email:</strong> ${escapeHtml(normalizedEmail)}</p>
             <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
+            ${organization ? `<p><strong>Organization:</strong> ${escapeHtml(organization)}</p>` : ""}
             <p><strong>Guest count:</strong> ${guestCount}</p>
             ${guestListHtml}
           `,
@@ -199,7 +203,15 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       token,
-      registration: { fullName, email: normalizedEmail, phone, guestCount, guests, status: "registered" },
+      registration: {
+        fullName,
+        email: normalizedEmail,
+        phone,
+        organization,
+        guestCount,
+        guests,
+        status: "registered",
+      },
     });
   } catch (err) {
     console.error("rsvp confirm: db error:", err);

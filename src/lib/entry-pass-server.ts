@@ -22,6 +22,7 @@ const LOGO_PNG_BYTES = readFileSync(path.join(process.cwd(), "assets/pdf/cynapep
 
 export interface EntryPassInput {
   fullName: string;
+  organization: string | null;
   guestCount: number;
   guests: Guest[];
   eventName: string;
@@ -78,7 +79,9 @@ function computeContentHeight(input: EntryPassInput): number {
   height += 12; // gap before divider
   height += 18; // gap after divider
   const hasCompanion = input.guests.length > 0;
-  height += 15 + (hasCompanion ? 2 : 4); // registrant name
+  const hasOrg = Boolean(input.organization);
+  height += 15 + (hasOrg || hasCompanion ? 2 : 4); // registrant name
+  if (hasOrg) height += 11 + (hasCompanion ? 2 : 8); // organization
   if (hasCompanion) height += 12 + 8; // companion name(s), grouped right under it
   height += 11 + 10; // "Admits N guests"
   height += QR_SIZE;
@@ -164,7 +167,11 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
   y -= 18;
 
   const hasCompanion = input.guests.length > 0;
-  text(input.fullName, { size: 15, font: bold, gap: hasCompanion ? 2 : 4 });
+  const hasOrg = Boolean(input.organization);
+  text(input.fullName, { size: 15, font: bold, gap: hasOrg || hasCompanion ? 2 : 4 });
+  if (hasOrg && input.organization) {
+    text(input.organization, { size: 11, color: GRAY, gap: hasCompanion ? 2 : 8 });
+  }
   if (hasCompanion) {
     const companionNames = input.guests.map((g) => g.name).join(", ");
     text(`+ ${companionNames}`, { size: 12, font: bold, color: GRAY, gap: 8 });

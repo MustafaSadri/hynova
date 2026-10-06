@@ -53,6 +53,7 @@ export async function POST(
 
     const pdfBytes = await buildEntryPassPdf({
       fullName: registration.full_name,
+      organization: registration.organization,
       guestCount: registration.guest_count,
       guests: registration.guests,
       eventName: eventDetails?.event_name || DEFAULT_EVENT_NAME,

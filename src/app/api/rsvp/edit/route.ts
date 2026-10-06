@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   if (!parsed.ok) {
     return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 });
   }
-  const { fullName, phone, guestCount, guests } = parsed.data;
+  const { fullName, phone, organization, guestCount, guests } = parsed.data;
 
   try {
     const sql = getSql();
@@ -49,14 +49,14 @@ export async function POST(request: Request) {
 
     await sql`
       UPDATE event_registrations
-      SET full_name = ${fullName}, phone = ${phone}, guest_count = ${guestCount},
-          guests = ${JSON.stringify(guests)}, updated_at = now()
+      SET full_name = ${fullName}, phone = ${phone}, organization = ${organization},
+          guest_count = ${guestCount}, guests = ${JSON.stringify(guests)}, updated_at = now()
       WHERE email = ${tokenRow.email} AND event_slug = ${CURRENT_EVENT_SLUG}
     `;
 
     return NextResponse.json({
       ok: true,
-      registration: { fullName, email: tokenRow.email, phone, guestCount, guests },
+      registration: { fullName, email: tokenRow.email, phone, organization, guestCount, guests },
     });
   } catch (err) {
     console.error("rsvp edit: db error:", err);

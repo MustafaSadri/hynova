@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   if (!parsed.ok) {
     return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 });
   }
-  const { fullName, email, phone, guestCount, guests } = parsed.data;
+  const { fullName, email, phone, organization, guestCount, guests } = parsed.data;
 
   try {
     const sql = getSql();
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       INSERT INTO event_registration_pending (email, event_slug, payload, otp, expires_at, created_at)
       VALUES (
         ${email}, ${CURRENT_EVENT_SLUG},
-        ${JSON.stringify({ fullName, phone, guestCount, guests })},
+        ${JSON.stringify({ fullName, phone, organization, guestCount, guests })},
         ${otp}, ${expiresAt}, now()
       )
       ON CONFLICT (email, event_slug) DO UPDATE SET

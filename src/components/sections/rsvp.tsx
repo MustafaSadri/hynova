@@ -29,6 +29,7 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
   const venuePhotos = eventDetails?.venue_photos ?? [];
 
   const [fullName, setFullName] = useState("");
+  const [organization, setOrganization] = useState("");
   const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState(DEFAULT_COUNTRY_CODE);
   const [phone, setPhone] = useState("");
@@ -68,6 +69,7 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
           fullName: fullName.trim(),
           email: email.trim(),
           phone: `${countryCode} ${phone.trim()}`,
+          organization: organization.trim() || null,
           guestCount,
           guests: guests.map((g) => ({
             name: g.name.trim(),
@@ -293,6 +295,24 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder={t.namePlaceholder}
                   autoComplete="name"
+                  className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="rsvp-organization"
+                  className="text-xs font-medium uppercase tracking-widest text-neutral-400"
+                >
+                  {t.organizationLabel}
+                </label>
+                <input
+                  id="rsvp-organization"
+                  type="text"
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                  placeholder={t.organizationPlaceholder}
+                  autoComplete="organization"
                   className="mt-2 h-14 w-full rounded-full border border-neutral-200 bg-white px-6 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition-colors focus:border-teal-500"
                 />
               </div>

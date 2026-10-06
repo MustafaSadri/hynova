@@ -16,6 +16,7 @@ interface RegistrationResult {
   fullName: string;
   email: string;
   phone: string;
+  organization: string | null;
   guestCount: number;
   guests: { name: string; phone: string }[];
   status: "registered" | "contacting" | "confirmed" | "cancelled";
@@ -49,6 +50,7 @@ export function CheckRegistration({
 
   // Edit-mode fields
   const [editName, setEditName] = useState("");
+  const [editOrganization, setEditOrganization] = useState("");
   const [editCountryCode, setEditCountryCode] = useState(DEFAULT_COUNTRY_CODE);
   const [editPhone, setEditPhone] = useState("");
   const [editGuestCount, setEditGuestCount] = useState(1);
@@ -142,6 +144,7 @@ export function CheckRegistration({
   function openEdit() {
     if (!result) return;
     setEditName(result.fullName);
+    setEditOrganization(result.organization ?? "");
     const split = splitPhone(result.phone);
     setEditCountryCode(split.countryCode);
     setEditPhone(split.phone);
@@ -169,6 +172,7 @@ export function CheckRegistration({
           token,
           fullName: editName.trim(),
           phone: `${editCountryCode} ${editPhone.trim()}`,
+          organization: editOrganization.trim() || null,
           guestCount: editGuestCount,
           guests: editGuests.map((g) => ({
             name: g.name.trim(),
@@ -190,6 +194,7 @@ export function CheckRegistration({
               ...prev,
               fullName: data.registration.fullName,
               phone: data.registration.phone,
+              organization: data.registration.organization,
               guestCount: data.registration.guestCount,
               guests: data.registration.guests,
             }
@@ -346,6 +351,7 @@ export function CheckRegistration({
       {step === "result" && result && (
         <div className="flex flex-col gap-2 text-sm">
           <p className="font-medium text-neutral-900">{result.fullName}</p>
+          {result.organization && <p className="text-neutral-500">{result.organization}</p>}
           <p className="text-neutral-500">{result.email}</p>
           <p className="text-neutral-500">{result.phone}</p>
           <p className="mt-1">
@@ -401,6 +407,13 @@ export function CheckRegistration({
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
             placeholder={t.namePlaceholder}
+            className="h-11 w-full rounded-full border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
+          />
+          <input
+            type="text"
+            value={editOrganization}
+            onChange={(e) => setEditOrganization(e.target.value)}
+            placeholder={t.organizationPlaceholder}
             className="h-11 w-full rounded-full border border-neutral-200 px-4 text-sm outline-none focus:border-teal-500"
           />
           <div className="flex gap-2">

@@ -74,6 +74,7 @@ export async function POST(request: Request) {
         fullName: r.full_name,
         email: r.email,
         phone: r.phone,
+        organization: r.organization,
         guestCount: r.guest_count,
         guests: r.guests,
         status: r.status,

@@ -260,7 +260,12 @@ export function AdminDashboard({ initialRegistrations, initialEventDetails }: Pr
             ) : (
               registrations.map((r) => (
                 <tr key={r.id} className="border-b border-neutral-100 last:border-0">
-                  <td className="px-5 py-3 text-neutral-900">{r.full_name}</td>
+                  <td className="px-5 py-3 text-neutral-900">
+                    {r.full_name}
+                    {r.organization && (
+                      <p className="mt-0.5 text-xs text-neutral-400">{r.organization}</p>
+                    )}
+                  </td>
                   <td className="px-5 py-3 text-neutral-600">{r.email}</td>
                   <td className="px-5 py-3 text-neutral-600">{r.phone}</td>
                   <td className="px-5 py-3 text-neutral-600">

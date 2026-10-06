@@ -72,6 +72,7 @@ export async function ensureRegistrationsTable(sql: Sql) {
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS checkin_count INTEGER NOT NULL DEFAULT 0`);
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS first_checked_in_at TIMESTAMPTZ`);
   await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS last_checked_in_at TIMESTAMPTZ`);
+  await sql.query(`ALTER TABLE event_registrations ADD COLUMN IF NOT EXISTS organization TEXT`);
   await sql.query(`
     DO $$
     BEGIN
@@ -127,6 +128,7 @@ export interface ParsedRegistrationPayload {
   fullName: string;
   email: string;
   phone: string;
+  organization: string | null;
   guestCount: number;
   guests: Guest[];
 }
@@ -137,7 +139,10 @@ export interface ParsedRegistrationPayload {
 export function parseRegistrationBody(
   body: unknown,
 ): { ok: true; data: ParsedRegistrationPayload } | { ok: false; error: string } {
-  const { fullName, email, phone, guestCount, guests } = (body ?? {}) as Record<string, unknown>;
+  const { fullName, email, phone, organization, guestCount, guests } = (body ?? {}) as Record<
+    string,
+    unknown
+  >;
 
   if (!isNonEmptyString(fullName)) {
     return { ok: false, error: "invalid_name" };
@@ -147,6 +152,10 @@ export function parseRegistrationBody(
   }
   if (!isNonEmptyString(phone)) {
     return { ok: false, error: "invalid_phone" };
+  }
+  // Organization is optional — just who they're with, not required to register.
+  if (!isOptionalString(organization)) {
+    return { ok: false, error: "invalid_organization" };
   }
   if (
     typeof guestCount !== "number" ||
@@ -185,6 +194,7 @@ export function parseRegistrationBody(
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
       phone: phone.trim(),
+      organization: typeof organization === "string" && organization.trim() ? organization.trim() : null,
       guestCount,
       guests: parsedGuests,
     },
