@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getSql } from "@/lib/db";
 import { CURRENT_EVENT_SLUG, type EventRegistrationRow } from "@/lib/rsvp";
-import { generatePassToken } from "@/lib/rsvp-server";
+import { escapeHtml, generatePassToken } from "@/lib/rsvp-server";
 import type { EventDetailsRow } from "@/lib/event-details";
 import {
   buildEntryPassPdf,
@@ -73,11 +73,13 @@ export async function POST(
     const { error } = await resend.emails.send({
       from: "Cynapept Events <noreply@cynapept.com>",
       to: registration.email,
-      subject: "Your entry pass — Cynapept Event Moscow",
+      subject: "Ваш входной билет — Cynapept Event Moscow",
       html: `
-        <p>Hi ${registration.full_name},</p>
-        <p>Here's your entry pass for Cynapept Event Moscow, attached as a PDF. It admits you and your ${registration.guest_count - 1} additional guest(s) — please show it (digital or printed) at the entrance.</p>
-        <p>Questions? Contact support@cynapept.com</p>
+        <p>Здравствуйте, ${escapeHtml(registration.full_name)}!</p>
+        <p>Ваш входной билет на Cynapept Event Moscow приложен в формате PDF. Он допускает вас${
+          registration.guest_count > 1 ? " и ещё одного гостя" : ""
+        } — пожалуйста, покажите его (в электронном или распечатанном виде) на входе.</p>
+        <p>Вопросы? Пишите на support@cynapept.com</p>
         <p>— Cynapept</p>
       `,
       attachments: [

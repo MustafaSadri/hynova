@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     const apiKey = process.env.RESEND_API_KEY;
     if (apiKey) {
       const resend = new Resend(apiKey);
-      const guestSummary = guestCount > 1 ? `, along with ${guestCount - 1} additional guest(s)` : "";
+      const guestSummary = guestCount > 1 ? ", а также с одним гостем" : "";
       const guestListHtml = guests.length
         ? `<p><strong>Additional guests:</strong></p><ul>${guests
             .map(
@@ -151,16 +151,16 @@ export async function POST(request: Request) {
         const { error } = await resend.emails.send({
           from: "Cynapept Events <noreply@cynapept.com>",
           to: normalizedEmail,
-          subject: "Thank you for registering — Cynapept Event Moscow",
+          subject: "Спасибо за регистрацию — Cynapept Event Moscow",
           html: `
-            <p>Hi ${escapeHtml(fullName)},</p>
-            <p>Thank you for registering for Cynapept Event Moscow${guestSummary}.</p>
+            <p>Здравствуйте, ${escapeHtml(fullName)}!</p>
+            <p>Спасибо за регистрацию на Cynapept Event Moscow${guestSummary}.</p>
             ${
               passPdfBase64
-                ? `<p>Your entry pass is attached as a PDF — please show it (digital or printed) at the door.</p>`
-                : `<p>Your entry pass will follow separately by email.</p>`
+                ? `<p>Ваш входной билет приложен в формате PDF — пожалуйста, покажите его (в электронном или распечатанном виде) на входе.</p>`
+                : `<p>Ваш входной билет будет отправлен отдельным письмом.</p>`
             }
-            <p>If there are any changes — including to the date or time — or any other questions, we're reachable at support@cynapept.com.</p>
+            <p>Если будут какие-либо изменения — включая дату или время — или возникнут вопросы, пишите нам на support@cynapept.com.</p>
             <p>— Cynapept</p>
           `,
           attachments: passPdfBase64

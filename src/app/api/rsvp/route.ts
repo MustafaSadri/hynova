@@ -68,12 +68,12 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from: "Cynapept Events <noreply@cynapept.com>",
       to: email,
-      subject: "Verify your email — Cynapept Event Moscow",
+      subject: "Подтвердите email — Cynapept Event Moscow",
       html: `
-        <p>Enter this code to confirm your registration for Cynapept Event Moscow:</p>
+        <p>Введите этот код, чтобы подтвердить регистрацию на Cynapept Event Moscow:</p>
         <p style="font-size:28px;font-weight:600;letter-spacing:4px">${otp}</p>
-        <p>This code expires in ${OTP_TTL_MINUTES} minutes.</p>
-        <p>Questions? Contact support@cynapept.com</p>
+        <p>Код действителен в течение ${OTP_TTL_MINUTES} минут.</p>
+        <p>Вопросы? Пишите на support@cynapept.com</p>
       `,
     });
     if (error) {
