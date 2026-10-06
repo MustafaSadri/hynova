@@ -203,6 +203,9 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
               <h2 className="mt-5 text-xl font-medium text-neutral-900">
                 {t.confirmationTitle}
               </h2>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-900">
+                {t.confirmationPassSent.replace("{email}", email)}
+              </p>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-neutral-500">
                 {t.confirmationBody}
               </p>

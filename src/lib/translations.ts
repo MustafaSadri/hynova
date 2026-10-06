@@ -216,6 +216,8 @@ export const translations = {
       alreadyRegisteredBlockedMessage:
         "This email is already registered. Use \"Already registered? Check your status\" below to view or update it.",
       confirmationTitle: "Thank you for registering",
+      confirmationPassSent:
+        "Your entry pass has been sent to {email} — please check your inbox (and spam folder, just in case).",
       confirmationBody:
         "Any further communication about the event will be handled via support@cynapept.com.",
       confirmationReturnHome: "Return to Home",
@@ -697,6 +699,8 @@ export const translations = {
       alreadyRegisteredBlockedMessage:
         "Этот email уже зарегистрирован. Используйте «Уже зарегистрированы? Проверьте статус» ниже, чтобы посмотреть или изменить данные.",
       confirmationTitle: "Спасибо за регистрацию",
+      confirmationPassSent:
+        "Входной билет отправлен на {email} — проверьте почту (и папку «Спам», на всякий случай).",
       confirmationBody:
         "Все дальнейшие сообщения о мероприятии будут отправляться через support@cynapept.com.",
       confirmationReturnHome: "Вернуться на главную",

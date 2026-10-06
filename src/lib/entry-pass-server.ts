@@ -46,6 +46,15 @@ export function resolveBaseUrl(request: Request): string {
   return new URL(request.url).origin;
 }
 
+// eventDate is free-text set by the admin (e.g. "31 October 2026   17:00
+// onwards") and may include the time, not just the date — best-effort
+// pull just a short "31 October"-style lead-in for the pass's heading; the
+// full string is still shown in full further down regardless.
+function shortDateLabel(eventDate: string): string | null {
+  const match = eventDate.match(/\d{1,2}\s+[^\s\d,]+/);
+  return match ? match[0] : null;
+}
+
 const PAGE_WIDTH = 420;
 const MARGIN = 40;
 const LOGO_HEIGHT = 26;
@@ -61,6 +70,7 @@ const DARK = rgb(0.1, 0.1, 0.1);
 // manual-entry code under it) off the bottom of the page entirely.
 function computeContentHeight(input: EntryPassInput): number {
   let height = LOGO_HEIGHT + 22;
+  height += 11 + 8; // "ENTRY PASS" heading
   height += 16 + 3; // event name
   height += 11 + 2; // event date
   height += 11 + 2; // venue name
@@ -132,6 +142,13 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
   });
   y -= LOGO_HEIGHT + 22;
 
+  const shortDate = shortDateLabel(input.eventDate);
+  text(shortDate ? `ENTRY PASS — ${shortDate}` : "ENTRY PASS", {
+    size: 11,
+    font: bold,
+    color: TEAL,
+    gap: 8,
+  });
   text(input.eventName, { size: 16, font: bold, gap: 3 });
   text(input.eventDate, { size: 11, color: GRAY, gap: 2 });
   text(input.venueName, { size: 11, color: GRAY, gap: 2 });
