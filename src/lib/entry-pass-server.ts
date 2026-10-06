@@ -77,12 +77,10 @@ function computeContentHeight(input: EntryPassInput): number {
   if (input.venueAddress) height += 11 + 2;
   height += 12; // gap before divider
   height += 18; // gap after divider
-  height += 15 + 4; // registrant name
+  const hasCompanion = input.guests.length > 0;
+  height += 15 + (hasCompanion ? 2 : 4); // registrant name
+  if (hasCompanion) height += 12 + 8; // companion name(s), grouped right under it
   height += 11 + 10; // "Admits N guests"
-  if (input.guests.length > 0) {
-    height += input.guests.length * (10 + 3);
-    height += 6;
-  }
   height += QR_SIZE;
   height += 18; // gap after QR
   height += 9; // pass code line
@@ -165,20 +163,18 @@ export async function buildEntryPassPdf(input: EntryPassInput): Promise<Uint8Arr
   });
   y -= 18;
 
-  text(input.fullName, { size: 15, font: bold, gap: 4 });
+  const hasCompanion = input.guests.length > 0;
+  text(input.fullName, { size: 15, font: bold, gap: hasCompanion ? 2 : 4 });
+  if (hasCompanion) {
+    const companionNames = input.guests.map((g) => g.name).join(", ");
+    text(`+ ${companionNames}`, { size: 12, font: bold, color: GRAY, gap: 8 });
+  }
   text(`Admits ${input.guestCount} guest${input.guestCount === 1 ? "" : "s"}`, {
     size: 11,
     color: TEAL,
     font: bold,
     gap: 10,
   });
-
-  if (input.guests.length > 0) {
-    for (const guest of input.guests) {
-      text(guest.name, { size: 10, gap: 3 });
-    }
-    y -= 6;
-  }
 
   const qrX = (PAGE_WIDTH - QR_SIZE) / 2;
   y -= QR_SIZE;
