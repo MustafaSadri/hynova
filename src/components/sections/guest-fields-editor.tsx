@@ -10,6 +10,11 @@ import type { translations } from "@/lib/translations";
 // aren't mutually assignable (e.g. "Register" vs "Зарегистрироваться").
 type RsvpCopy = { [K in keyof (typeof translations)["en"]["rsvp"]]: string };
 
+// Mirrors MAX_GUEST_COUNT in src/lib/rsvp-server.ts (not imported directly —
+// that module pulls in Node's `crypto`, which has no place in a client
+// bundle). 1 (the registrant) + 1 companion, max.
+const MAX_GUESTS = 2;
+
 interface Props {
   idPrefix: string;
   guestCount: number;
@@ -38,14 +43,14 @@ export function GuestFieldsEditor({
   function handleGuestCountChange(value: string) {
     setRawGuestCount(value);
     const parsed = Number(value);
-    if (value.trim() !== "" && Number.isInteger(parsed) && parsed >= 1 && parsed <= 20) {
+    if (value.trim() !== "" && Number.isInteger(parsed) && parsed >= 1 && parsed <= MAX_GUESTS) {
       onGuestCountChange(parsed);
     }
   }
 
   function handleGuestCountBlur() {
     const parsed = Number(rawGuestCount);
-    if (rawGuestCount.trim() === "" || !Number.isInteger(parsed) || parsed < 1 || parsed > 20) {
+    if (rawGuestCount.trim() === "" || !Number.isInteger(parsed) || parsed < 1 || parsed > MAX_GUESTS) {
       setRawGuestCount(String(guestCount));
     }
   }
@@ -63,7 +68,7 @@ export function GuestFieldsEditor({
           id={`${idPrefix}-guest-count`}
           type="number"
           min={1}
-          max={20}
+          max={MAX_GUESTS}
           required
           value={rawGuestCount}
           onChange={(e) => handleGuestCountChange(e.target.value)}

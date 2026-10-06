@@ -351,7 +351,7 @@ export function Rsvp({ eventDetails }: { eventDetails: EventDetailsRow | null })
                 guestCount={guestCount}
                 guests={guests}
                 onGuestCountChange={(n) => {
-                  setGuestCount(Math.min(20, Math.max(1, n)));
+                  setGuestCount(Math.min(2, Math.max(1, n)));
                   setGuests((prev) => resizeGuestFields(prev, n));
                 }}
                 onGuestChange={(index, field, value) =>

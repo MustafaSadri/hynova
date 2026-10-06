@@ -428,7 +428,7 @@ export function CheckRegistration({
             guestCount={editGuestCount}
             guests={editGuests}
             onGuestCountChange={(n) => {
-              setEditGuestCount(Math.min(20, Math.max(1, n)));
+              setEditGuestCount(Math.min(2, Math.max(1, n)));
               setEditGuests((prev) => resizeGuestFields(prev, n));
             }}
             onGuestChange={(index, field, value) =>

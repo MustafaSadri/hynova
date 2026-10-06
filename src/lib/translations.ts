@@ -203,7 +203,7 @@ export const translations = {
       countryCodeLabel: "Country code",
       guestCountLabel: "Number of guests (including you)",
       guestCountHelper:
-        "Bringing anyone? Every additional guest needs a name and phone number.",
+        "You may bring one companion (maximum 2 guests total) — they'll need a name and phone number.",
       additionalGuestsHeading: "Additional guest details",
       guestLabel: "Guest {n}",
       guestNamePlaceholder: "Guest's full name",
@@ -686,7 +686,7 @@ export const translations = {
       countryCodeLabel: "Код страны",
       guestCountLabel: "Количество гостей (включая вас)",
       guestCountHelper:
-        "Идёте не одни? Для каждого дополнительного гостя укажите имя и номер телефона.",
+        "Вы можете взять одного спутника (максимум 2 гостя всего) — укажите его имя и номер телефона.",
       additionalGuestsHeading: "Данные дополнительных гостей",
       guestLabel: "Гость {n}",
       guestNamePlaceholder: "Полное имя гостя",

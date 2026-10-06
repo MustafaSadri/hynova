@@ -3,7 +3,9 @@ import type { NeonQueryFunction } from "@neondatabase/serverless";
 import type { Guest } from "@/lib/rsvp";
 
 export const MAX_FIELD_LENGTH = 300;
-export const MAX_GUEST_COUNT = 20;
+// 1 (the registrant) + 1 companion, max — no one can register themselves
+// plus an open-ended party.
+export const MAX_GUEST_COUNT = 2;
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const OTP_TTL_MINUTES = 10;
 export const EDIT_TOKEN_TTL_MINUTES = 30;
