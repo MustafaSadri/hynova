@@ -8,8 +8,18 @@ import {
   ensureRegistrationsTable,
   ensureTokensTable,
   escapeHtml,
+  generatePassToken,
   generateToken,
 } from "@/lib/rsvp-server";
+import type { EventDetailsRow } from "@/lib/event-details";
+import {
+  buildEntryPassPdf,
+  DEFAULT_EVENT_DATE,
+  DEFAULT_EVENT_NAME,
+  DEFAULT_VENUE_ADDRESS,
+  DEFAULT_VENUE_NAME,
+  resolveBaseUrl,
+} from "@/lib/entry-pass-server";
 
 const NOTIFY_ADDRESS = "info@cynapept.com";
 const OTP_PATTERN = /^\d{6}$/;
@@ -59,7 +69,7 @@ export async function POST(request: Request) {
     // Upsert rather than a plain insert: if this email previously cancelled,
     // the row already exists (soft-deleted, not removed), so registering
     // again needs to reactivate that same row rather than conflict.
-    await sql`
+    const upserted = (await sql`
       INSERT INTO event_registrations (full_name, email, phone, guest_count, guests, status, event_slug)
       VALUES (${fullName}, ${normalizedEmail}, ${phone}, ${guestCount}, ${JSON.stringify(guests)}, 'registered', ${CURRENT_EVENT_SLUG})
       ON CONFLICT (event_slug, email) DO UPDATE SET
@@ -69,7 +79,17 @@ export async function POST(request: Request) {
         guests = EXCLUDED.guests,
         status = 'registered',
         updated_at = now()
-    `;
+      RETURNING id, pass_token
+    `) as { id: number; pass_token: string | null }[];
+    const registrationId = upserted[0].id;
+
+    // Reuse an already-issued token on re-registration (e.g. cancel then
+    // sign up again) — a previously sent pass's QR must keep working.
+    let passToken = upserted[0].pass_token;
+    if (!passToken) {
+      passToken = generatePassToken();
+      await sql`UPDATE event_registrations SET pass_token = ${passToken} WHERE id = ${registrationId}`;
+    }
 
     await sql`
       DELETE FROM event_registration_pending
@@ -96,6 +116,34 @@ export async function POST(request: Request) {
             .join("")}</ul>`
         : "";
 
+      // Entry pass is attached right here, automatically, the moment
+      // registration is confirmed — not a separate admin-triggered step.
+      // Built fresh each time from whatever's currently saved in Event
+      // Details, so the venue/date on the pass always matches the latest
+      // admin edit, not whatever was true when the token was first issued.
+      let passPdfBase64: string | null = null;
+      try {
+        const eventDetailsRows = (await sql`
+          SELECT * FROM event_details WHERE event_slug = ${CURRENT_EVENT_SLUG}
+        `) as EventDetailsRow[];
+        const eventDetails = eventDetailsRows[0] ?? null;
+
+        const pdfBytes = await buildEntryPassPdf({
+          fullName,
+          guestCount,
+          guests,
+          eventName: eventDetails?.event_name || DEFAULT_EVENT_NAME,
+          eventDate: eventDetails?.event_date || DEFAULT_EVENT_DATE,
+          venueName: eventDetails?.venue_name || DEFAULT_VENUE_NAME,
+          venueAddress: eventDetails?.venue_address || DEFAULT_VENUE_ADDRESS,
+          passToken,
+          baseUrl: resolveBaseUrl(request),
+        });
+        passPdfBase64 = Buffer.from(pdfBytes).toString("base64");
+      } catch (err) {
+        console.error("rsvp confirm: entry pass build failed:", err);
+      }
+
       try {
         const { error } = await resend.emails.send({
           from: "Cynapept Events <noreply@cynapept.com>",
@@ -104,12 +152,22 @@ export async function POST(request: Request) {
           html: `
             <p>Hi ${escapeHtml(fullName)},</p>
             <p>Thank you for registering for Cynapept Event Moscow${guestSummary}.</p>
-            <p>You'll receive your entry pass by email once it's ready — please show it (digital or printed) at the door.</p>
+            ${
+              passPdfBase64
+                ? `<p>Your entry pass is attached as a PDF — please show it (digital or printed) at the door.</p>`
+                : `<p>Your entry pass will follow separately by email.</p>`
+            }
             <p>If there are any changes — including to the date or time — or any other questions, we're reachable at support@cynapept.com.</p>
             <p>— Cynapept</p>
           `,
+          attachments: passPdfBase64
+            ? [{ filename: "cynapept-event-entry-pass.pdf", content: passPdfBase64 }]
+            : undefined,
         });
         if (error) console.error("rsvp confirm: confirmation email failed:", error);
+        else if (passPdfBase64) {
+          await sql`UPDATE event_registrations SET pass_sent_at = now() WHERE id = ${registrationId}`;
+        }
       } catch (err) {
         console.error("rsvp confirm: confirmation email threw:", err);
       }

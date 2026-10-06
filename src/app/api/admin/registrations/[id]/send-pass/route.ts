@@ -4,18 +4,14 @@ import { getSql } from "@/lib/db";
 import { CURRENT_EVENT_SLUG, type EventRegistrationRow } from "@/lib/rsvp";
 import { generatePassToken } from "@/lib/rsvp-server";
 import type { EventDetailsRow } from "@/lib/event-details";
-import { buildEntryPassPdf } from "@/lib/entry-pass-server";
-
-const DEFAULT_EVENT_NAME = "Cynapept Event Moscow";
-const DEFAULT_EVENT_DATE = "Details to follow";
-const DEFAULT_VENUE_NAME = "Venue to be confirmed";
-const DEFAULT_VENUE_ADDRESS = "";
-
-function resolveBaseUrl(request: Request): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured.replace(/\/$/, "");
-  return new URL(request.url).origin;
-}
+import {
+  buildEntryPassPdf,
+  DEFAULT_EVENT_DATE,
+  DEFAULT_EVENT_NAME,
+  DEFAULT_VENUE_ADDRESS,
+  DEFAULT_VENUE_NAME,
+  resolveBaseUrl,
+} from "@/lib/entry-pass-server";
 
 export async function POST(
   request: Request,

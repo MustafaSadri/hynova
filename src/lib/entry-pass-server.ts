@@ -32,6 +32,20 @@ export interface EntryPassInput {
   baseUrl: string;
 }
 
+// Shared between every caller that builds a pass (automatic send on
+// registration, admin resend) so the fallback copy and base-URL logic
+// can't drift between them.
+export const DEFAULT_EVENT_NAME = "Cynapept Event Moscow";
+export const DEFAULT_EVENT_DATE = "Details to follow";
+export const DEFAULT_VENUE_NAME = "Venue to be confirmed";
+export const DEFAULT_VENUE_ADDRESS = "";
+
+export function resolveBaseUrl(request: Request): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  if (configured) return configured.replace(/\/$/, "");
+  return new URL(request.url).origin;
+}
+
 const PAGE_WIDTH = 420;
 const MARGIN = 40;
 const LOGO_HEIGHT = 26;
