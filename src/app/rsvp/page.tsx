@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   description: "Register for the Cynapept private event.",
 };
 
+// Without this, Next.js has no signal that this page depends on live data
+// (the DB query below isn't a `fetch` call it can see) and prerenders it
+// once at build time — so admin edits to event details (venue, date, etc.)
+// never show up here until the next deploy. Forcing dynamic rendering
+// makes it re-query on every request instead.
+export const dynamic = "force-dynamic";
+
 async function getEventDetails(): Promise<EventDetailsRow | null> {
   try {
     const sql = getSql();
