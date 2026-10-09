@@ -103,7 +103,7 @@ export const translations = {
         },
       },
       strengths: {
-        retatrutidePen: "10 · 20 · 40 mg",
+        retatrutidePen: "2.5 · 5 · 10 mg",
         retatrutideVial: "10 · 20 · 40 · 60 mg",
         tirzepatidePen: "2.5 · 5 · 7.5 · 10 · 12.5 mg",
         orforglipron: "0.8 · 2.5 · 5.5 · 9 · 14.5 mg",
@@ -584,7 +584,7 @@ export const translations = {
         },
       },
       strengths: {
-        retatrutidePen: "10 · 20 · 40 мг",
+        retatrutidePen: "2,5 · 5 · 10 мг",
         retatrutideVial: "10 · 20 · 40 · 60 мг",
         tirzepatidePen: "2,5 · 5 · 7,5 · 10 · 12,5 мг",
         orforglipron: "0,8 · 2,5 · 5,5 · 9 · 14,5 мг",
