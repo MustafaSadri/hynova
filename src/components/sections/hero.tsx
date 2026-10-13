@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import { CalendarClock, ShieldCheck } from "lucide-react";
 import { cn, scrollToId } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { useLanguage } from "@/lib/language-context";
@@ -30,6 +30,16 @@ export function Hero() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/prebook"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "h-11 rounded-full border-0 bg-gradient-to-r from-teal-500 to-cyan-500 px-6 text-white shadow-[0_8px_20px_rgba(13,148,136,0.25)] hover:from-teal-400 hover:to-cyan-400",
+            )}
+          >
+            <CalendarClock className="size-4" />
+            {t.bookNowButton}
+          </Link>
           <Link
             href="#portfolio"
             onClick={scrollToId("portfolio")}
