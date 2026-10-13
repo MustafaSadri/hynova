@@ -308,6 +308,16 @@ export const translations = {
         },
       ],
     },
+    prebook: {
+      eyebrow: "Pre-Book",
+      headingPlain: "Something ",
+      headingHighlight: "Exciting is Coming.",
+      subtitle: "We're putting together a seamless way to reserve your supply ahead of time.",
+      statusTitle: "Pre-Booking — Coming Soon",
+      statusBody:
+        "This page is still being built. Check back soon, or reach out directly at info@cynapept.com in the meantime.",
+      returnHome: "Return to Home",
+    },
     about: {
       eyebrow: "Who We Are",
       headingPlain: "UAE-Based Pharmaceutical Innovator, ",
@@ -788,6 +798,16 @@ export const translations = {
           body: "Получили подозрительный продукт? Сообщите нам.",
         },
       ],
+    },
+    prebook: {
+      eyebrow: "Предзаказ",
+      headingPlain: "Скоро будет ",
+      headingHighlight: "кое-что интересное.",
+      subtitle: "Мы готовим удобный способ заранее забронировать поставку.",
+      statusTitle: "Предзаказ — скоро",
+      statusBody:
+        "Эта страница пока в разработке. Загляните позже или напишите нам напрямую на info@cynapept.com.",
+      returnHome: "Вернуться на главную",
     },
     about: {
       eyebrow: "Кто мы",
