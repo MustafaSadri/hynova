@@ -21,6 +21,25 @@ const MIGRATION_SQL = `
     ADD COLUMN IF NOT EXISTS expiry_date DATE
 `;
 
+// The only products and strengths that can be assigned — picked from a menu
+// rather than typed, so a typo can never end up on a customer's scan result.
+const PRODUCTS = [
+  { name: "Orforglipron", strengths: ["0.8", "2.5", "5.5", "9", "14.5"] },
+  { name: "Retatrutide Lyophilized Vial", strengths: ["10", "20", "40", "60"] },
+  { name: "Retatrutide Injectable Pen", strengths: ["2.5", "5", "10"] },
+];
+
+async function askChoice(rl, label, options) {
+  while (true) {
+    console.log(label);
+    options.forEach((option, i) => console.log(`  ${i + 1}. ${option}`));
+    const answer = (await rl.question(`Enter a number (1-${options.length}): `)).trim();
+    const index = Number(answer) - 1;
+    if (Number.isInteger(index) && index >= 0 && index < options.length) return index;
+    console.log(`Please enter a number between 1 and ${options.length}.`);
+  }
+}
+
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 function isValidDate(value) {
@@ -113,12 +132,14 @@ async function main() {
     }
 
     console.log("\nEnter the product info to apply to all of these codes:");
-    let productName = "";
-    while (!productName) {
-      productName = (await rl.question("Product name (required): ")).trim();
-      if (!productName) console.log("Product name can't be blank.");
-    }
-    const dosage = (await rl.question("Dosage, free text (leave blank for none): ")).trim() || null;
+    const product = PRODUCTS[
+      await askChoice(rl, "\nSelect the product:", PRODUCTS.map((p) => p.name))
+    ];
+    const productName = product.name;
+    const strengthOptions = product.strengths.map((s) => `${s} mg`);
+    const dosage = strengthOptions[
+      await askChoice(rl, `\nSelect the strength for ${productName}:`, strengthOptions)
+    ];
     const manufactureDate = await askOptionalDate(rl, "Manufacturing date");
     const expiryDate = await askOptionalDate(rl, "Validity / expiry date");
 
