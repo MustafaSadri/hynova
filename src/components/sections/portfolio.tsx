@@ -14,8 +14,8 @@ export function Portfolio() {
   // Retatrutide pen, then vial, then tablets — each
   // row alternates image/content sides.
   const items = [
-    { src: "/products/retatrutide-pen.jpg", strengths: t.strengths.retatrutidePen, ...p.retatrutidePen },
-    { src: "/products/retatrutide-vial.jpg", strengths: t.strengths.retatrutideVial, ...p.retatrutideVial },
+    { src: "/products/retatrutide-pen-v2.jpg", strengths: t.strengths.retatrutidePen, ...p.retatrutidePen },
+    { src: "/products/retatrutide-vial-v2.jpg", strengths: t.strengths.retatrutideVial, ...p.retatrutideVial },
     { src: "/products/orforglipron-tablets.png", strengths: t.strengths.orforglipron, ...p.orforglipron },
   ];
 
