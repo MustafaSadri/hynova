@@ -75,19 +75,6 @@ export const translations = {
             "Zero additives, stabilizers, or fillers — pharmaceutical grade",
           ],
         },
-        tirzepatidePen: {
-          title: "Tirzepatide",
-          subtitle: "Injectable Pen",
-          alt: "Tirzepatide injectable pen packaging",
-          category: "Dual Receptor Agonist · Injectable",
-          description:
-            "Dual-targeted GLP-1 and GIP receptor agonist delivering clinically validated glycemic control and significant weight reduction.",
-          highlights: [
-            "Slows gastric emptying for prolonged satiety and appetite control",
-            "Robust glycemic control and metabolic regulation in T2DM",
-            "Highly documented safety profile across global clinical studies",
-          ],
-        },
         orforglipron: {
           title: "Orforglipron",
           subtitle: "Oral Tablets",
@@ -105,7 +92,6 @@ export const translations = {
       strengths: {
         retatrutidePen: "2.5 · 5 · 10 mg",
         retatrutideVial: "10 · 20 · 40 · 60 mg",
-        tirzepatidePen: "2.5 · 5 · 7.5 · 10 · 12.5 mg",
         orforglipron: "0.8 · 2.5 · 5.5 · 9 · 14.5 mg",
       },
     },
@@ -409,19 +395,6 @@ export const translations = {
             "Без добавок, стабилизаторов и наполнителей — фармацевтическое качество",
           ],
         },
-        tirzepatidePen: {
-          title: "Тирзепатид",
-          subtitle: "Инъекционная ручка",
-          alt: "Упаковка инъекционной ручки Тирзепатид",
-          category: "Двойной агонист рецепторов · Инъекционный",
-          description:
-            "Тирзепатид (Tirzepatide) — золотой стандарт терапии двойным агонистом для контроля метаболизма.",
-          highlights: [
-            "Замедляет опорожнение желудка для продлённого насыщения",
-            "Надёжный гликемический контроль при сахарном диабете 2 типа",
-            "Хорошо задокументированный профиль безопасности в мировых исследованиях",
-          ],
-        },
         orforglipron: {
           title: "Орфорглипрон",
           subtitle: "Пероральные таблетки",
@@ -439,7 +412,6 @@ export const translations = {
       strengths: {
         retatrutidePen: "2,5 · 5 · 10 мг",
         retatrutideVial: "10 · 20 · 40 · 60 мг",
-        tirzepatidePen: "2,5 · 5 · 7,5 · 10 · 12,5 мг",
         orforglipron: "0,8 · 2,5 · 5,5 · 9 · 14,5 мг",
       },
     },
