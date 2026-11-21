@@ -26,7 +26,8 @@ const MIGRATION_SQL = `
 const PRODUCTS = [
   { name: "Orforglipron", strengths: ["0.8", "2.5", "5.5", "9", "14.5"] },
   { name: "Retatrutide Lyophilized Vial", strengths: ["10", "20", "40", "60"] },
-  { name: "Retatrutide Injectable Pen", strengths: ["2.5", "5", "10"] },
+  // Each pen holds 4 doses, so its strength is shown as "<mg> × 4".
+  { name: "Retatrutide Injectable Pen", strengths: ["2.5", "5", "10"], dosesPerUnit: 4 },
 ];
 
 async function askChoice(rl, label, options) {
@@ -136,7 +137,9 @@ async function main() {
       await askChoice(rl, "\nSelect the product:", PRODUCTS.map((p) => p.name))
     ];
     const productName = product.name;
-    const strengthOptions = product.strengths.map((s) => `${s} mg`);
+    const strengthOptions = product.strengths.map((s) =>
+      product.dosesPerUnit ? `${s} mg × ${product.dosesPerUnit}` : `${s} mg`,
+    );
     const dosage = strengthOptions[
       await askChoice(rl, `\nSelect the strength for ${productName}:`, strengthOptions)
     ];
